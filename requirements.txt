@@ -1,0 +1,8 @@
+flask-restplus
+werkzeug==0.16.1
+pymongo
+requests
+dnspython
+pylint
+coverage
+flask_cors
