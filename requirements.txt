@@ -5,4 +5,4 @@ requests
 dnspython
 pylint
 coverage
-flask_cors
+flask-cors
