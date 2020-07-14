@@ -2,3 +2,4 @@
 /Lib
 /Include
 **/__pycache__
+**app.log
