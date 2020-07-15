@@ -62,3 +62,16 @@ class Associate():
     def set_status(self, new_status):
         '''Sets the status of the associate'''
         self.status = new_status
+
+
+
+    def to_dict(self):
+        '''Creates a dict from an instance of an Associate'''
+        return self.__dict__
+
+    @classmethod
+    def from_dict(cls, input_associate):
+        '''Creates an instance of an associate from a dictionary input'''
+        associate = Associate()
+        associate.__dict__.update(input_associate)
+        return associate
