@@ -7,5 +7,7 @@ mongo = pymongo.MongoClient(MONGO_URI_PJ3)
 
 db = mongo.mongo_csm
 
+
+
 if __name__=="__main__":
     
