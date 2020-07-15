@@ -1,12 +1,16 @@
 ''' Handles employee routes  '''
 
-from flask_restplus import Resource, Api
+from flask_restplus import Resource, Api, fields
 import src.data as db
 
 api = Api()
 
 swot_fields = api.model('SWOT', {
-    'Strengths'
+    'Strengths': fields.String,
+    'Weaknesses': fields.String,
+    'Opportunities': fields.String,
+    'Threats': fields.String,
+    'Notes': fields.String
 })
 
 @api.route('/employees')
@@ -33,7 +37,7 @@ class EmployeeIdRoute(Resource):
     def get(self):
         return {'status': "yippee"}
 
-    @api.expect()
+    @api.expect(body=swot_fields)
     @api.response(204)
     def put(self, new_swot):
         return {'status': "yippee"}

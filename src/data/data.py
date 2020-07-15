@@ -35,8 +35,5 @@ def update_associate_swot(query_dict, swot):
         _log.info('Failed to update associate information.')
     return op_success
 
-
 if __name__=="__main__":
-    
-associates.drop()
-  
+    associates.drop()
