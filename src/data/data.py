@@ -2,10 +2,10 @@
 
 import pymongo, os
 
-MONGO_URI = os.getenv('MONGO_URI')
-mongo = pymongo.MongoClient(MONGO_URI)
+MONGO_URI_PJ3 = os.getenv('MONGO_URI_PJ3')
+mongo = pymongo.MongoClient(MONGO_URI_PJ3)
 
-db = mongo.#database_name
+db = mongo.mongo_csm
 
 if __name__=="__main__":
     
