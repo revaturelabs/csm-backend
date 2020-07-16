@@ -1,8 +1,8 @@
 ''' This files handles the database functionality for the program '''
 
 import pymongo, os
-from csm-backend.src.models.associates import Associate
-from csm-backend.testing_logging.logger import get_logger
+from src.models.associates import Associate
+from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
@@ -15,6 +15,26 @@ associates = db['associates']
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
     associates.insert_one(new_associate.to_dict())
+
+def create_swot(query_key: str, query_val: str, new_swot: dict):
+    ''' Creates a SWOT for am associate in the database. Query Key should be either
+    salesforce_id or email '''
+    if (query_key == "salesforce_id" or query_key == "email"):
+        query_string = {query_key: query_val}
+        required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
+        if all(field in new_swot for field in required_fields):
+            try:
+                update_string = {"$set": {"swot": new_swot}}
+                doc = associates.find_one_and_update(query_string, update_string, 
+                                                     return_document=ReturnDocument.AFTER)
+            except:
+                doc = 'Could not update'
+        else:
+            doc = 'Invalid SWOT'
+    else:
+        doc = 'Incorrect query parameters'
+
+    return doc
 
 def read_all_associates():
     '''Returns all associates'''
