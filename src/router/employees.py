@@ -6,11 +6,11 @@ import src.data as db
 api = Api()
 
 swot_fields = Model('SWOT', {
-    'Strengths': fields.List(fields.String),
-    'Weaknesses': fields.List(fields.String),
-    'Opportunities': fields.List(fields.String),
-    'Threats': fields.List(fields.String),
-    'Notes': fields.String
+    'strengths': fields.List(fields.String),
+    'weaknesses': fields.List(fields.String),
+    'opportunities': fields.List(fields.String),
+    'threats': fields.List(fields.String),
+    'notes': fields.String
 })
 
 @api.route('/employees')

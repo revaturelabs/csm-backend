@@ -24,7 +24,7 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
         required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
         if all(field in new_swot for field in required_fields):
             try:
-                update_string = {"$set": {"swot": new_swot}}
+                update_string = {"$set": {"swot": new_swot}} # Note: May be appended instead
                 doc = associates.find_one_and_update(query_string, update_string, 
                                                      return_document=ReturnDocument.AFTER)
             except:
