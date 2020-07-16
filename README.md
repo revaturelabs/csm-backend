@@ -12,7 +12,7 @@ flask backend for Caliber Staging Module
 ### Environment variables
 * MONGO_URI_PJ3: The connection URI for the Mongo Database
 * FLASK_APP: The location of the flask app in relation to your .env file, if your .env file is in the root it should be `src/app.py`
-* EXTERNAL_API: The URI for the Caliber API
+* EXTERNAL_API: The base URI for the Caliber API
 
 ## Developing
 All code should be written within either the `/src` directory or a subfolder of the `/src` directory.
