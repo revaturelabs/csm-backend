@@ -3,3 +3,4 @@
 /Include
 **/__pycache__
 **app.log
+.env
