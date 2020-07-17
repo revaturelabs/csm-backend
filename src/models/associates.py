@@ -11,7 +11,7 @@ class Associate():
         self.end_date = end_date
         self.swot = None
         #Active > Benched > Deactivated
-        self.status = "Active"
+        self.status = 'Active'
 
     def get_salesforce_id(self, new_sfid):
         '''Returns the salesforce id of the associate'''
