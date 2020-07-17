@@ -6,8 +6,7 @@ import requests, os
 from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
-
-_caliber = os.getenv('EXTERNAL_API') + 'qa'
+_caliber = os.getenv('EXTERNAL_API') + '/qa'
 
 def get_note_headers(associate_id:str):
     '''This function is to get the week summery for qc notes on an associate based on a given associate id (sales force id)'''
