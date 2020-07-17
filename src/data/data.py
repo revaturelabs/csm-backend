@@ -2,7 +2,10 @@
 
 import pymongo, os
 from src.models.associates import Associate
+<<<<<<< HEAD
 from src.models.swot import SWOT
+=======
+>>>>>>> 59572580da2d90c475a2b357594d5a89e2ced0a1
 from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)

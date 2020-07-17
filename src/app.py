@@ -19,4 +19,12 @@ api.add_resource(EmployeeRoute, '/employees')
 api.add_resource(CategoryRoute, '/categories')
 api.add_resource(EmployeeManagerRoute, '/employees/manager/<string:manager_id>')
 api.add_resource(EmployeeIdRoute, '/employees/<string:user_id>')
-api.add_resource(EmployeeIdEvaluationsRoute, '/employees/<string:user_id>/evaluations')
+api.add_resource(EmployeeIdEvaluationsRoute, '/employees/<string:batch_id>/evaluations/<string:user_id>')
+
+@api.route('/api') # Route declaration
+@api.doc() # Documentation decorator
+class ApiRoute(Resource):
+
+    @api.response(200, 'Success')
+    def get(self):
+        return { "status": "You got me!" }
