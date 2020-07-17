@@ -51,10 +51,6 @@ class EmployeeIdRoute(Resource):
 class EmployeeIdEvaluationsRoute(Resource):
 
     @api.response(200, 'Success')
-<<<<<<< HEAD
-    def get(self, user_id):
-        return {'status': "yippee"}
-=======
     def get(self, batch_id, user_id):
         spider_data = evaluate.get_associate_spider_data(batch_id, user_id)
         spider_data = json.loads(spider_data)
@@ -62,5 +58,3 @@ class EmployeeIdEvaluationsRoute(Resource):
             data_dict.pop('traineeId')
             data_dict.pop('weight')
         _log.debug(type(spider_data))
-        return spider_data, 200
->>>>>>> 59572580da2d90c475a2b357594d5a89e2ced0a1
