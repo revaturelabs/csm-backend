@@ -3,12 +3,14 @@
 
 import requests
 import datetime
+import requests, os
+
 
 from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-_caliber = EXTERNAL_API + '/training'
+_caliber = os.getenv('EXTERNAL_API') + 'training'
 
 
 def batch_current():
