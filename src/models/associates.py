@@ -4,9 +4,10 @@ import datetime
 
 class Associate():
     ''' Associate class describing behaviors and attributes of Associates '''
-    def __init__(self, sf_id='', email='', manager_id='' , end_date=datetime.datetime.now()):
+    def __init__(self, sf_id='', email='', batch_id='', manager_id='', end_date=datetime.datetime.now()):
         self.salesforce_id = sf_id
         self.email = email
+        self.batch_id = batch_id
         self.manager_id = manager_id
         self.end_date = end_date
         self.swot = None
@@ -20,6 +21,10 @@ class Associate():
     def get_email(self, new_email):
         '''Returns the email of the associate'''
         return self.email
+
+    def get_batch_id(self, new_bid):
+        '''Returns the batch_id of the associate'''
+        return self.batch_id
 
     def get_manager_id(self, new_mid):
         '''Returns the manager_id of the associate'''
@@ -46,6 +51,10 @@ class Associate():
     def set_email(self, new_email):
         '''Sets the email of the associate'''
         self.email = new_email
+
+    def set_batch_id(self, new_bid):
+        '''Sets the batch_id of the associate'''
+        return self.batch_id
 
     def set_manager_id(self, new_mid):
         '''Sets the manager_id of the associate'''
