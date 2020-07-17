@@ -1,4 +1,5 @@
 ''' Handles employee routes  '''
+
 import json
 from flask_restplus import Resource, Api, fields
 import src.data.data as db
@@ -9,19 +10,19 @@ _log = get_logger(__name__)
 
 api = Api()
 
-swot_fields = api.model('SWOT', {
-    'Strengths': fields.String,
-    'Weaknesses': fields.String,
-    'Opportunities': fields.String,
-    'Threats': fields.String,
-    'Notes': fields.String
+swot_fields = Model('SWOT', {
+    'strengths': fields.List(fields.String),
+    'weaknesses': fields.List(fields.String),
+    'opportunities': fields.List(fields.String),
+    'threats': fields.List(fields.String),
+    'notes': fields.String
 })
 
 @api.route('/employees')
 @api.doc()
 class EmployeeRoute(Resource):
 
-    @api.response(200, 'Test success')
+    @api.response(200, 'Success')
     def get(self):
         return {'status': "yippee"}
 
@@ -29,8 +30,8 @@ class EmployeeRoute(Resource):
 @api.doc()
 class EmployeeManagerRoute(Resource):
 
-    @api.response(200, 'Test success')
-    def get(self):
+    @api.response(200, 'Success')
+    def get(self, manager_id):
         return {'status': "yippee"}
 
 @api.route('/employees/<str:user_id>')
@@ -41,10 +42,10 @@ class EmployeeIdRoute(Resource):
     def get(self):
         return {'status': "yippee"}
 
-    @api.expect(body=swot_fields)
+    @api.doc(body=swot_fields)
     @api.response(204, 'No Content')
     def put(self, user_id):
-        return {'status': "yippee"}
+        return 'No content'
 
 @api.route('/employees/<str:batch_id>/evaluations/<str:user_id>')
 @api.doc()
