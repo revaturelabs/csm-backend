@@ -1,8 +1,8 @@
 ''' This files handles the database functionality for the program '''
 
 import pymongo, os
-from csm-backend.src.models.associates import Associate
-from csm-backend.testing_logging.logger import get_logger
+from src.models.associates import Associate
+from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
