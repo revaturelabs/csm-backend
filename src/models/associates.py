@@ -4,36 +4,41 @@ import datetime
 
 class Associate():
     ''' Associate class describing behaviors and attributes of Associates '''
-    def __init__(self, sf_id='', email='', manager_id='' , end_date=datetime.datetime.now()):
+    def __init__(self, sf_id='', email='', manager_id='', batch_id='', end_date=datetime.datetime.now()):
         self.salesforce_id = sf_id
         self.email = email
         self.manager_id = manager_id
+        self.batch_id = batch_id
         self.end_date = end_date
         self.swot = None
         #Active > Benched > Deactivated
         self.status = 'Active'
 
-    def get_salesforce_id(self, new_sfid):
+    def get_salesforce_id(self):
         '''Returns the salesforce id of the associate'''
         return self.salesforce_id
         
-    def get_email(self, new_email):
+    def get_email(self):
         '''Returns the email of the associate'''
         return self.email
 
-    def get_manager_id(self, new_mid):
+    def get_manager_id(self):
         '''Returns the manager_id of the associate'''
         return self.manager_id
 
-    def get_end_date(self, new_end):
+    def get_batch_id(self):
+        '''Returns the batch id of the associate'''
+        return self.batch_id
+
+    def get_end_date(self):
         '''Returns the end date of the associate'''
         return self.end_date
 
-    def get_swot(self, new_swot):
+    def get_swot(self):
         '''Returns the swot associated with the associate'''
         return self.swot
 
-    def get_status(self, new_status):
+    def get_status(self):
         '''Returns the status of the associate'''
         return self.status
 
@@ -50,6 +55,10 @@ class Associate():
     def set_manager_id(self, new_mid):
         '''Sets the manager_id of the associate'''
         self.manager_id = new_mid
+
+    def set_batch_id(self, new_batch_id):
+        '''Sets the batch id of the associate'''
+        self.batch_id = new_batch_id
 
     def set_end_date(self, new_end):
         '''Sets the end date of the associate'''
