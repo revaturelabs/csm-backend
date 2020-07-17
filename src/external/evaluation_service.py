@@ -15,5 +15,9 @@ def get_associate_spider_data(batchId, associateEmail):
     '''this method hits the Caliber evaluation-controller
        /grades/reports/{batchId}/spider/{associateEmail} with a get request 
        to get spider graph information about an associate'''
+    _log.info('retreiving the spider graph data for: ' + associateEmail)
     url = '/grades/reports/' + batchId + '/spider/' + associateEmail
-    return requests.get(_caliber + url).text
+    try:
+        return requests.get(_caliber + url).text
+    except:
+        _log.warning('system could not process your request for spider graph data')
