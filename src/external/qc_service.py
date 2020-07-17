@@ -1,8 +1,7 @@
 ''' Module to hold the functions that make calls to the qc-note-controller
     and the qc-category-controller '''
 
-import requests
-import os
+import requests, os
 
 from src.testing_logging.logger import get_logger
 
