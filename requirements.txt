@@ -6,3 +6,4 @@ dnspython
 pylint
 coverage
 flask-cors
+apscheduler
