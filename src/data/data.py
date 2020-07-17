@@ -1,8 +1,9 @@
 ''' This files handles the database functionality for the program '''
 
 import pymongo, os
-from csm-backend.src.models.associates import Associate
-from csm-backend.testing_logging.logger import get_logger
+from src.models.associates import Associate
+from src.models.swot import SWOT
+from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
@@ -15,6 +16,32 @@ associates = db['associates']
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
     associates.insert_one(new_associate.to_dict())
+
+def create_swot(query_key: str, query_val: str, new_swot: dict):
+    ''' Creates a SWOT for am associate in the database. Query Key should be either
+    salesforce_id or email '''
+    if (query_key == "salesforce_id" or query_key == "email"):
+        query_string = {query_key: query_val}
+        required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
+        if all(field in new_swot for field in required_fields):
+            try:
+                _log.debug('setting swot field')
+                update_string = {"$set": {"swot": new_swot}} # Note: May be appended instead
+                doc = associates.find_one_and_update(query_string, update_string, 
+                                                     return_document=pymongo.ReturnDocument.AFTER)
+                _log.debug(doc)
+            except Exception as err:
+                _log.error(err)
+                _log.debug('error with updating')
+                doc = 'Could not update'
+        else:
+            _log.debug('swot is wrong')
+            doc = 'Invalid SWOT'
+    else:
+        _log.debug('query is wrong')
+        doc = 'Incorrect query parameters'
+
+    return doc
 
 def read_all_associates():
     '''Returns all associates'''
@@ -37,3 +64,19 @@ def update_associate_swot(query_dict, swot):
 
 if __name__=="__main__":
     associates.drop()
+    new_associate = Associate(sf_id="SF-8507", 
+                              email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com", 
+                              manager_id="manager",
+                              end_date="2020-05-13")
+    create_associate(new_associate)
+    new_swot =  SWOT()
+    _log.debug(new_swot)
+    new_swot.add_swot_item('strengths', 'strengths test')
+    new_swot.add_swot_item('strengths', 'strengths test 2')
+    new_swot.add_swot_item('weaknesses', 'weaknesses test')
+    new_swot.add_swot_item('weaknesses', 'weaknesses test 2')
+    new_swot.add_swot_item('opportunities', 'opportunities test')
+    new_swot.add_swot_item('opportunities', 'opportunities test 2')
+    new_swot.add_swot_item('threats', 'threats test')
+    new_swot.add_swot_item('threats', 'threats test 2')
+    create_swot('salesforce_id', 'SF-8507', new_swot.__dict__)
