@@ -1,6 +1,8 @@
 '''this module is used to pull information from the 
     Caliber associate-controller and Caliber batch-controller'''
 
+import requests
+import datetime
 import requests, os
 
 from src.testing_logging.logger import get_logger

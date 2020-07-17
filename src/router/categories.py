@@ -9,6 +9,6 @@ api = Api()
 @api.doc()
 class CategoryRoute(Resource):
     
-    @api.response(200, 'Test success')
+    @api.response(200, 'Success')
     def get(self):
-            return 'Category info here'
+            return ['Category 1', 'Category 2', 'Category 3']
