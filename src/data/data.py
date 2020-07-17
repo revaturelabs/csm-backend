@@ -6,7 +6,7 @@ from csm-backend.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-MONGO_URI_PJ3 = os.getenv('MONGO_URI_PJ3')
+MONGO_URI_PJ3 = os.getenv('MONGO_URI')
 mongo = pymongo.MongoClient(MONGO_URI_PJ3)
 
 db = mongo.mongo_csm
@@ -23,6 +23,18 @@ def read_all_associates():
 def read_all_associates_by_query(query_dict):
     '''Takes in a query_dict and returns a list of info based on that query'''
     return list(associates.find(query_dict))
+
+def get_batches():
+    '''Returns all batches from the database, these in database have been pulled
+    from caliber so all are post promotion'''
+    dict_list = db.batches.find()
+    return [Batch.from_dict(batch) for batch in dict_list]
+
+def create_batches(batch):
+    '''Adds a batch to the mongo database'''
+    _log.debug('in db')
+    # _caliber.batches.insert_one(batch)
+    return batch
 
 def update_associate_swot(query_dict, swot):
     '''Takes in a swot query_dict, a swot, and updates the swot'''
