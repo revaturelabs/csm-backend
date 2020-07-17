@@ -1,8 +1,9 @@
 ''' Handles employee routes  '''
 import json
-from flask_restplus import Resource, Api, fields
+from flask_restplus import Resource, Api, fields, Model
 import src.data.data as db
 import src.external.evaluation_service as evaluate
+import flask
 from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -38,13 +39,21 @@ class EmployeeManagerRoute(Resource):
 class EmployeeIdRoute(Resource):
 
     @api.response(200, 'Success')
-    def get(self):
-        return {'status': "yippee"}
+    def get(self, user_id):
+        if 'SF' in user_id:
+            res = db.read_all_associates_by_query({'salesforce_id': user_id})[0]
+        else:
+            res = db.read_all_associates_by_query({'email': user_id})[0]
+        return res
 
     @api.doc(body=swot_fields)
-    @api.response(204, 'No Content')
+    @api.response(200, 'Status code of response')
     def put(self, user_id):
-        return 'No content'
+        if 'SF' in user_id:
+            res = db.create_swot('salesforce_id', user_id, flask.request.get_json(force=True))
+        else:
+            res = db.create_swot('email', user_id, flask.request.get_json(force=True))
+        return res
 
 @api.route('/employees/<str:batch_id>/evaluations/<str:user_id>')
 @api.doc()
