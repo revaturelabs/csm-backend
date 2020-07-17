@@ -54,5 +54,8 @@ class EmployeeIdEvaluationsRoute(Resource):
     def get(self, batch_id, user_id):
         spider_data = evaluate.get_associate_spider_data(batch_id, user_id)
         spider_data = json.loads(spider_data)
+        for data_dict in spider_data:
+            data_dict.pop('traineeId')
+            data_dict.pop('weight')
         _log.debug(type(spider_data))
         return spider_data, 200
