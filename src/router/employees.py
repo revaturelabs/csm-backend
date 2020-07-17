@@ -1,6 +1,6 @@
 ''' Handles employee routes  '''
 import json
-from flask_restplus import Resource, Api, fields
+from flask_restplus import Resource, Api, fields, model
 import src.data.data as db
 import src.external.evaluation_service as evaluate
 from src.testing_logging.logger import get_logger
@@ -46,12 +46,14 @@ class EmployeeIdRoute(Resource):
     def put(self, user_id):
         return {'status': "yippee"}
 
-@api.route('/employees/<str:batch_id>/evaluations/<str:user_id>')
+@api.route('/employees/<str:user_id>/evaluations')
 @api.doc()
 class EmployeeIdEvaluationsRoute(Resource):
 
     @api.response(200, 'Success')
-    def get(self, batch_id, user_id):
+    def get(self, user_id):
+        query = {'email': user_id}
+        batch_id = db.get_associate_batch_id(query)
         spider_data = evaluate.get_associate_spider_data(batch_id, user_id)
         spider_data = json.loads(spider_data)
         for data_dict in spider_data:

@@ -35,5 +35,15 @@ def update_associate_swot(query_dict, swot):
         _log.info('Failed to update associate information.')
     return op_success
 
+def get_associate_batch_id(query_dict):
+    '''Takes in a query dict of the associate's email and returns the batch_id'''
+    associate = associates.find_one(query_dict)
+    batch_id = []
+    for i in associate:
+        batch_id.append(i)
+    batch_id = batch_id[0]
+    batch_id = batch_id['batch_id']
+    return batch_id
+
 if __name__=="__main__":
     associates.drop()
