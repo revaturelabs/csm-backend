@@ -9,10 +9,15 @@ from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-MONGO_URI_PJ3 = os.getenv('MONGO_URI_PJ3')
-mongo = pymongo.MongoClient(MONGO_URI_PJ3)
+# MONGO_URI_PJ3 = os.getenv('MONGO_URI_PJ3')
+# mongo = pymongo.MongoClient(MONGO_URI_PJ3)
+try:
+    db = pymongo.MongoClient(os.environ.get('MONGO_URI')).mongo_csm
+except:
+    _log.exception('Could not connect to Mongo')
+    raise
 
-db = mongo.mongo_csm
+# db = mongo.mongo_csm
 associates = db['associates']
 
 def create_associate(new_associate: Associate):
@@ -66,7 +71,7 @@ def update_associate_swot(query_dict, swot):
 
 def get_associate_batch_id(query_dict):
     '''Takes in a query dict of the associate's email and returns the batch_id'''
-    associate = associates.find_one(query_dict)
+    associate = associates.find(query_dict)
     batch_id = []
     for i in associate:
         batch_id.append(i)
