@@ -2,7 +2,9 @@
 
 import pymongo, os
 from src.models.associates import Associate
+
 from src.models.swot import SWOT
+
 from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -68,6 +70,8 @@ if __name__=="__main__":
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com", 
                               manager_id="manager",
                               end_date="2020-05-13")
+    new_associate.__dict__['_id']='testId'
+    Associate.from_dict(new_associate.__dict__)
     create_associate(new_associate)
     new_swot =  SWOT()
     _log.debug(new_swot)
