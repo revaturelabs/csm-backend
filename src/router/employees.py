@@ -38,8 +38,8 @@ class EmployeeIdRoute(Resource):
         return {'status': "yippee"}
 
     @api.expect(body=swot_fields)
-    @api.response(204)
-    def put(self, new_swot):
+    @api.response(204, 'No Content')
+    def put(self, user_id):
         return {'status': "yippee"}
 
 @api.route('/employees/<str:user_id>/evaluations')
