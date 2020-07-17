@@ -1,8 +1,10 @@
 ''' This files provides the model for the Associate class '''
 
+import datetime
+
 class Associate():
     ''' Associate class describing behaviors and attributes of Associates '''
-    def __init__(self, sf_id='', email='', manager_id='' , end_date=datetime.datetime()):
+    def __init__(self, sf_id='', email='', manager_id='' , end_date=datetime.datetime.now()):
         self.salesforce_id = sf_id
         self.email = email
         self.manager_id = manager_id
