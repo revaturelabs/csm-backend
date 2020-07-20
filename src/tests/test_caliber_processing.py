@@ -15,5 +15,4 @@ class Caliber_processing_test(unittest.TestCase):
         mock_A.return_value = [{'noteId': 2, 'content': 'This is a Qc note on week 1', 'week': 1, 'batchId': 'TR-1345', 'associateId': 'SF-4942', 'employeeId': 'QC-User', 'type': 'QC_TRAINEE', 'technicalStatus': 'Average', 'createdOn': None, 'lastUpdated': None}]
         mock_B.return_value = 'Java'
         result = get_qc_data('SF-1')
-        print(result)
         self.assertEqual(result[0], {'skill': 'Java', 'score': 'Average', 'content': 'This is a Qc note on week 1'})
