@@ -2,7 +2,9 @@
 
 import pymongo, os
 from src.models.associates import Associate
+
 from src.models.swot import SWOT
+
 from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -22,8 +24,9 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
     salesforce_id or email '''
     if (query_key == "salesforce_id" or query_key == "email"):
         query_string = {query_key: query_val}
+        new_swot = {key.lower(): val for key, val in new_swot.items()}
         required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
-        if all(field in new_swot for field in required_fields):
+        if all(field.lower() in new_swot for field in required_fields):
             try:
                 _log.debug('setting swot field')
                 update_string = {"$set": {"swot": new_swot}} # Note: May be appended instead
@@ -68,6 +71,8 @@ if __name__=="__main__":
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com", 
                               manager_id="manager",
                               end_date="2020-05-13")
+    new_associate.__dict__['_id']='testId'
+    Associate.from_dict(new_associate.__dict__)
     create_associate(new_associate)
     new_swot =  SWOT()
     _log.debug(new_swot)
