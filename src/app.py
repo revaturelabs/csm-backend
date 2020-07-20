@@ -1,5 +1,7 @@
+import atexit
 from flask import Flask
 from flask_restplus import Api, Resource
+from apscheduler.schedulers.background import BackgroundScheduler
 from src.router.batches import BatchRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, EmployeeIdEvaluationsRoute
 from src.router.categories import CategoryRoute
@@ -7,7 +9,13 @@ from src.router.categories import CategoryRoute
 api = Api() # Initialize an instance of the Flask RestPLUS API class
 app = Flask(__name__) # Initialize Flask
 
-# Initialize and run the API
+#Initialize the scheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(func='''NAME OF THE FUNCTION TO RUN''', trigger="cron", day_of_week='fri')
+scheduler.start()
+atexit.register(lambda: scheduler.shutdown())
+
+#Initialize and run the API
 api.init_app(app, version='0.0', title='Caliber Staging Module Backend',
              description='The back end for the Caliber Staging Module')
 
