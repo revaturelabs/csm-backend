@@ -38,6 +38,14 @@ def update_associate_swot(query_dict, swot_id):
         _log.info('Failed to update associate information.')
     return op_success
 
+def assignment_counter():
+    ''' This will return a list of dicts. The dicts will have an _id field, which will be the 
+    manager id, and then a 'count' field, which will contain the number of associates that they are
+    assigned to. '''
+    return list(associates.aggregate([{
+        '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
+    }]))
+
 def get_associate_batch_id(query_dict):
     '''Takes in a query dict of the associate's email and returns the batch_id'''
     associate = _associates.find(query_dict)
