@@ -1,7 +1,8 @@
 ''' Module to hold the functions that make calls to the qc-note-controller
     and the qc-category-controller '''
 
-import requests, os
+import os
+import requests
 
 from src.testing_logging.logger import get_logger
 
@@ -32,6 +33,7 @@ def get_qc_category(batch_id:str, week:int):
     try:
         print(_caliber + '/' + batch_id + '/' + week)
         r=requests.get(_caliber + '/category/' + batch_id + '/' + week)
-        return r.json()
+        return r.json()[0]['skillCategory']
     except:
         _log.warning('system could not process your request for categories')
+        return 'No Skill Provided for this QC'

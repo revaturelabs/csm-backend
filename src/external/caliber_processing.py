@@ -8,6 +8,7 @@ _log = get_logger(__name__)
 def get_qc_data(associate_id):
     '''this function gets qc data from caliber'''
     notes = qc_service.get_note_headers(associate_id)
+    _log.debug(qc_service.get_note_headers)
     _log.debug(notes)
     process_data = []
     for note in notes:
@@ -16,9 +17,9 @@ def get_qc_data(associate_id):
             score = note['technicalStatus']
             week = note['week']
             batchId = note['batchId']
-            try:
-                skill = qc_service.get_qc_category(batchId, str(week))[0]['skillCategory']
-            except:
-                skill = 'Skill data not Provided'
+            skill = qc_service.get_qc_category(batchId, str(week))
+            _log.debug(skill)
+            _log.debug(qc_service.get_qc_category)
             process_data.append({'skill': skill, 'score': score, 'content': content})
+            _log.debug(process_data)
     return process_data
