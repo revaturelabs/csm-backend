@@ -14,11 +14,11 @@ class Associate():
         #Active > Benched > Deactivated
         self.status = "Active"
 
-    def get_salesforce_id(self, new_sfid):
+    def get_salesforce_id(self):
         '''Returns the salesforce id of the associate'''
         return self.salesforce_id
-        
-    def get_email(self, new_email):
+
+    def get_email(self):
         '''Returns the email of the associate'''
         return self.email
 
@@ -30,15 +30,15 @@ class Associate():
         '''Returns the manager_id of the associate'''
         return self.manager_id
 
-    def get_end_date(self, new_end):
+    def get_end_date(self):
         '''Returns the end date of the associate'''
         return self.end_date
 
-    def get_swot(self, new_swot):
+    def get_swot(self):
         '''Returns the swot associated with the associate'''
         return self.swot
 
-    def get_status(self, new_status):
+    def get_status(self):
         '''Returns the status of the associate'''
         return self.status
 
@@ -47,7 +47,7 @@ class Associate():
     def set_salesforce_id(self, new_sfid):
         '''Sets the salesforce id of the associate'''
         self.salesforce_id = new_sfid
-        
+
     def set_email(self, new_email):
         '''Sets the email of the associate'''
         self.email = new_email
