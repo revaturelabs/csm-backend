@@ -22,4 +22,4 @@ api.add_resource(CategoryRoute, '/categories')
 api.add_resource(EmployeeManagerRoute, '/employees/manager/<string:manager_id>')
 api.add_resource(EmployeeIdRoute, '/employees/<string:user_id>')
 api.add_resource(EmployeeIdEvaluationsRoute,
-                 '/employees/<string:batch_id>/evaluations/<string:user_id>')
+                 '/employees/<string:user_id>/evaluations')

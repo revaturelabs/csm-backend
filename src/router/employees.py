@@ -12,21 +12,14 @@ _log = get_logger(__name__)
 
 api = Api()
 
-''' SWOT Object model for documentation and validation '''
-swot_object = Model('SWOT Object', {
-    'date': fields.datetime,
-    'category': fields.String,
-    'notes': fields.String
-})
 ''' SWOT model for documentation and validation '''
 swot_fields = Model('SWOT', {
-    'strengths': fields.List(fields.Nested(swot_object, skip_none=True)),
-    'weaknesses': fields.List(fields.Nested(swot_object, skip_none=True)),
-    'opportunities': fields.List(fields.Nested(swot_object, skip_none=True)),
-    'threats': fields.List(fields.Nested(swot_object, skip_none=True)),
+    'strengths': fields.List(fields.String),
+    'weaknesses': fields.List(fields.String),
+    'opportunities': fields.List(fields.String),
+    'threats': fields.List(fields.String),
     'notes': fields.String
 })
-
 
 
 @api.route('/employees')
