@@ -18,8 +18,8 @@ class SwotTests(unittest.TestCase):
         self.assertEqual(len(new_swot.strengths), 1) # The strengths array should have 1 item in it
         new_swot_two = new_swot
         new_swot_two.add_swot_item('nothing', 'Doesnt matter')
-        self.assertEqual(new_swot, new_swot_two) # These should be equal because the function should 
-                                                 # return the target swot unmodified if the field 
+        self.assertEqual(new_swot, new_swot_two) # These should be equal because the function should
+                                                 # return the target swot unmodified if the field
                                                  # doesn't exist
 
     def test_from_dict(self):
