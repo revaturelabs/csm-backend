@@ -18,6 +18,20 @@ associates = db['associates']
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
     associates.insert_one(new_associate.to_dict())
+    
+def create_batches(batch):
+    '''Adds a batch to the mongo database'''
+    try:
+        batch._id = _get_id()
+        db.batches.insert_one(user)
+        _log.info('Successfully added batch.')
+        op_success = True
+    except BaseException as e:
+        _log.info('Could not add batch.')
+        _log.info('Error is %s.', e)
+        op_success = False
+    return op_success
+    
 
 def create_swot(query_key: str, query_val: str, new_swot: dict):
     ''' Creates a SWOT for am associate in the database. Query Key should be either
@@ -63,9 +77,22 @@ def update_associate_swot(query_dict, swot):
         op_success = False
         _log.info('Failed to update associate information.')
     return op_success
+    
+def get_batches():
+    '''Returns all batches from the database, these in database have been pulled
+    from caliber so all are post promotion'''
+    dict_list = db.batches.find()
+    return [Batch.from_dict(batch) for batch in dict_list]
+
+def _get_id():
+    '''Retrieves the next id in the database and increments it'''
+    return db.counter.find_one_and_update({'_id': 'UNIQUE_COUNT'},
+                                            {'$inc': {'count': 1}},
+                                            return_document=pymongo.ReturnDocument.AFTER)['count']
 
 if __name__=="__main__":
     associates.drop()
+    counter.drop()
     new_associate = Associate(sf_id="SF-8507", 
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com", 
                               manager_id="manager",
