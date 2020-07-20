@@ -24,8 +24,9 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
     salesforce_id or email '''
     if (query_key == "salesforce_id" or query_key == "email"):
         query_string = {query_key: query_val}
+        new_swot = {key.lower(): val for key, val in new_swot.items()}
         required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
-        if all(field in new_swot for field in required_fields):
+        if all(field.lower() in new_swot for field in required_fields):
             try:
                 _log.debug('setting swot field')
                 update_string = {"$set": {"swot": new_swot}} # Note: May be appended instead
