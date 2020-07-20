@@ -89,6 +89,7 @@ if __name__=="__main__":
     new_associate.__dict__['_id']='testId'
     Associate.from_dict(new_associate.__dict__)
     create_associate(new_associate)
+
     new_swot =  SWOT()
     _log.debug(new_swot)
     new_swot.add_swot_item('strengths', 'strengths test')

@@ -12,7 +12,6 @@ app = Flask(__name__) # Initialize Flask
 api.init_app(app, version='0.0', title='Caliber Staging Module Backend',
              description='The back end for the Caliber Staging Module')
 
-
 api.models[swot_fields.name] = swot_fields
 api.add_resource(BatchRoute, '/batches')
 api.add_resource(EmployeeRoute, '/employees')

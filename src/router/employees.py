@@ -69,3 +69,4 @@ class EmployeeIdEvaluationsRoute(Resource):
             data_dict.pop('traineeId')
             data_dict.pop('weight')
         _log.debug(type(spider_data))
+        return spider_data
