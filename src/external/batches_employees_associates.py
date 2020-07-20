@@ -1,6 +1,8 @@
 '''this module is used to pull information from the 
     Caliber associate-controller and Caliber batch-controller'''
 
+import requests
+import datetime
 import requests, os
 
 from src.testing_logging.logger import get_logger
@@ -14,4 +16,7 @@ def batch_current():
     '''this method hits the Caliber batch-controller
        /batch/current with a get request to get information about all current 
        batches'''
-    return requests.get(_caliber + '/batch/current').text
+    return requests.get(_caliber + '/batch/current').json()
+
+def specific_branc(batchId):
+    return requests.get(_caliber + '/batch/' + batchId).json()
