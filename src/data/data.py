@@ -9,15 +9,13 @@ from src.testing_logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-# MONGO_URI_PJ3 = os.getenv('MONGO_URI_PJ3')
-# mongo = pymongo.MongoClient(MONGO_URI_PJ3)
 try:
     db = pymongo.MongoClient(os.environ.get('MONGO_URI')).mongo_csm
+    # db = pymongo.MongoClient(os.environ.get('MONGO_URI_PJ3')).mongo_csm
 except:
     _log.exception('Could not connect to Mongo')
     raise
 
-# db = mongo.mongo_csm
 associates = db['associates']
 
 def create_associate(new_associate: Associate):
