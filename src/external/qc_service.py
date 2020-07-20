@@ -28,10 +28,10 @@ def get_notes(note_id:int):
 
 def get_qc_category(batch_id:str, week:int):
     '''this function takes a batch id and a week number and returns the topic for the week'''
-    _log.info(f'qc_service get_qc_category called with batch: ' + batch_id + 'and week: ' + week)
+    _log.info(f'qc_service get_qc_category called with batch: ' + batch_id + ' and week: ' + week)
     try:
         print(_caliber + '/' + batch_id + '/' + week)
-        r=requests.get(_caliber + '/' + batch_id + '/' + week)
+        r=requests.get(_caliber + '/category/' + batch_id + '/' + week)
         return r.json()
     except:
         _log.warning('system could not process your request for categories')
