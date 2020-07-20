@@ -65,6 +65,15 @@ def update_associate_swot(query_dict, swot):
         _log.info('Failed to update associate information.')
     return op_success
 
+def assignment_counter():
+    ''' This will return a list of dicts. The dicts will have an _id field, which will be the 
+    manager id, and then a 'count' field, which will contain the number of associates that they are
+    assigned to. '''
+    return list(associates.aggregate([{
+        '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
+    }]))
+
+
 if __name__=="__main__":
     associates.drop()
     new_associate = Associate(sf_id="SF-8507", 
@@ -85,3 +94,5 @@ if __name__=="__main__":
     new_swot.add_swot_item('threats', 'threats test')
     new_swot.add_swot_item('threats', 'threats test 2')
     create_swot('salesforce_id', 'SF-8507', new_swot.__dict__)
+    
+    _log.debug(assignment_counter())
