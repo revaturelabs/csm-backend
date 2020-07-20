@@ -30,7 +30,7 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
             try:
                 _log.debug('setting swot field')
                 update_string = {"$set": {"swot": new_swot}} # Note: May be appended instead
-                doc = associates.find_one_and_update(query_string, update_string, 
+                doc = associates.find_one_and_update(query_string, update_string,
                                                      return_document=pymongo.ReturnDocument.AFTER)
                 _log.debug(doc)
             except Exception as err:
@@ -79,8 +79,8 @@ def update_associate_swot(query_dict, swot):
 
 if __name__=="__main__":
     associates.drop()
-    new_associate = Associate(sf_id="SF-8507", 
-                              email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com", 
+    new_associate = Associate(sf_id="SF-8507",
+                              email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com",
                               manager_id="manager",
                               end_date="2020-05-13")
     new_associate.__dict__['_id']='testId'
