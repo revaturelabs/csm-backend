@@ -1,14 +1,12 @@
-''' This files handles the database functionality for the program '''
+''' This files handles database connection for the program '''
+import os
+import pymongo
 
-import pymongo, os
-from src.models.associates import Associate
-
-from src.models.swot import SWOT
-
-from src.testing_logging.logger import get_logger
+from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
+<<<<<<< HEAD
 MONGO_URI_PJ3 = os.getenv('MONGO_URI_PJ3')
 mongo = pymongo.MongoClient(MONGO_URI_PJ3)
 
@@ -96,3 +94,11 @@ if __name__=="__main__":
     create_swot('salesforce_id', 'SF-8507', new_swot.__dict__)
     
     _log.debug(assignment_counter())
+=======
+try:
+    _mongo = pymongo.MongoClient(os.getenv('MONGO_URI_PJ3'))
+    _db = _mongo.mongo_csm
+except:
+    _log.error('Could not connect to database.')
+    raise
+>>>>>>> f6c12bdf0333a7eaf46f4743c58faf2229b1ee0d
