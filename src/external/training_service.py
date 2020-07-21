@@ -15,6 +15,3 @@ def batch_current():
        /batch/current with a get request to get information about all current
        batches'''
     return requests.get(_caliber + '/batch/current').json()
-
-def specific_branc(batchId):
-    return requests.get(_caliber + '/batch/' + batchId).json()

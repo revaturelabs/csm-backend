@@ -1,7 +1,7 @@
 '''this module is the driver that calls and processes from caliber'''
 
 import datetime
-from src.external import batches_employees_associates, category_service, evaluation_service, qc_service
+from src.external import training_service, category_service, evaluation_service, qc_service
 from src.models.associates import Associate
 
 
@@ -19,22 +19,16 @@ def get_qc_data(associate_id):
 
 def get_new_graduates():
     '''associates, end date, batchid'''
-    batches = batches_employees_associates.batch_current()
-    print(batches)
-    # current_time = datetime.today()
+    batches = training_service.batch_current()
+    current_run = datetime.datetime.today()
+    next_run = current_run + datetime.timedelta(days=7)
     assocArr = []
     for batch in batches:
-        # if 
-        batch_id = batch['batchId']
-        for assoc in batch['associateAssignments']:
-            temp = assoc['associate']
-            assocArr.append(Associate(str(temp['salesforceId']), str(temp['email']), str(batch_id)))
-    # for assoc in assocArr:
-    #     print(assoc.get_batch_id(), assoc.get_email(), assoc.get_salesforce_id())
-        
-        
-    # print(batches)
-    # print(batches['associateAssignments'])
-
-if __name__ == "__main__":
-    get_new_graduates()
+        end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
+        if current_run < end_date < next_run:
+            batch_id = batch['batchId']
+            for assoc in batch['associateAssignments']:
+                temp = assoc['associate']
+                assocArr.append(Associate(str(temp['salesforceId']), str(temp['email']),
+                                          str(batch_id), end_date=end_date))
+    return assocArr
