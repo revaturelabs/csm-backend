@@ -20,6 +20,7 @@ if __name__ == "__main__":
 
     new_associate = Associate(sf_id="SF-8507",
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com",
+                              batch_id="TR-1649",
                               manager_id="manager",
                               end_date="2020-05-13")
     new_associate.__dict__['_id'] = 'testId'

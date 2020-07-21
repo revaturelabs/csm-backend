@@ -8,6 +8,7 @@ from src.models.swot import SWOT
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
+
 DB = DatabaseConnection()
 
 _swot = DB.get_swot_collection()
