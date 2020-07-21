@@ -5,6 +5,7 @@ from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
 import src.external.evaluation_service as evaluate
+from src.external.caliber_processing import get_qc_data, get_spider_data
 
 from src.models.swot import SWOT
 
@@ -85,12 +86,7 @@ class EmployeeIdEvaluationsRoute(Resource):
     @api.response(200, 'Success')
     def get(self, user_id):
         '''Function for handling GET /employees/user_id/evaluations requests'''
-        query = {'email': user_id}
-        batch_id = assoc_db.get_associate_batch_id(query)
-        spider_data = evaluate.get_associate_spider_data(batch_id, user_id)
-        spider_data = json.loads(spider_data)
-        for data_dict in spider_data:
-            data_dict.pop('traineeId')
-            data_dict.pop('weight')
-        _log.debug(type(spider_data))
-        return spider_data
+        sf_id = assoc_db.get_associate_sf_id(user_id)
+        qc_data = get_qc_data(sf_id)
+        spider_data = get_spider_data(user_id)
+        return {'spider': spider_data, 'qc': qc_data}
