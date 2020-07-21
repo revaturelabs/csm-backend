@@ -4,9 +4,11 @@ import datetime
 
 class Associate():
     ''' Associate class describing behaviors and attributes of Associates '''
-    def __init__(self, sf_id='', email='', manager_id='', end_date=datetime.datetime.now()):
+    def __init__(self, sf_id='', email='', batch_id='', manager_id='', 
+                 end_date=datetime.datetime.now()):
         self.salesforce_id = sf_id
         self.email = email
+        self.batch_id = batch_id
         self.manager_id = manager_id
         self.end_date = end_date
         self.swot = None
