@@ -21,7 +21,6 @@ swot_fields = Model('SWOT', {
     'notes': fields.String
 })
 
-
 @api.route('/employees')
 @api.doc()
 class EmployeeRoute(Resource):
