@@ -1,7 +1,7 @@
 ''' File to define SWOT MongoDB operations. '''
 import pymongo
 
-from src.data.data import _db
+from src.data.data import DatabaseConnection
 from src.data.associates_db import update_associate_swot
 from src.models.swot import SWOT
 
@@ -9,7 +9,9 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-_swot = _db['swot']
+DB = DatabaseConnection()
+
+_swot = DB.get_swot_collection()
 
 def create_swot(query_key: str, query_val: str, new_swot: dict):
     ''' Creates a SWOT for am associate in the database. Query Key should be either
