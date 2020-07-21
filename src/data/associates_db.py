@@ -5,6 +5,8 @@ from src.data.data import _db
 
 from src.models.associates import Associate
 
+from src.external.caliber_processing import get_new_graduates()
+
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -14,6 +16,16 @@ _associates = _db['associates']
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
     _associates.insert_one(new_associate.to_dict())
+
+def create_scheduled_associates():
+    '''Calls the processing function to get a list of associate objects'''
+    associate_list = get_new_graduates()
+    for associate in associate_list:
+        try:
+            create_associate(associate)
+            _log.info('Associate added')
+        except:
+            _log.info("Unable to add associate; already exists")
 
 def read_all_associates():
     '''Returns all associates'''
@@ -45,7 +57,7 @@ def update_associate_swot(query_dict, swot_id):
     return op_success
 
 def assignment_counter():
-    ''' This will return a list of dicts. The dicts will have an _id field, which will be the 
+    ''' This will return a list of dicts. The dicts will have an _id field, which will be the
     manager id, and then a 'count' field, which will contain the number of associates that they are
     assigned to. '''
     return list(associates.aggregate([{
