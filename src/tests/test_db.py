@@ -8,7 +8,7 @@ from src.models.associates import Associate
 class TestDatabase(unittest.TestCase):
     ''' This is the database test suite '''
 
-    @mock.patch('src.data.data.associates.insert_one')
+    @mock.patch('src.data.associates_db._associates.insert_one')
     def test_create_associate(self, mock_insert):
         ''' This method will test the create_associate function '''
 
@@ -16,7 +16,7 @@ class TestDatabase(unittest.TestCase):
 
         self.assertTrue(mock_insert.called)
 
-    @mock.patch('src.data.data.associates.find')
+    @mock.patch('src.data.associates_db._associates.find')
     def test_read_all_associates(self, mock_find):
         ''' This method will test the read all associates function '''
         mock_find.return_value = ['all associates']
@@ -26,7 +26,7 @@ class TestDatabase(unittest.TestCase):
         self.assertTrue(mock_find.called)
         self.assertEqual(all_associates, ['all associates'])
 
-    @mock.patch('src.data.data.associates.find')
+    @mock.patch('src.data.associates_db._associates.find')
     def test_read_all_associates_by_query(self, mock_find):
         ''' This method will test the read all associates by query function '''
         mock_find.return_value = ['queried associates']
@@ -36,7 +36,7 @@ class TestDatabase(unittest.TestCase):
         self.assertTrue(mock_find.called)
         self.assertEqual(associates, ['queried associates'])
 
-    @mock.patch('src.data.data.associates.update_one')
+    @mock.patch('src.data.associates_db._associates.update_one')
     def test_update_associate_swot(self, mock_update):
         ''' This method will test the update associate swot function '''
         mock_update.return_value = True

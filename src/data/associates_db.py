@@ -30,13 +30,26 @@ def read_one_associate_by_query(query_dict):
 def update_associate_swot(query_dict, swot_id):
     '''Takes in a associate query_dict, a swot, and appends a swot_id'''
     try:
-        _associates.update_one(query_dict, {'$append': {'swot_id': swot_id}})
+        update_user = _associates.find_one(query_dict)
+        _log.debug(update_user)
+        if update_user['swot'] == None:
+            _associates.update_one(query_dict, {'$set': {'swot': [swot_id]}})
+        else:
+            _associates.update_one(query_dict, {'$append': {'swot': swot_id}})
         op_success = True
         _log.info('Successfully updated associate information.')
     except:
         op_success = False
         _log.info('Failed to update associate information.')
     return op_success
+
+def assignment_counter():
+    ''' This will return a list of dicts. The dicts will have an _id field, which will be the 
+    manager id, and then a 'count' field, which will contain the number of associates that they are
+    assigned to. '''
+    return list(associates.aggregate([{
+        '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
+    }]))
 
 def get_associate_batch_id(query_dict):
     '''Takes in a query dict of the associate's email and returns the batch_id'''
