@@ -2,6 +2,9 @@
 import json
 from flask_restplus import Resource, Api
 import src.data.managers_db as manage_db
+from src.logging.logger import get_logger
+
+_log = get_logger(__name__)
 
 api = Api()
 

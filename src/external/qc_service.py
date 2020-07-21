@@ -9,7 +9,7 @@ _log = get_logger(__name__)
 _caliber = os.getenv('EXTERNAL_API') + '/qa'
 
 def get_note_headers(associate_id: str):
-    '''This function is to get the week summery for qc notes on an associate based on a given
+    '''This function is to get the week summary for qc notes on an associate based on a given
        associate id (sales force id)'''
     _log.info('qc_service get_note_headers called with the associate id of: %s', associate_id)
     try:

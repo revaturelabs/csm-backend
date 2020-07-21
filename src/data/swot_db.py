@@ -1,32 +1,36 @@
 ''' File to define SWOT MongoDB operations. '''
 import pymongo
 
-from src.data.data import _db
+from src.data.data import DatabaseConnection
 from src.data.associates_db import update_associate_swot
 from src.models.swot import SWOT
 
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
+DB = DatabaseConnection()
 
-_swot = _db['swot']
+_swot = DB.get_swot_collection()
 
 def create_swot(query_key: str, query_val: str, new_swot: dict):
     ''' Creates a SWOT for am associate in the database. Query Key should be either
     salesforce_id or email '''
     if query_key in ['salesforce_id', 'email']:
         query_string = {query_key: query_val}
+        # Make swot keys all lowercase so that the request is case insensetive, and so it
+        # validates correctly
         uncased_swot = {key.lower(): val for key, val in new_swot.items()}
         required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
         _log.debug(uncased_swot)
+        # Verify that all the keys of the uncased_swot dict are in the required fields list
         if all(field in uncased_swot for field in required_fields):
             try:
                 _log.debug('setting swot field')
                 uncased_swot['_id'] = _get_id()
                 swot_final = SWOT.from_dict(uncased_swot)
                 _swot.insert_one(swot_final.__dict__)
-                update_associate_swot(query_string, swot_final.__dict__['_id'])
-                doc = swot_final
+                update_associate_swot(query_string, swot_final._id)
+                doc = swot_final.to_dict()
                 _log.debug(swot_final)
             except Exception as err:
                 _log.error(err)
@@ -39,6 +43,10 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
         _log.debug('query is wrong')
         doc = 'Incorrect query parameters'
     return doc
+
+def read_swot_by_id(swot_id):
+    ''' This function will be for retrieving a swot from the database '''
+    return _swot.find_one({'_id': swot_id})
 
 def _get_id():
     '''Retrieves the next id in the database and increments it'''
