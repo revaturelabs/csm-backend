@@ -9,9 +9,7 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-DB = DatabaseConnection()
-
-_associates = DB.get_associates_collection()
+_associates = DatabaseConnection().get_associates_collection()
 
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
