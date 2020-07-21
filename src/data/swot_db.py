@@ -9,9 +9,7 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-DB = DatabaseConnection()
-
-_swot = DB.get_swot_collection()
+_swot = DatabaseConnection().get_swot_collection()
 
 def create_swot(query_key: str, query_val: str, new_swot: dict):
     ''' Creates a SWOT for am associate in the database. Query Key should be either
