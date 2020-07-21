@@ -5,7 +5,7 @@ from src.data.data import DatabaseConnection
 
 from src.models.associates import Associate
 
-from src.external.caliber_processing import get_new_graduates()
+from src.external.caliber_processing import get_new_graduates
 
 from src.logging.logger import get_logger
 
@@ -23,9 +23,9 @@ def create_scheduled_associates():
     for associate in associate_list:
         try:
             create_associate(associate)
-            _log.info('Associate added')
+            _log.info('Associate added %s', associate.get_salesforce_id())
         except:
-            _log.info("Unable to add associate; already exists")
+            _log.info('Unable to add associate %s already exists', associate.get_salesforce_id())
 
 def read_all_associates():
     '''Returns all associates'''
@@ -40,7 +40,7 @@ def read_one_associate_by_query(query_dict):
     return _associates.find_one(query_dict)
 
 def update_associate_swot(query_dict, swot_id):
-    ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching 
+    ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching
     associate's swot field in the database. If there are no swots in the field (i.e. the field is
     null in the database), it creates an array with the swot_id inside instead. '''
     _log.debug(query_dict)
@@ -86,3 +86,5 @@ def _get_id():
     return _associates.find_one_and_update({'_id': 'UNIQUE_COUNT'},
                                            {'$inc': {'count': 1}},
                                            return_document=pymongo.ReturnDocument.AFTER)['count']
+
+if __name__ == '__main__':
