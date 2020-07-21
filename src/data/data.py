@@ -41,6 +41,3 @@ class DatabseConnection(metaclass=SingletonMeta):
     def get_associates_collection(self):
         ''' This is a getter for the associates collection '''
         return self._associates
-
-
-DB = DatabseConnection()

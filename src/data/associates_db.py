@@ -1,13 +1,15 @@
 ''' File to define Associate MongoDB operations. '''
 import pymongo
 
-from src.data.data import DB
+from src.data.data import DatabseConnection
 
 from src.models.associates import Associate
 
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
+
+DB = DatabseConnection()
 
 _associates = DB.get_associates_collection()
 
@@ -20,11 +22,11 @@ def read_all_associates():
     return _associates.find({})
 
 def read_all_associates_by_query(query_dict):
-    '''Takes in a query_dict and returns a list of info based on that query'''
+    ''' Takes in a query_dict and returns a list of info based on that query '''
     return list(_associates.find(query_dict))
 
 def read_one_associate_by_query(query_dict):
-    ''' Takes in an associate query dict and returns one associate matching query.'''
+    ''' Takes in an associate query dict and returns one associate matching query. '''
     return _associates.find_one(query_dict)
 
 def update_associate_swot(query_dict, swot_id):
@@ -60,7 +62,7 @@ def assignment_counter():
     ]))
 
 def get_associate_batch_id(query_dict):
-    '''Takes in a query dict of the associate's email and returns the batch_id'''
+    ''' Takes in a query dict of the associate's email and returns the batch_id '''
     associate = _associates.find(query_dict)
     batch_id = []
     for i in associate:
