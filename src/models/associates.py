@@ -4,11 +4,7 @@ import datetime
 
 class Associate():
     ''' Associate class describing behaviors and attributes of Associates '''
-<<<<<<< HEAD
     def __init__(self, sf_id='', email='', manager_id='', batch_id='', end_date=datetime.datetime.now()):
-=======
-    def __init__(self, sf_id='', email='', manager_id='', end_date=datetime.datetime.now()):
->>>>>>> b4e9fdab3c6b4db6e84d0778b8ce1ccc57cf1885
         self.salesforce_id = sf_id
         self.email = email
         self.manager_id = manager_id
@@ -21,11 +17,8 @@ class Associate():
     def get_salesforce_id(self):
         '''Returns the salesforce id of the associate'''
         return self.salesforce_id
-<<<<<<< HEAD
         
-=======
 
->>>>>>> b4e9fdab3c6b4db6e84d0778b8ce1ccc57cf1885
     def get_email(self):
         '''Returns the email of the associate'''
         return self.email
@@ -34,13 +27,10 @@ class Associate():
         '''Returns the manager_id of the associate'''
         return self.manager_id
 
-<<<<<<< HEAD
     def get_batch_id(self):
         '''Returns the batch id of the associate'''
         return self.batch_id
 
-=======
->>>>>>> b4e9fdab3c6b4db6e84d0778b8ce1ccc57cf1885
     def get_end_date(self):
         '''Returns the end date of the associate'''
         return self.end_date
