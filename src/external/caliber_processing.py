@@ -20,10 +20,11 @@ def get_qc_data(associate_id):
 def get_new_graduates():
     '''associates, end date, batchid'''
     batches = batches_employees_associates.batch_current()
-    current_time = datetime.today()
+    print(batches)
+    # current_time = datetime.today()
     assocArr = []
     for batch in batches:
-        if 
+        # if 
         batch_id = batch['batchId']
         for assoc in batch['associateAssignments']:
             temp = assoc['associate']
