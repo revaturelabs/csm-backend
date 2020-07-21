@@ -19,7 +19,7 @@ class SingletonMeta(type):
             cls._instances[cls] = instance
         return cls._instances[cls]
 
-class DatabseConnection(metaclass=SingletonMeta):
+class DatabaseConnection(metaclass=SingletonMeta):
     ''' This is the singleton object that handles all database connection and collection
     references '''
     def __init__(self):

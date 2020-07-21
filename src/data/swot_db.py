@@ -1,14 +1,15 @@
 ''' File to define SWOT MongoDB operations. '''
 import pymongo
 
-from src.data.data import DatabseConnection
+from src.data.data import DatabaseConnection
 from src.data.associates_db import update_associate_swot
 from src.models.swot import SWOT
 
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
-DB = DatabseConnection()
+
+DB = DatabaseConnection()
 
 _swot = DB.get_swot_collection()
 
