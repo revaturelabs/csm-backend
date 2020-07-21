@@ -1,7 +1,7 @@
 ''' File to instantiate the database with test data. '''
-from src.data.data import _db
-from src.data.associates_db import _associates, create_associate
-from src.data.swot_db import _swot, create_swot
+from src.data.data import DB
+from src.data.associates_db import create_associate
+from src.data.swot_db import create_swot
 
 from src.models.associates import Associate
 from src.models.swot import SWOT
@@ -11,11 +11,11 @@ from src.logging.logger import get_logger
 _log = get_logger(__name__)
 
 if __name__ == "__main__":
-    _associates.drop()
-    _swot.drop()
+    DB.get_associates_collection().drop()
+    DB.get_swot_collection().drop()
 
-    _swot.insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
-    _associates.insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
+    DB.get_associates_collection().insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
+    DB.get_swot_collection().insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
 
 
     new_associate = Associate(sf_id="SF-8507",

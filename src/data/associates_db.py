@@ -1,7 +1,7 @@
 ''' File to define Associate MongoDB operations. '''
 import pymongo
 
-from src.data.data import _db
+from src.data.data import DB
 
 from src.models.associates import Associate
 
@@ -9,7 +9,7 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-_associates = _db['associates']
+_associates = DB.get_associates_collection()
 
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
