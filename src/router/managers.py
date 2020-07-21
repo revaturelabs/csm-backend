@@ -12,4 +12,4 @@ class ManagerRoute(Resource):
     @api.response(200, 'Test success')
     def get(self, manager_id):
         '''Function for handling GET /manager requests'''
-        return json.loads(json.dumps(manage_db.manager_login(manager_id)))      
+        return json.loads(json.dumps(manage_db.manager_login(manager_id)))
