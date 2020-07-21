@@ -55,6 +55,10 @@ class Associate():
         '''Sets the email of the associate'''
         self.email = new_email
 
+    def set_batch_id(self, new_bid):
+        '''Sets the batch_id of the associate'''
+        return self.batch_id
+
     def set_manager_id(self, new_mid):
         '''Sets the manager_id of the associate'''
         self.manager_id = new_mid
