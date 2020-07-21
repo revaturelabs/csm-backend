@@ -1,6 +1,7 @@
 ''' File to instantiate the database with test data. '''
 from src.data.associates_db import _associates, create_associate
-from src.data.swot_db import create_swot
+from src.data.managers_db import _managers
+from src.data.swot_db import _swot, create_swot
 from src.data.data import _db
 
 from src.models.associates import Associate
@@ -10,10 +11,11 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-_managers = _db['managers']
-
 if __name__ == "__main__":
     _associates.drop()
+    _managers.drop()
+    _swot.drop()
+
     new_associate = Associate(sf_id="SF-8507",
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com",
                               manager_id="manager",
@@ -22,7 +24,6 @@ if __name__ == "__main__":
     Associate.from_dict(new_associate.__dict__)
     create_associate(new_associate)
 
-    _managers.drop()
     manager_list = []
     manager_list.append({'username': 'Julie', 'email': 'julie@revature.com'})
     manager_list.append({'username': 'Emily', 'email': 'emily@revature.com'})
