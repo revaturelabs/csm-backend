@@ -29,7 +29,7 @@ def get_notes(note_id: int):
 
 def get_qc_category(batch_id: str, week: int):
     '''this function takes a batch id and a week number and returns the topic for the week'''
-    _log.info(f'qc_service get_qc_category called with batch: ' + batch_id + ' and week: ' + week)
+    _log.info('qc_service get_qc_category called with batch: %s and week: %s', batch_id, week)
     try:
         req = requests.get(_caliber + '/category/' + batch_id + '/' + week)
         return req.json()[0]['skillCategory']
