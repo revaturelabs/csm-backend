@@ -28,8 +28,8 @@ if __name__ == "__main__":
     create_associate(new_associate)
 
     manager_list = []
-    manager_list.append({'username': 'Julie', 'email': 'julie@revature.com'})
-    manager_list.append({'username': 'Emily', 'email': 'emily@revature.com'})
+    manager_list.append({'username': 'Julie', '_id': 'julie@revature.com'})
+    manager_list.append({'username': 'Emily', '_id': 'emily@revature.com'})
     _managers.insert_many(manager_list)
 
     new_swot = SWOT()

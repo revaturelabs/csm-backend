@@ -1,5 +1,5 @@
 ''' Handles manager routes. Only login for now '''
-
+import json
 from flask_restplus import Resource, Api
 import src.data.managers_db as manage_db
 
@@ -12,5 +12,4 @@ class ManagerRoute(Resource):
     @api.response(200, 'Test success')
     def get(self, manager_id):
         '''Function for handling GET /manager requests'''
-        return manage_db.manager_login(manager_id)
-        
+        return json.dumps(manage_db.manager_login(manager_id))      
