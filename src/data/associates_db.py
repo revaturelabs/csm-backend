@@ -29,13 +29,15 @@ def read_one_associate_by_query(query_dict):
 
 def update_associate_swot(query_dict, swot_id):
     '''Takes in a associate query_dict, a swot, and appends a swot_id'''
+    _log.debug(query_dict)
     try:
+        _log.debug('step 1')
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
         if update_user['swot'] == None:
             _associates.update_one(query_dict, {'$set': {'swot': [swot_id]}})
         else:
-            _associates.update_one(query_dict, {'$append': {'swot': swot_id}})
+            _associates.update_one(query_dict, {'$push': {'swot': swot_id}})
         op_success = True
         _log.info('Successfully updated associate information.')
     except:
