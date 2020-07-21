@@ -6,7 +6,7 @@ flask backend for Caliber Staging Module
 2. Start the virtual environment according to your system
 3. Install dependencies by running `pip install -r requirements.txt`
 4. Set the environment variables (see below)
-5. Run `python -m src.data.instatiate_db` to initialize the database
+5. Run `python -m src.data.instantiate_db` to initialize the database
 6. `cd` into the src directory and run `flask run` to start the app
 
 ### Environment variables
