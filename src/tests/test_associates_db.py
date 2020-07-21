@@ -2,7 +2,8 @@
 import unittest
 import unittest.mock as mock
 from src.data.associates_db import create_associate, read_all_associates, \
-                          read_all_associates_by_query, update_associate_swot
+                          read_all_associates_by_query, update_associate_swot, \
+                          get_associate_batch_id
 from src.models.associates import Associate
 
 class TestDatabase(unittest.TestCase):
@@ -45,3 +46,15 @@ class TestDatabase(unittest.TestCase):
 
         self.assertTrue(test)
         self.assertTrue(mock_update.called)
+
+    @mock.patch('src.data.associates_db._associates.find')
+    def test_get_associate_batch_id(self, mock_find):
+        ''' This method will test the get_associate_batch_id function '''
+        mock_find.return_value = [{'salesforce_id': 'SF-1111', 'email': 'mock12@revature.com',
+                                    'batch_id': 'TR-9999', 'manager_id': 'Julie', 'end_date': 'null',
+                                    'swot': 'null', 'status': 'Active'}]
+
+        batch = get_associate_batch_id({'email': 'mock12@revature.com'})
+
+        self.assertTrue(mock_find.called)
+        self.assertEqual(batch, 'TR-9999')
