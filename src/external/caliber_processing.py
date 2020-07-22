@@ -5,8 +5,8 @@ import json
 from src.external import evaluation_service, category_service, evaluation_service, qc_service
 import src.data.associates_db as assoc_db
 from src.logging.logger import get_logger
-_log = get_logger(__name__)
 
+_log = get_logger(__name__)
 
 def get_qc_data(associate_id):
     '''this function gets qc data from caliber from a salesforce id'''
@@ -24,7 +24,6 @@ def get_qc_data(associate_id):
             process_data.append({'skill': skill, 'score': score, 'content': content})
     return process_data
 
-
 def get_spider_data(associate_email):
     '''gets associate spider data from an associate email'''
     query = {'email': associate_email}
@@ -32,7 +31,6 @@ def get_spider_data(associate_email):
     spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
     spider_data = json.loads(spider_data)
     for data_dict in spider_data:
-            data_dict.pop('traineeId')
-            data_dict.pop('weight')
-    _log.debug(type(spider_data))
+        data_dict.pop('traineeId')
+        data_dict.pop('weight')
     return spider_data
