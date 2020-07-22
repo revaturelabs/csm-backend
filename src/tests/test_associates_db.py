@@ -49,6 +49,22 @@ class TestDatabase(unittest.TestCase):
         self.assertTrue(mock_find.called)
         self.assertTrue(test)
 
+        mock_find.return_value = {'salesforce_id': 'SF-1111', 'email': 'mock12@revature.com',
+                                    'batch_id': 'TR-9999', 'manager_id': 'Julie',
+                                    'end_date': 'null', 'swot': 'swot info', 'status': 'Active'}
+
+        test = update_associate_swot({'salesforce_id': 'SF-1111'}, 'swot')
+
+        self.assertTrue(mock_find.called)
+        self.assertTrue(test)
+
+        mock_find.return_value = None
+
+        test = update_associate_swot({'salesforce_id': 'SF-1111'}, 'swot')
+
+        self.assertTrue(mock_find.called)
+        self.assertTrue(not test)
+
     @mock.patch('src.data.associates_db._associates.find_one')
     def test_get_associate_batch_id(self, mock_find):
         ''' This method will test the get_associate_batch_id function '''
