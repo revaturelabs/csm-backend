@@ -30,7 +30,7 @@ def create_associates_from_scheduler():
 
 def read_all_associates():
     '''Returns all associates'''
-    return _associates.find({})
+    return list(_associates.find({}))
 
 def read_all_associates_by_query(query_dict):
     ''' Takes in a query_dict and returns a list of info based on that query '''
@@ -41,14 +41,14 @@ def read_one_associate_by_query(query_dict):
     return _associates.find_one(query_dict)
 
 def update_associate_swot(query_dict, swot_id):
-    ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching
+    ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching 
     associate's swot field in the database. If there are no swots in the field (i.e. the field is
     null in the database), it creates an array with the swot_id inside instead. '''
     _log.debug(query_dict)
     try:
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
-        if update_user['swot'] is None:
+        if update_user['swot'] == None:
             _associates.update_one(query_dict, {'$set': {'swot': [swot_id]}})
         else:
             _associates.update_one(query_dict, {'$push': {'swot': swot_id}})
@@ -59,28 +59,9 @@ def update_associate_swot(query_dict, swot_id):
         _log.info('Failed to update associate information.')
     return op_success
 
-def assignment_counter():
-    ''' This will return a list of dicts. The dicts will have an _id field, which will be the
-    manager id, and then a 'count' field, which will contain the number of associates that they are
-    assigned to. '''
-    return list(_associates.aggregate([
-        {
-            '$match': {'$or': [{'status': 'Active'}, {'status': 'Benched'}]}
-        },
-        {
-            '$group': {'_id': '$manager_id', 'count': {'$sum': 1}}
-        }
-    ]))
-
 def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''
-    associate = _associates.find(query_dict)
-    batch_id = []
-    for i in associate:
-        batch_id.append(i)
-    batch_id = batch_id[0]
-    batch_id = batch_id['batch_id']
-    return batch_id
+    return _associates.find_one(query_dict)['batch_id']
 
 def _get_id():
     '''Retrieves the next id in the database and increments it'''
@@ -91,3 +72,4 @@ def _get_id():
 def get_associate_sf_id(email):
     ''' Takes in a query dict of the associate's email and returns the salesforce id '''
     return _associates.find_one({'email': email})['salesforce_id']
+    

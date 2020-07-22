@@ -1,12 +1,11 @@
 ''' Handles employee routes  '''
 import json
 import flask
-
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
-from src.external.caliber_processing import get_qc_data, get_spider_data
-from src.data.date_time_conversion import converter
+import src.external.evaluation_service as evaluate
+from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 
 from src.models.swot import SWOT
 
@@ -32,7 +31,6 @@ swot_fields = Model('SWOT', {
     'creationDate': fields.DateTime
 })
 
-
 @api.route('/employees')
 @api.doc()
 class EmployeeRoute(Resource):
@@ -40,14 +38,7 @@ class EmployeeRoute(Resource):
     @api.response(200, 'Success')
     def get(self):
         '''Function for handling GET /employees requests'''
-        emp_lst = list(assoc_db.read_all_associates())
-        for i in range(0, len(emp_lst) - 1):
-            if emp_lst[i]['_id'] == 'UNIQUE_COUNT':
-                del emp_lst[i]
-            emp_lst[i].pop('_id')
-            emp_lst[i]['end_date'] = converter(emp_lst[i]['end_date'])
-        _log.debug(emp_lst)
-        return json.dumps(emp_lst)
+        return {'status': "yippee"}
 
 @api.route('/employees/manager/<str:manager_id>')
 @api.doc()
@@ -69,6 +60,7 @@ class EmployeeIdRoute(Resource):
             res = assoc_db.read_one_associate_by_query({'salesforce_id': user_id})
         else: # Assume it it is an email otherwise
             res = assoc_db.read_one_associate_by_query({'email': user_id})
+        
         if res and 'swot' in res: # Replace the ID of the swot with the swot itself in response
             for ind, swot in enumerate(res['swot']):
                 this_swot = SWOT.from_dict(swot_db.read_swot_by_id(res['swot'][ind]))
@@ -95,5 +87,6 @@ class EmployeeIdEvaluationsRoute(Resource):
         '''Function for handling GET /employees/user_id/evaluations requests'''
         sf_id = assoc_db.get_associate_sf_id(user_id)
         qc_data = get_qc_data(sf_id)
-        spider_data = get_spider_data(user_id)
-        return {'spider': spider_data, 'qc': qc_data}
+        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id)
+        return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
+                'qc': qc_data}

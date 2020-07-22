@@ -1,10 +1,9 @@
-''' Main file to run the back-end server '''
-
 import atexit
 from flask import Flask
-from flask_restplus import Api
+from flask_restplus import Api, Resource
 from apscheduler.schedulers.background import BackgroundScheduler
 from src.router.batches import BatchRoute
+from src.router.managers import ManagerRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
                                  EmployeeIdEvaluationsRoute, swot_fields, swot_item
 from src.router.categories import CategoryRoute
@@ -14,10 +13,7 @@ app = Flask(__name__) # Initialize Flask
 
 #Initialize the scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=create_associates_from_scheduler,
-                  trigger="cron",
-                  day_of_week='wed',
-                  hour=11, minute=2)
+scheduler.add_job(func=create_associates_from_scheduler, trigger="cron", day_of_week='wed', hour=11, minute=2)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
@@ -34,5 +30,5 @@ api.add_resource(EmployeeRoute, '/employees')
 api.add_resource(CategoryRoute, '/categories')
 api.add_resource(EmployeeManagerRoute, '/employees/manager/<string:manager_id>')
 api.add_resource(EmployeeIdRoute, '/employees/<string:user_id>')
-api.add_resource(EmployeeIdEvaluationsRoute,
-                 '/employees/<string:user_id>/evaluations')
+api.add_resource(EmployeeIdEvaluationsRoute, '/employees/<string:user_id>/evaluations')
+api.add_resource(ManagerRoute, '/managers/<string:manager_id>')
