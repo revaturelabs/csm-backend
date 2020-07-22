@@ -14,11 +14,7 @@ def get_note_headers(associate_id: str):
     _log.info('qc_service get_note_headers called with the associate id of: %s', associate_id)
     try:
         req = requests.get(_caliber + '/notes/trainee/' + associate_id)
-<<<<<<< HEAD
-        return req.text
-=======
         return req.json()
->>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
     except:
         _log.warning('system could not process your request for note headers')
 
@@ -27,11 +23,7 @@ def get_notes(note_id: int):
     _log.info('qc_service get_notes called with the note id of: %s', note_id)
     try:
         req = requests.get(_caliber + '/notes/' + note_id)
-<<<<<<< HEAD
-        return req.text
-=======
         return req.json()
->>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
     except:
         _log.warning('system could not process your request for notes')
 
@@ -39,13 +31,8 @@ def get_qc_category(batch_id: str, week: int):
     '''this function takes a batch id and a week number and returns the topic for the week'''
     _log.info('qc_service get_qc_category called with batch: %s and week: %s', batch_id, week)
     try:
-<<<<<<< HEAD
-        req = requests.get(_caliber + '/' + batch_id + '/' + week)
-        return req.text
-=======
         req = requests.get(_caliber + '/category/' + batch_id + '/' + week)
         return req.json()[0]['skillCategory']
->>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
     except:
         _log.warning('system could not process your request for categories')
         return 'No Skill Provided for this QC'

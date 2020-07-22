@@ -63,11 +63,6 @@ def assignment_counter():
     ''' This will return a list of dicts. The dicts will have an _id field, which will be the
     manager id, and then a 'count' field, which will contain the number of associates that they are
     assigned to. '''
-<<<<<<< HEAD
-    return list(_associates.aggregate([{
-        '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
-    }]))
-=======
     return list(_associates.aggregate([
         {
             '$match': {'$or': [{'status': 'Active'}, {'status': 'Benched'}]}
@@ -76,7 +71,6 @@ def assignment_counter():
             '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
         }
     ]))
->>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
 
 def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''
@@ -94,12 +88,7 @@ def _get_id():
                                            {'$inc': {'count': 1}},
                                            return_document=pymongo.ReturnDocument.AFTER)['count']
 
-<<<<<<< HEAD
-if __name__ == '__main__':
-    create_associates_from_scheduler()
-=======
 def get_associate_sf_id(email):
     ''' Takes in a query dict of the associate's email and returns the salesforce id '''
     return _associates.find_one({'email': email})['salesforce_id']
     
->>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20

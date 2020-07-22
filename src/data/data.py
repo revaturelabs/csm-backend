@@ -6,14 +6,6 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-<<<<<<< HEAD
-try:
-    _mongo = pymongo.MongoClient(os.getenv('MONGO_URI_PJ3'))
-    _db = _mongo.mongo_csm
-except:
-    _log.error('Could not connect to database.')
-    raise
-=======
 class SingletonMeta(type):
     ''' This will enforce the singleton design pattern on the DatabaseConnection class '''
 
@@ -49,4 +41,3 @@ class DatabaseConnection(metaclass=SingletonMeta):
     def get_associates_collection(self):
         ''' This is a getter for the associates collection '''
         return self._associates
->>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
