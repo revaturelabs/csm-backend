@@ -1,4 +1,3 @@
-
 '''Logging module'''
 import logging
 import logging.config
