@@ -85,8 +85,10 @@ class EmployeeIdEvaluationsRoute(Resource):
     @api.response(200, 'Success')
     def get(self, user_id):
         '''Function for handling GET /employees/user_id/evaluations requests'''
+        query = {'email': user_id}
+        batch_id = assoc_db.get_associate_batch_id(query)
         sf_id = assoc_db.get_associate_sf_id(user_id)
         qc_data = get_qc_data(sf_id)
-        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id)
+        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id, batch_id)
         return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
                 'qc': qc_data}

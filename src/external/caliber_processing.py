@@ -3,7 +3,6 @@
 import json
 
 from src.external import evaluation_service, category_service, evaluation_service, qc_service
-import src.data.associates_db as assoc_db
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -24,10 +23,8 @@ def get_qc_data(associate_id):
             process_data.append({'skill': skill, 'score': score, 'content': content})
     return process_data
 
-def get_batch_and_associate_spider_data(associate_email):
+def get_batch_and_associate_spider_data(associate_email, batch_id):
     '''gets associate spider data from an associate email'''
-    query = {'email': associate_email}
-    batch_id = assoc_db.get_associate_batch_id(query)
     batch_spider_data = evaluation_service.get_batch_spider_data(batch_id)
     batch_spider_data = json.loads(batch_spider_data)
     for data_dict in batch_spider_data:

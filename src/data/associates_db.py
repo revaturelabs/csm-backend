@@ -63,13 +63,13 @@ def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''
     return _associates.find_one(query_dict)['batch_id']
 
+def get_associate_sf_id(email):
+    ''' Takes in a query dict of the associate's email and returns the salesforce id '''
+    return _associates.find_one({'email': email})['salesforce_id']
+
 def _get_id():
     '''Retrieves the next id in the database and increments it'''
     return _associates.find_one_and_update({'_id': 'UNIQUE_COUNT'},
                                            {'$inc': {'count': 1}},
                                            return_document=pymongo.ReturnDocument.AFTER)['count']
-
-def get_associate_sf_id(email):
-    ''' Takes in a query dict of the associate's email and returns the salesforce id '''
-    return _associates.find_one({'email': email})['salesforce_id']
     
