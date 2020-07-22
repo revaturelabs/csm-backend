@@ -1,8 +1,9 @@
 '''this module is the driver that calls and processes from caliber'''
 
+import datetime
 import json
-
-from src.external import evaluation_service, category_service, evaluation_service, qc_service
+from src.external import training_service, category_service, evaluation_service, qc_service
+from src.models.associates import Associate
 import src.data.associates_db as assoc_db
 from src.logging.logger import get_logger
 _log = get_logger(__name__)
@@ -15,14 +16,35 @@ def get_qc_data(associate_id):
     _log.debug(notes)
     process_data = []
     for note in notes:
-        if note['content']:
-            content = note['content']
-            score = note['technicalStatus']
-            week = note['week']
-            batchId = note['batchId']
-            skill = qc_service.get_qc_category(batchId, str(week))
-            process_data.append({'skill': skill, 'score': score, 'content': content})
-    return process_data
+        content = note['content']
+        score = note['technicalStatus']
+        week = note['week']
+        batchId = note['batchId']
+        skill = qc_service.get_qc_category(batchId, week)
+        process_data.append({})
+
+def get_new_graduates():
+    '''associates, end date, batchid'''
+    batches = training_service.batch_current()
+    b = batches[0]
+    current_run = datetime.datetime.today()
+    next_run = current_run + datetime.timedelta(days=7)
+    assocArr = []
+    for batch in batches:
+        end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
+        if current_run < end_date < next_run:
+            batch_id = batch['batchId']
+            trainer_list = []
+            for trainer in b['employeeAssignments']:
+                temp = trainer['employee']
+                name = temp['firstName'] + ' ' + temp['lastName']
+                trainer_list.append(name)
+            for assoc in batch['associateAssignments']:
+                temp = assoc['associate']
+                assoc_name = temp['firstName'] + ' ' + temp['lastName']
+                assocArr.append(Associate(str(temp['salesforceId']), assoc_name, str(temp['email']),
+                                          str(batch_id), trainers=trainer_list, end_date=end_date))
+    return assocArr
 
 
 def get_spider_data(associate_email):
