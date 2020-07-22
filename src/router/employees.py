@@ -6,6 +6,7 @@ import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
+from src.data.date_time_conversion import converter
 
 from src.models.swot import SWOT
 
@@ -38,7 +39,14 @@ class EmployeeRoute(Resource):
     @api.response(200, 'Success')
     def get(self):
         '''Function for handling GET /employees requests'''
-        return {'status': "yippee"}
+        emp_lst = list(assoc_db.read_all_associates())
+        for i in range(0, len(emp_lst) - 1):
+            if emp_lst[i]['_id'] == 'UNIQUE_COUNT':
+                del emp_lst[i]
+            emp_lst[i].pop('_id')
+            emp_lst[i]['end_date'] = converter(emp_lst[i]['end_date'])
+        _log.debug(emp_lst)
+        return json.dumps(emp_lst)
 
 @api.route('/employees/manager/<str:manager_id>')
 @api.doc()
