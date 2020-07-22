@@ -30,7 +30,7 @@ def create_associates_from_scheduler():
 
 def read_all_associates():
     '''Returns all associates'''
-    return _associates.find({})
+    return list(_associates.find({}))
 
 def read_all_associates_by_query(query_dict):
     ''' Takes in a query_dict and returns a list of info based on that query '''
@@ -58,19 +58,6 @@ def update_associate_swot(query_dict, swot_id):
         op_success = False
         _log.info('Failed to update associate information.')
     return op_success
-
-def assignment_counter():
-    ''' This will return a list of dicts. The dicts will have an _id field, which will be the
-    manager id, and then a 'count' field, which will contain the number of associates that they are
-    assigned to. '''
-    return list(_associates.aggregate([
-        {
-            '$match': {'$or': [{'status': 'Active'}, {'status': 'Benched'}]}
-        },
-        {
-            '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
-        }
-    ]))
 
 def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''

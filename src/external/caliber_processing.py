@@ -5,6 +5,7 @@ import json
 from src.external import training_service, category_service, evaluation_service, qc_service
 from src.models.associates import Associate
 import src.data.associates_db as assoc_db
+from src.data.managers_db import assignment_counter, read_all_managers, manager_login
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -23,19 +24,55 @@ def get_qc_data(associate_id):
         skill = qc_service.get_qc_category(batchId, week)
         process_data.append({})
 
-def get_new_graduates():
-    '''associates, end date, batchid'''
-    batches = training_service.batch_current()
-    b = batches[0]
+def preload_location_weights(batches):
+    ''' This function will aggregate the incoming batches and their locations '''
+    locations = {}
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
-    assocArr = []
+    
     for batch in batches:
         end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
         if current_run < end_date < next_run:
+            if batch['location'] in locations.keys():
+                locations[batch['location']] += len(batch['associateAssignments'])
+            else:
+                locations[batch['location']] = len(batch['associateAssignments'])
+    
+    return locations
+
+def assignment_weight(locations, this_batch):
+    ''' This function will determine which manager to assign batches on depending on the current
+    number of already assigned assciates, as well as by location preference '''
+    managers = read_all_managers()
+    current_assignments = assignment_counter()
+
+    for manager in managers:
+        for count in current_assignments:
+            if manager['_id'] == count['_id']:
+                manager['total'] = count['count']
+        if 'total' not in manager.keys():
+            manager['total'] = 0
+    
+    _log.debug('%s', managers)
+    _log.debug('%s', this_batch['location'])
+
+
+
+def get_new_graduates():
+    '''associates, end date, batchid'''
+    batches = training_service.batch_current()
+    current_run = datetime.datetime.today()
+    next_run = current_run + datetime.timedelta(days=7)
+    assocArr = []
+    location_weight = preload_location_weights(batches)
+    _log.debug(location_weight)
+    for batch in batches:
+        end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
+        if current_run < end_date < next_run:
+            assignment_weight(location_weight, batch)
             batch_id = batch['batchId']
             trainer_list = []
-            for trainer in b['employeeAssignments']:
+            for trainer in batch['employeeAssignments']:
                 temp = trainer['employee']
                 name = temp['firstName'] + ' ' + temp['lastName']
                 trainer_list.append(name)
@@ -61,3 +98,6 @@ def get_batch_and_associate_spider_data(associate_email):
         data_dict.pop('traineeId')
         data_dict.pop('weight')
     return batch_spider_data, associate_spider_data
+
+if __name__ == '__main__':
+    get_new_graduates()
