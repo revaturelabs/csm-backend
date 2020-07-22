@@ -1,7 +1,7 @@
 ''' File to define Associate MongoDB operations. '''
 import pymongo
 
-from src.data.data import _db
+from src.data.data import DatabaseConnection
 
 from src.models.associates import Associate
 
@@ -11,7 +11,7 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-_associates = _db['associates']
+_associates = DatabaseConnection().get_associates_collection()
 
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
@@ -33,15 +33,17 @@ def read_all_associates():
     return _associates.find({})
 
 def read_all_associates_by_query(query_dict):
-    '''Takes in a query_dict and returns a list of info based on that query'''
+    ''' Takes in a query_dict and returns a list of info based on that query '''
     return list(_associates.find(query_dict))
 
 def read_one_associate_by_query(query_dict):
-    '''Takes in an associate query dict and returns one associate matching query.'''
+    ''' Takes in an associate query dict and returns one associate matching query. '''
     return _associates.find_one(query_dict)
 
 def update_associate_swot(query_dict, swot_id):
-    '''Takes in a associate query_dict, a swot, and appends a swot_id'''
+    ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching 
+    associate's swot field in the database. If there are no swots in the field (i.e. the field is
+    null in the database), it creates an array with the swot_id inside instead. '''
     _log.debug(query_dict)
     try:
         update_user = _associates.find_one(query_dict)
@@ -61,12 +63,23 @@ def assignment_counter():
     ''' This will return a list of dicts. The dicts will have an _id field, which will be the
     manager id, and then a 'count' field, which will contain the number of associates that they are
     assigned to. '''
+<<<<<<< HEAD
     return list(_associates.aggregate([{
         '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
     }]))
+=======
+    return list(_associates.aggregate([
+        {
+            '$match': {'$or': [{'status': 'Active'}, {'status': 'Benched'}]}
+        },
+        {
+            '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
+        }
+    ]))
+>>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
 
 def get_associate_batch_id(query_dict):
-    '''Takes in a query dict of the associate's email and returns the batch_id'''
+    ''' Takes in a query dict of the associate's email and returns the batch_id '''
     associate = _associates.find(query_dict)
     batch_id = []
     for i in associate:
@@ -81,5 +94,12 @@ def _get_id():
                                            {'$inc': {'count': 1}},
                                            return_document=pymongo.ReturnDocument.AFTER)['count']
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     create_associates_from_scheduler()
+=======
+def get_associate_sf_id(email):
+    ''' Takes in a query dict of the associate's email and returns the salesforce id '''
+    return _associates.find_one({'email': email})['salesforce_id']
+    
+>>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20

@@ -32,10 +32,13 @@ class Associate():
         '''Returns the email of the associate'''
         return self.email
 
+<<<<<<< HEAD
     def get_batch_id(self):
         '''Returns the batch_id of the associate'''
         return self.batch_id
 
+=======
+>>>>>>> 1dacb4003024fc52d1539a1405c83bd10a327e20
     def get_manager_id(self):
         '''Returns the manager_id of the associate'''
         return self.manager_id
