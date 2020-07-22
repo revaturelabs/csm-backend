@@ -17,13 +17,10 @@ class Caliber_processing_test(unittest.TestCase):
         result = get_qc_data('SF-1')
         self.assertEqual(result[0], {'skill': 'Java', 'score': 'Average', 'content': 'This is a Qc note on week 1'})
 
-    @patch('src.data.associates_db.get_associate_batch_id')
     @patch('src.external.evaluation_service.get_batch_spider_data')
     @patch('src.external.evaluation_service.get_associate_spider_data')
-    def test_get_batch_and_associate_spider_data(self, mock_assoc_spider, mock_batch_spider,
-                                                 mock_assoc_batch_id):
+    def test_get_batch_and_associate_spider_data(self, mock_assoc_spider, mock_batch_spider):
         '''this method is to test the batch_and_associate_spider_data function in caliber_processing'''
-        mock_assoc_batch_id.return_value = 'TR-1077'
         mock_batch_spider.return_value = '''[{
                                                 "traineeId": "TR-1077",
                                                 "assessmentType": "Helm",
@@ -66,7 +63,7 @@ class Caliber_processing_test(unittest.TestCase):
                                                 "week": 1,
                                                 "weight": 100
                                             }]'''
-        batch_spider, assoc_spider = get_batch_and_associate_spider_data('mock@revature.com')
+        batch_spider, assoc_spider = get_batch_and_associate_spider_data('mock@revature.com', 'mock_batch')
         self.assertEqual(batch_spider, [{
                                             "assessmentType": "Helm",
                                             "score": 47.7024629637599,
