@@ -61,13 +61,7 @@ def assignment_counter():
 
 def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''
-    associate = _associates.find(query_dict)
-    batch_id = []
-    for i in associate:
-        batch_id.append(i)
-    batch_id = batch_id[0]
-    batch_id = batch_id['batch_id']
-    return batch_id
+    return _associates.find_one(query_dict)['batch_id']
 
 def _get_id():
     '''Retrieves the next id in the database and increments it'''
