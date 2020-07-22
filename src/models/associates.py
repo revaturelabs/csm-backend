@@ -23,7 +23,11 @@ class Associate():
         '''Returns the email of the associate'''
         return self.email
 
-    def get_manager_id(self):
+    def get_batch_id(self, new_bid):
+        '''Returns the batch_id of the associate'''
+        return self.batch_id
+
+    def get_manager_id(self, new_mid):
         '''Returns the manager_id of the associate'''
         return self.manager_id
 

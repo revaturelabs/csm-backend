@@ -19,3 +19,10 @@ def get_associate_spider_data(batch_id, associate_email):
        to get spider graph information about an associate'''
     url = '/grades/reports/' + batch_id + '/spider/' + associate_email
     return requests.get(_caliber + url).text
+
+def get_batch_spider_data(batch_id):
+    '''this method hits the Caliber evaluation-controller
+       /grades/reports/{batchId}/spider with a get request
+       to get spider graph information about a batch'''
+    url = '/grades/reports/' + batch_id + '/spider/'
+    return requests.get(_caliber + url).text
