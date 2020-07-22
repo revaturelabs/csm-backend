@@ -1,9 +1,10 @@
 ''' Handles employee routes  '''
+import json
 import flask
+
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
-import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_spider_data
 from src.data.date_time_conversion import converter
 
@@ -67,7 +68,7 @@ class EmployeeIdRoute(Resource):
         if 'SF' in user_id: # Query with salesforce ID if that was the request
             res = assoc_db.read_one_associate_by_query({'salesforce_id': user_id})
         else: # Assume it it is an email otherwise
-            res = assoc_db.read_one_associate_by_query({'email': user_id})  
+            res = assoc_db.read_one_associate_by_query({'email': user_id})
         if res and 'swot' in res: # Replace the ID of the swot with the swot itself in response
             for ind, swot in enumerate(res['swot']):
                 this_swot = SWOT.from_dict(swot_db.read_swot_by_id(res['swot'][ind]))
