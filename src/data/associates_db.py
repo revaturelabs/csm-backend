@@ -87,4 +87,8 @@ def _get_id():
                                            {'$inc': {'count': 1}},
                                            return_document=pymongo.ReturnDocument.AFTER)['count']
 
+def get_associate_sf_id(email):
+    ''' Takes in a query dict of the associate's email and returns the salesforce id '''
+    return _associates.find_one({'email': email})['salesforce_id']
+
 if __name__ == '__main__':

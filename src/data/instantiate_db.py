@@ -1,5 +1,5 @@
 ''' File to instantiate the database with test data. '''
-from src.data.data import DatabseConnection
+from src.data.data import DatabaseConnection
 from src.data.associates_db import create_associate
 from src.data.swot_db import create_swot
 
@@ -8,7 +8,7 @@ from src.models.swot import SWOT
 
 from src.logging.logger import get_logger
 
-DB = DatabseConnection()
+DB = DatabaseConnection()
 _log = get_logger(__name__)
 
 if __name__ == "__main__":
