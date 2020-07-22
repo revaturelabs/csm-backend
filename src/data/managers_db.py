@@ -11,3 +11,7 @@ _managers = DatabaseConnection().get_managers_collection()
 
 
 #Tims code will be below
+
+def get_all_info():
+    ''' This function gets all info from the managers collection'''
+    return _managers.find()

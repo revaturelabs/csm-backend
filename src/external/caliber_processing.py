@@ -47,3 +47,4 @@ def get_batch_info(batch_id):
     to_return = {'trainer': batch['employeeAssignements'], 'promotion date': batch['endDate'], 
                  'associates': associates}
     return to_return
+    
