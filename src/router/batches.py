@@ -14,4 +14,21 @@ class BatchRoute(Resource):
         return {'status': "yippee"}
     ''' would like to potentially return an array
     each batch have their id
-    have an array of associates: '''
+    have an array of associates:
+    
+// [batches//     {batch1
+//         batchID,
+//         manager,
+//         trainer name,
+//         promotion date,
+//         associates [
+//             {associate1
+//                 name,
+//                 # of swots,
+//                 email,
+//                 userID (if different than email. Whatever we use to look up evaluations)
+//             }
+//         ]
+//     }
+//     ...
+// ]'''
