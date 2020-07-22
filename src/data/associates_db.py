@@ -78,4 +78,3 @@ def _get_id():
 def get_associate_sf_id(email):
     ''' Takes in a query dict of the associate's email and returns the salesforce id '''
     return _associates.find_one({'email': email})['salesforce_id']
-    

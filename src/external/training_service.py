@@ -15,3 +15,8 @@ def batch_current():
        /batch/current with a get request to get information about all current
        batches'''
     return requests.get(_caliber + '/batch/current').text
+
+def get_batch_by_id(batch_id):
+    ''' this method hits caliber batch-controller
+        /batch/{batchId} with a get request to get information on specific batches'''
+    return requests.get(_caliber + '/batch/' + batch_id).text

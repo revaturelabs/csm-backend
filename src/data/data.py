@@ -30,6 +30,7 @@ class DatabaseConnection(metaclass=SingletonMeta):
             self._db = self._mongo.mongo_csm
             self._swot = self._db['swot']
             self._associates = self._db['associates']
+            self._managers = self._db['managers']
         except:
             _log.error('Could not connect to database.')
             raise
@@ -41,3 +42,7 @@ class DatabaseConnection(metaclass=SingletonMeta):
     def get_associates_collection(self):
         ''' This is a getter for the associates collection '''
         return self._associates
+
+    def get_managers_collection(self):
+        ''' This is a getter for the managers collection'''
+        return self._managers
