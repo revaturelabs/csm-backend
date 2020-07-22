@@ -2,12 +2,12 @@
    grade-controller and note-controller'''
 
 import os
-import json
 import requests
 
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
+
 EXTERNAL_API = os.getenv('EXTERNAL_API')
 _log.debug(EXTERNAL_API)
 _caliber = EXTERNAL_API + 'evaluation'

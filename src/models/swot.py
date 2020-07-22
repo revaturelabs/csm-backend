@@ -6,12 +6,21 @@ class SWOT():
     ''' This is the class '''
     def __init__(self):
         '''{datetime created, category, notes}'''
+        self._id = -1
         self.strengths = []
         self.weaknesses = []
         self.opportunities = []
         self.threats = []
         self.notes = None
         self.date_created = datetime.datetime.now()
+
+    def get_id(self):
+        ''' Returns the id of the SWOT '''
+        return self._id
+
+    def set_id(self, new_id):
+        ''' Sets the id of the SWOT '''
+        self._id = new_id
 
     def add_swot_item(self, swot_type, content):
         '''Adding item to swot content'''

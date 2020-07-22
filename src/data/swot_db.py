@@ -25,10 +25,10 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
         if all(field in uncased_swot for field in required_fields):
             try:
                 _log.debug('setting swot field')
-                uncased_swot['_id'] = _get_id()
                 swot_final = SWOT.from_dict(uncased_swot)
+                swot_final.set_id(_get_id())
                 _swot.insert_one(swot_final.__dict__)
-                update_associate_swot(query_string, swot_final._id)
+                update_associate_swot(query_string, swot_final)
                 doc = swot_final.to_dict()
                 _log.debug(swot_final)
             except Exception as err:

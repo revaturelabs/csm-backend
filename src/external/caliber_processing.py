@@ -2,7 +2,7 @@
 
 import datetime
 import json
-from src.external import training_service, category_service, evaluation_service, qc_service
+from src.external import training_service, evaluation_service, qc_service
 from src.models.associates import Associate
 import src.data.associates_db as assoc_db
 from src.logging.logger import get_logger
@@ -19,32 +19,35 @@ def get_qc_data(associate_id):
         content = note['content']
         score = note['technicalStatus']
         week = note['week']
-        batchId = note['batchId']
-        skill = qc_service.get_qc_category(batchId, week)
+        batch_id = note['batchId']
+        skill = qc_service.get_qc_category(batch_id, week)
         process_data.append({})
 
 def get_new_graduates():
     '''associates, end date, batchid'''
     batches = training_service.batch_current()
-    b = batches[0]
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
-    assocArr = []
+    assoc_list = []
     for batch in batches:
         end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
         if current_run < end_date < next_run:
             batch_id = batch['batchId']
             trainer_list = []
-            for trainer in b['employeeAssignments']:
+            for trainer in batch['employeeAssignments']:
                 temp = trainer['employee']
                 name = temp['firstName'] + ' ' + temp['lastName']
                 trainer_list.append(name)
             for assoc in batch['associateAssignments']:
                 temp = assoc['associate']
                 assoc_name = temp['firstName'] + ' ' + temp['lastName']
-                assocArr.append(Associate(str(temp['salesforceId']), assoc_name, str(temp['email']),
-                                          str(batch_id), trainers=trainer_list, end_date=end_date))
-    return assocArr
+                assoc_list.append(Associate(str(temp['salesforceId']),
+                                            assoc_name,
+                                            str(temp['email']),
+                                            str(batch_id),
+                                            trainers=trainer_list,
+                                            end_date=end_date))
+    return assoc_list
 
 
 def get_spider_data(associate_email):
@@ -54,7 +57,7 @@ def get_spider_data(associate_email):
     spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
     spider_data = json.loads(spider_data)
     for data_dict in spider_data:
-            data_dict.pop('traineeId')
-            data_dict.pop('weight')
+        data_dict.pop('traineeId')
+        data_dict.pop('weight')
     _log.debug(type(spider_data))
     return spider_data

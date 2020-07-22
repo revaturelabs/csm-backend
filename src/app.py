@@ -1,6 +1,8 @@
+''' Main file to run the back-end server '''
+
 import atexit
 from flask import Flask
-from flask_restplus import Api, Resource
+from flask_restplus import Api
 from apscheduler.schedulers.background import BackgroundScheduler
 from src.router.batches import BatchRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
@@ -12,7 +14,10 @@ app = Flask(__name__) # Initialize Flask
 
 #Initialize the scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=create_associates_from_scheduler, trigger="cron", day_of_week='wed', hour=11, minute=2)
+scheduler.add_job(func=create_associates_from_scheduler,
+                  trigger="cron",
+                  day_of_week='wed',
+                  hour=11, minute=2)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
