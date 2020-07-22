@@ -56,6 +56,14 @@ def assignment_weight(locations, this_batch):
     _log.debug('%s', managers)
     _log.debug('%s', this_batch['location'])
 
+    # TODO:
+    # Sort the Managers by their total
+    # Compare the total of each manager
+    # If the disparity is higher than 20% [configurable], then assign to the manager with fewer
+    # associates
+    # If the disparty is less than 20%, assign based on location - This should be re-compared every
+    # time
+
 
 
 def get_new_graduates():
