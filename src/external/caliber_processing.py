@@ -24,13 +24,18 @@ def get_qc_data(associate_id):
             process_data.append({'skill': skill, 'score': score, 'content': content})
     return process_data
 
-def get_spider_data(associate_email):
+def get_batch_and_associate_spider_data(associate_email):
     '''gets associate spider data from an associate email'''
     query = {'email': associate_email}
     batch_id = assoc_db.get_associate_batch_id(query)
-    spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
-    spider_data = json.loads(spider_data)
-    for data_dict in spider_data:
+    batch_spider_data = evaluation_service.get_batch_spider_data(batch_id)
+    batch_spider_data = json.loads(batch_spider_data)
+    for data_dict in batch_spider_data:
         data_dict.pop('traineeId')
         data_dict.pop('weight')
-    return spider_data
+    associate_spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
+    associate_spider_data = json.loads(associate_spider_data)
+    for data_dict in associate_spider_data:
+        data_dict.pop('traineeId')
+        data_dict.pop('weight')
+    return batch_spider_data, associate_spider_data
