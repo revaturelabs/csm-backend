@@ -1,6 +1,9 @@
 ''' Handles category routes '''
 
 from flask_restplus import Resource, Api
+from src.logging.logger import get_logger
+
+_log = get_logger(__name__)
 
 api = Api()
 
