@@ -1,16 +1,23 @@
-''' Entry file for backend of application '''
+import atexit
 from flask import Flask
-from flask_restplus import Api
+from flask_restplus import Api, Resource
+from apscheduler.schedulers.background import BackgroundScheduler
 from src.router.batches import BatchRoute
 from src.router.managers import ManagerRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
                                  EmployeeIdEvaluationsRoute, swot_fields, swot_item
 from src.router.categories import CategoryRoute
-
+from src.data.associates_db import create_associates_from_scheduler
 api = Api() # Initialize an instance of the Flask RestPLUS API class
 app = Flask(__name__) # Initialize Flask
 
-# Initialize and run the API
+#Initialize the scheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=create_associates_from_scheduler, trigger="cron", day_of_week='wed', hour=11, minute=2)
+scheduler.start()
+atexit.register(lambda: scheduler.shutdown())
+
+#Initialize and run the API
 api.init_app(app, version='0.0', title='Caliber Staging Module Backend',
              description='The back end for the Caliber Staging Module')
 

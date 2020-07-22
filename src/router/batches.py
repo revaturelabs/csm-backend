@@ -15,3 +15,6 @@ class BatchRoute(Resource):
     def get(self):
         '''Function for handling GET /batches requests'''
         return {'status': "yippee"}
+    ''' would like to potentially return an array
+    each batch have their id
+    have an array of associates: '''

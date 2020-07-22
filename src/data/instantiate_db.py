@@ -1,4 +1,6 @@
 ''' File to instantiate the database with test data. '''
+import datetime
+
 from src.data.data import DatabaseConnection
 from src.data.associates_db import create_associate
 from src.data.swot_db import create_swot
@@ -20,12 +22,12 @@ if __name__ == "__main__":
     DB.get_swot_collection().insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
 
     new_associate = Associate(sf_id="SF-8507",
+                              name="Mock 111 Tester 111",
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com",
                               batch_id="TR-1649",
                               manager_id="manager",
-                              end_date="2020-05-13")
-    new_associate.__dict__['_id'] = 'testId'
-    Associate.from_dict(new_associate.__dict__)
+                              trainers=['Trainer Names Here'],
+                              end_date=datetime.datetime.today())
     create_associate(new_associate)
 
     manager_list = []

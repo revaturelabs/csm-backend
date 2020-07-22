@@ -14,4 +14,4 @@ def batch_current():
     '''this method hits the Caliber batch-controller
        /batch/current with a get request to get information about all current
        batches'''
-    return requests.get(_caliber + '/batch/current').text
+    return requests.get(_caliber + '/batch/current').json()
