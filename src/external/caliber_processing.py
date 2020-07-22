@@ -20,6 +20,7 @@ def get_qc_data(associate_id):
 def get_new_graduates():
     '''associates, end date, batchid'''
     batches = training_service.batch_current()
+    b = batches[0]
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
     assocArr = []
@@ -27,8 +28,19 @@ def get_new_graduates():
         end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
         if current_run < end_date < next_run:
             batch_id = batch['batchId']
+            trainer_list = []
+            for trainer in b['employeeAssignments']:
+                temp = trainer['employee']
+                name = temp['firstName'] + ' ' + temp['lastName']
+                trainer_list.append(name)
             for assoc in batch['associateAssignments']:
                 temp = assoc['associate']
-                assocArr.append(Associate(str(temp['salesforceId']), str(temp['email']),
-                                          str(batch_id), end_date=end_date))
+                assoc_name = temp['firstName'] + ' ' + temp['lastName']
+                assocArr.append(Associate(str(temp['salesforceId']), assoc_name, str(temp['email']),
+                                          str(batch_id), trainers=trainer_list, end_date=end_date))
     return assocArr
+
+
+if __name__ == '__main__':
+    assoc = get_new_graduates()
+    print(assoc[0].to_dict())

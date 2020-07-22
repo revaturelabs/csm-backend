@@ -1,4 +1,6 @@
 ''' File to instantiate the database with test data. '''
+import datetime
+
 from src.data.data import _db
 from src.data.associates_db import _associates, create_associate
 from src.data.swot_db import _swot, create_swot
@@ -14,15 +16,22 @@ if __name__ == "__main__":
     _associates.drop()
     _swot.drop()
 
+
+    _associates.create_index('salesforce_id', unique=True)
+    _associates.create_index('email', unique=True)
+
     _swot.insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
     _associates.insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
 
 
     new_associate = Associate(sf_id="SF-8507",
+                              name="Mock 111 Tester 111",
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com",
+                              batch_id="TT 1111",
                               manager_id="manager",
-                              end_date="2020-05-13")
-    new_associate.__dict__['_id'] = 'testId'
+                              trainers=['Trainer Names Here'],
+                              end_date=datetime.datetime.today())
+    new_associate.__dict__['_id'] = 0
     Associate.from_dict(new_associate.__dict__)
     create_associate(new_associate)
     new_swot = SWOT()

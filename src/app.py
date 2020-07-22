@@ -6,13 +6,13 @@ from src.router.batches import BatchRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
                                  EmployeeIdEvaluationsRoute, swot_fields, swot_item
 from src.router.categories import CategoryRoute
-from external.caliber_processing import get_new_graduates
+from src.data.associates_db import create_associates_from_scheduler
 api = Api() # Initialize an instance of the Flask RestPLUS API class
 app = Flask(__name__) # Initialize Flask
 
 #Initialize the scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func='''NAME OF THE FUNCTION TO RUN''', trigger="cron", day_of_week='fri')
+scheduler.add_job(func=create_associates_from_scheduler, trigger="cron", day_of_week='wed', hour=11, minute=2)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
