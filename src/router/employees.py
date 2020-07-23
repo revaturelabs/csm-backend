@@ -4,6 +4,7 @@ import flask
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
+from src.data.date_time_conversion import converter as date_converter
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
@@ -55,7 +56,18 @@ class EmployeeManagerRoute(Resource):
     @api.response(200, 'Success')
     def get(self, manager_id):
         '''Function for handling GET /employees/manager/manager_id requests'''
-        return {'status': "yippee"}
+        associates = assoc_db.read_all_associates_by_query({'manager_id': manager_id})
+        to_return = []
+        for associate in associates:
+            swots = []
+            if associate['swot']:
+                for swot in associate['swot']:
+                    swot['date_created'] = date_converter(swot['date_created'])
+                    swots.append(swot)
+            data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'], 'status': associate['status']}
+            to_return.append(data)
+        _log.debug(associates)
+        return to_return
 
 @api.route('/employees/<str:user_id>')
 @api.doc()
