@@ -1,7 +1,7 @@
 # csm-backend
 flask backend for Caliber Staging Module
 
-# Wiki
+## Wiki
 https://github.com/revaturelabs/csm-backend/wiki
 
 ## Setup
