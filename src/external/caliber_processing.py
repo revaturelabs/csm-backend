@@ -57,8 +57,6 @@ def assignment_weight(locations, this_batch):
     _log.debug('%s', this_batch['location'])
 
     _log.debug(type(managers))
-    julie = managers[0]
-    julie['total'] =20
     managers = sorted(managers, key = lambda i: i['total'])
     if len(managers) > 1:
         if managers[0]['total']:
@@ -82,7 +80,6 @@ def get_new_graduates():
     locations = preload_location_weights(batches)
     for batch in batches:
         manager_id = assignment_weight(locations, batch)
-        print(manager_id)
         end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
         if current_run < end_date < next_run:
             batch_id = batch['batchId']
