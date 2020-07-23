@@ -79,7 +79,7 @@ class EmployeeIdRoute(Resource):
     @api.doc(body=swot_fields)
     @api.response(200, 'Status code of response')
     def post(self, user_id):
-        '''Function for handling PUT /employees/user_id requests'''
+        '''Function for handling POST /employees/user_id requests'''
         if 'SF' in user_id:
             res = swot_db.create_swot('salesforce_id', user_id, flask.request.get_json(force=True))
         else:

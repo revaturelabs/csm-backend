@@ -1,6 +1,4 @@
 '''this module is to store the calls to the manager collection'''
-import pymongo
-
 from src.data.data import DatabaseConnection
 from src.logging.logger import get_logger
 
