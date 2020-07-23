@@ -40,11 +40,13 @@ def get_spider_data(associate_email):
 def get_batch_info(batch_id):
     ''' gets high level batch info from caliber'''
     batch = training_service.get_batch_by_id(batch_id)
+    _log.debug(batch)
     associates = []
     for i in batch['associateAssignments']:
-        associate = {'name': i['firstName'] + ' ' + i['lastName'], 'userID': i['email']}
+        temp = i['associate']
+        associate = {'name': temp['firstName'] + ' ' + temp['lastName'], 'userID': temp['email']}
         associates.append(associate)
-    to_return = {'trainer': batch['employeeAssignements'], 'promotion date': batch['endDate'], 
+    to_return = {'trainer': batch['employeeAssignments'], 'promotion date': batch['endDate'],'name': batch['name'],'skill': batch['skill'],
                  'associates': associates}
     return to_return
     

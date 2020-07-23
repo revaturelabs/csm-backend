@@ -1,7 +1,7 @@
 ''' Entry file for backend of application '''
 from flask import Flask
 from flask_restplus import Api
-from src.router.batches import BatchRoute
+from src.router.batches import BatchRoute, BatchIndividualRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
                                  EmployeeIdEvaluationsRoute, swot_fields, swot_item
 from src.router.categories import CategoryRoute
@@ -24,3 +24,4 @@ api.add_resource(EmployeeManagerRoute, '/employees/manager/<string:manager_id>')
 api.add_resource(EmployeeIdRoute, '/employees/<string:user_id>')
 api.add_resource(EmployeeIdEvaluationsRoute,
                  '/employees/<string:user_id>/evaluations')
+api.add_resource(BatchIndividualRoute, '/batches/<string:batch_id>')

@@ -2,9 +2,11 @@
 
 from flask_restplus import Resource, Api
 
-import src.external.training_service.get_all_batches
-from src.data.managers_db import get_all_info
+from src.data.managers_db import get_all_info, get_managers_by_batch
 from src.external.caliber_processing import get_batch_info
+from src.logging.logger import get_logger
+
+_log = get_logger(__name__)
 
 api = Api()
 
@@ -19,6 +21,21 @@ class BatchRoute(Resource):
         for manager in manager_lst:
             for batch in manager['batches']:
                 batch_info = get_batch_info(batch)
-                batches.append('batchID': batch, 'manager': manager['username'], 'trainer': batch_info['trainer'],
-                                'promotion date': batch_info['promotion date'], 'associates': batch_info['associates'])
+                _log.debug(batch_info)
+                batches.append({'batchID': batch, 'batchName': batch_info['name'],'skill': batch_info['skill'],
+                                'manager': manager['username'], 'trainer': batch_info['trainer'],
+                                'promotionDate': batch_info['promotion date'], 'associates': batch_info['associates']})
         return batches
+
+@api.route('/batches/<str:batch_id>')
+@api.doc()
+class BatchIndividualRoute(Resource):
+    '''Class for routing batch requests'''
+    @api.response(200, 'Test success')
+    def get(self, batch_id):
+        batch_info = get_batch_info(batch_id)
+        manager = get_managers_by_batch(batch_id)
+        batch = ({'batchID': batch_id, 'batchName': batch_info['name'],'skill': batch_info['skill'],
+                  'manager': manager['username'], 'trainer': batch_info['trainer'],
+                  'promotionDate': batch_info['promotion date'], 'associates': batch_info['associates']})
+        return batch

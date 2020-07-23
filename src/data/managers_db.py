@@ -15,3 +15,7 @@ _managers = DatabaseConnection().get_managers_collection()
 def get_all_info():
     ''' This function gets all info from the managers collection'''
     return _managers.find()
+
+def get_managers_by_batch(batch_id):
+    ''' This function gets the manager associated with a batch'''
+    return _managers.find_one({'batches': batch_id})
