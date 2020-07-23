@@ -53,16 +53,29 @@ def assignment_weight(locations, this_batch):
         if 'total' not in manager.keys():
             manager['total'] = 0
     
-    _log.debug('%s', managers)
+    _log.debug('Mangers: %s', managers)
     _log.debug('%s', this_batch['location'])
 
+    _log.debug(type(managers))
+    julie = managers[0]
+    julie['total'] =20
     # TODO:
     # Sort the Managers by their total
+    managers = sorted(managers, key = lambda i: i['total'])
+    print(managers)
+    if len(managers) > 1:
+        if mangers[0]['totals']:
+            disparity = (managers[1]['totals'] - managers[0]['totals'])/managers[0]['totals']
+            if disparity >= 0.2:
+                #assign the batch to the manager with fewer (managers[0])
+            else:
+                #assign the batch to the manager based on location
     # Compare the total of each manager
     # If the disparity is higher than 20% [configurable], then assign to the manager with fewer
     # associates
     # If the disparty is less than 20%, assign based on location - This should be re-compared every
     # time
+    # return manager, batchid
 
 
 
