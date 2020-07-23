@@ -2,7 +2,7 @@
 import unittest
 from unittest.mock import patch
 
-from src.external.caliber_processing import get_qc_data
+from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.external.qc_service import get_note_headers, get_qc_category
 
 class Caliber_processing_test(unittest.TestCase):
@@ -16,3 +16,81 @@ class Caliber_processing_test(unittest.TestCase):
         mock_B.return_value = 'Java'
         result = get_qc_data('SF-1')
         self.assertEqual(result[0], {'skill': 'Java', 'score': 'Average', 'content': 'This is a Qc note on week 1'})
+
+    @patch('src.external.evaluation_service.get_batch_spider_data')
+    @patch('src.external.evaluation_service.get_associate_spider_data')
+    def test_get_batch_and_associate_spider_data(self, mock_assoc_spider, mock_batch_spider):
+        '''this method is to test the batch_and_associate_spider_data function in caliber_processing'''
+        mock_batch_spider.return_value = '''[{
+                                                "traineeId": "TR-1077",
+                                                "assessmentType": "Helm",
+                                                "score": 47.7024629637599,
+                                                "week": 1,
+                                                "weight": 100
+                                            },
+                                            {
+                                                "traineeId": "TR-1077",
+                                                "assessmentType": "HTML",
+                                                "score": 61.05993378162384,
+                                                "week": 1,
+                                                "weight": 100
+                                            },
+                                            {
+                                                "traineeId": "TR-1077",
+                                                "assessmentType": "CSS",
+                                                "score": 45.23073920607567,
+                                                "week": 1,
+                                                "weight": 100
+                                            }]'''
+        mock_assoc_spider.return_value = '''[{
+                                                "traineeId": "TR-1077",
+                                                "assessmentType": "Helm",
+                                                "score": 47.7024629637599,
+                                                "week": 1,
+                                                "weight": 100
+                                            },
+                                            {
+                                                "traineeId": "TR-1077",
+                                                "assessmentType": "HTML",
+                                                "score": 61.05993378162384,
+                                                "week": 1,
+                                                "weight": 100
+                                            },
+                                            {
+                                                "traineeId": "TR-1077",
+                                                "assessmentType": "CSS",
+                                                "score": 45.23073920607567,
+                                                "week": 1,
+                                                "weight": 100
+                                            }]'''
+        batch_spider, assoc_spider = get_batch_and_associate_spider_data('mock@revature.com', 'mock_batch')
+        self.assertEqual(batch_spider, [{
+                                            "assessmentType": "Helm",
+                                            "score": 47.7024629637599,
+                                            "week": 1
+                                         },
+                                         {
+                                            "assessmentType": "HTML",
+                                            "score": 61.05993378162384,
+                                            "week": 1
+                                         },
+                                         {
+                                            "assessmentType": "CSS",
+                                            "score": 45.23073920607567,
+                                            "week": 1
+                                         }])
+        self.assertEqual(assoc_spider, [{
+                                            "assessmentType": "Helm",
+                                            "score": 47.7024629637599,
+                                            "week": 1
+                                         },
+                                         {
+                                            "assessmentType": "HTML",
+                                            "score": 61.05993378162384,
+                                            "week": 1
+                                         },
+                                         {
+                                            "assessmentType": "CSS",
+                                            "score": 45.23073920607567,
+                                            "week": 1
+                                         }])
