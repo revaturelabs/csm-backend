@@ -23,6 +23,61 @@ def get_qc_data(associate_id):
         skill = qc_service.get_qc_category(batchId, week)
         process_data.append({})
 
+def preload_location_weights(batches):
+    ''' This function will aggregate the incoming batches and their locations '''
+    locations = {}
+    current_run = datetime.datetime.today()
+    next_run = current_run + datetime.timedelta(days=7)
+    
+    for batch in batches:
+        end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
+        if current_run < end_date < next_run:
+            if batch['location'] in locations.keys():
+                locations[batch['location']] += len(batch['associateAssignments'])
+            else:
+                locations[batch['location']] = len(batch['associateAssignments'])
+    
+    return locations
+
+def assignment_weight(locations, this_batch):
+    ''' This function will determine which manager to assign batches on depending on the current
+    number of already assigned assciates, as well as by location preference '''
+    managers = read_all_managers()
+    current_assignments = assignment_counter()
+
+    for manager in managers:
+        for count in current_assignments:
+            if manager['_id'] == count['_id']:
+                manager['total'] = count['count']
+        if 'total' not in manager.keys():
+            manager['total'] = 0
+    
+    _log.debug('Mangers: %s', managers)
+    _log.debug('%s', this_batch['location'])
+
+    _log.debug(type(managers))
+    julie = managers[0]
+    julie['total'] =20
+    # TODO:
+    # Sort the Managers by their total
+    managers = sorted(managers, key = lambda i: i['total'])
+    print(managers)
+    if len(managers) > 1:
+        if mangers[0]['totals']:
+            disparity = (managers[1]['totals'] - managers[0]['totals'])/managers[0]['totals']
+            if disparity >= 0.2:
+                #assign the batch to the manager with fewer (managers[0])
+            else:
+                #assign the batch to the manager based on location
+    # Compare the total of each manager
+    # If the disparity is higher than 20% [configurable], then assign to the manager with fewer
+    # associates
+    # If the disparty is less than 20%, assign based on location - This should be re-compared every
+    # time
+    # return manager, batchid
+
+
+
 def get_new_graduates():
     '''associates, end date, batchid'''
     batches = training_service.batch_current()
