@@ -15,7 +15,7 @@ To preface, you may need to use `pip3` and `python3` in lieu of `pip` and `pytho
 6. Run `flask run` to start the app
 
 ### Environment variables
-* MONGO_URI: The connection URI for the Mongo Database. A mongo connection URI should start with `mongodb://` or `mongodb+srv://` followed by the host name (for a locally running mongodb server, for instance, `mongodb://127.0.0.1:27017`). If you are using MongoDB Atlas, the connection string will include your credentials and any arguments that you may need.
+* MONGO_URI_PJ3: The connection URI for the Mongo Database. A mongo connection URI should start with `mongodb://` or `mongodb+srv://` followed by the host name (for a locally running mongodb server, for instance, `mongodb://127.0.0.1:27017`). If you are using MongoDB Atlas, the connection string will include your credentials and any arguments that you may need.
 * FLASK_APP: The location of the flask app in relation to your .env file, if your .env file is in the root it should be `src/app.py`
 * EXTERNAL_API: The base URI for the Caliber API
 
