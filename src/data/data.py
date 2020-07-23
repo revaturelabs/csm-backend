@@ -45,5 +45,5 @@ class DatabaseConnection(metaclass=SingletonMeta):
         return self._associates
 
     def get_managers_collection(self):
-        ''' This is a getter for the managers collection'''
+        ''' This is a getter for the managers collection '''
         return self._managers

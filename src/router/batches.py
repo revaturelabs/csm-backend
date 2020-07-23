@@ -19,6 +19,7 @@ class BatchRoute(Resource):
     '''Class for routing batch requests'''
     @api.response(200, 'Test success')
     def get(self):
+        ''' Function for handling GET /batches requests '''
         manager_lst = get_all_info()
         batches = []
         for manager in manager_lst:
