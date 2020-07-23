@@ -14,10 +14,10 @@ _log = get_logger(__name__)
 if __name__ == "__main__":
     DB.get_associates_collection().drop()
     DB.get_swot_collection().drop()
+    DB.get_managers_collection().drop()
 
     DB.get_associates_collection().insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
     DB.get_swot_collection().insert_one({'_id': 'UNIQUE_COUNT', 'count': 0})
-
 
     new_associate = Associate(sf_id="SF-8507",
                               email="mock12.associate1b4ee47b-6d18-4c5f-bada-808f1eaf469d@mock.com",
@@ -27,6 +27,12 @@ if __name__ == "__main__":
     new_associate.__dict__['_id'] = 'testId'
     Associate.from_dict(new_associate.__dict__)
     create_associate(new_associate)
+
+    manager_list = []
+    manager_list.append({'username': 'Julie', '_id': 'julie@revature.com'})
+    manager_list.append({'username': 'Emily', '_id': 'emily@revature.com'})
+    DB.get_managers_collection().insert_many(manager_list)
+
     new_swot = SWOT()
     _log.debug(new_swot)
     new_swot.add_swot_item('strengths', 'strengths test')

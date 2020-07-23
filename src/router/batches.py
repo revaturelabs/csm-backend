@@ -1,6 +1,9 @@
 ''' Handles batch routes '''
 
 from flask_restplus import Resource, Api
+from src.logging.logger import get_logger
+
+_log = get_logger(__name__)
 
 from src.data.managers_db import get_all_info, get_managers_by_batch
 from src.external.caliber_processing import get_batch_info

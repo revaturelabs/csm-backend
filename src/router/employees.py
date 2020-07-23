@@ -5,7 +5,7 @@ from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
 import src.external.evaluation_service as evaluate
-from src.external.caliber_processing import get_qc_data, get_spider_data
+from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
 
 from src.models.swot import SWOT
@@ -31,7 +31,6 @@ swot_fields = Model('SWOT', {
     'notes': fields.String,
     'creationDate': fields.DateTime
 })
-
 
 @api.route('/employees')
 @api.doc()
@@ -94,7 +93,10 @@ class EmployeeIdEvaluationsRoute(Resource):
     @api.response(200, 'Success')
     def get(self, user_id):
         '''Function for handling GET /employees/user_id/evaluations requests'''
+        query = {'email': user_id}
+        batch_id = assoc_db.get_associate_batch_id(query)
         sf_id = assoc_db.get_associate_sf_id(user_id)
         qc_data = get_qc_data(sf_id)
-        spider_data = get_spider_data(user_id)
-        return {'spider': spider_data, 'qc': qc_data}
+        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id, batch_id)
+        return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
+                'qc': qc_data}

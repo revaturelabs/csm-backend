@@ -6,12 +6,15 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 
-_managers = DatabaseConnection().get_managers_collection()
+DB = DatabaseConnection()
 
+_managers = DB.get_managers_collection()
 
-
-#Tims code will be below
-
+def manager_login(manager_email):
+    '''A function that takes in an email and return the corresponding staging manager if one exists'''
+    query_dict = {'_id': manager_email}
+    manager = _managers.find_one(query_dict)
+    return manager
 def get_all_info():
     ''' This function gets all info from the managers collection'''
     return _managers.find()
