@@ -32,3 +32,9 @@ def assignment_counter():
             '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
         }
     ]))
+
+def update_batches(manager, new_batch):
+    '''This will take in a manager and a new batch, updating the manager's array of batches with 
+    the new batch id'''
+    query = {'_id': manager}
+    _managers.update_one(query, {'$addToSet': {'batches': new_batch}})
