@@ -58,17 +58,18 @@ def assignment_weight(locations, this_batch):
     _log.debug(type(managers))
     julie = managers[0]
     julie['total'] =20
-    # TODO:
-    # Sort the Managers by their total
     managers = sorted(managers, key = lambda i: i['total'])
     print(managers)
     if len(managers) > 1:
         if mangers[0]['totals']:
             disparity = (managers[1]['totals'] - managers[0]['totals'])/managers[0]['totals']
             if disparity >= 0.2:
-                #assign the batch to the manager with fewer (managers[0])
+                return managers[0]['_id']
             else:
-                #assign the batch to the manager based on location
+                for manager in managers:
+                    if this_batch['location'] in manager['preferred_locations']:
+                        return manager['_id']
+                        
     # Compare the total of each manager
     # If the disparity is higher than 20% [configurable], then assign to the manager with fewer
     # associates
@@ -85,8 +86,9 @@ def get_new_graduates():
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
     assocArr = []
+    locations = preload_location_weights(batches)
     for batch in batches:
-        #get manager_id from weight function here, so that it is re-evaluated each batch
+        #manager_id = assignment_weight(locations, batch)
         end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
         if current_run < end_date < next_run:
             batch_id = batch['batchId']
@@ -99,6 +101,7 @@ def get_new_graduates():
                 temp = assoc['associate']
                 assoc_name = temp['firstName'] + ' ' + temp['lastName']
                 #include str(manager_id) in this append
+                #also need to append the batch_id to the manager's batches field
                 assocArr.append(Associate(str(temp['salesforceId']), assoc_name, str(temp['email']),
                                           str(batch_id), trainers=trainer_list, end_date=end_date))
     return assocArr
