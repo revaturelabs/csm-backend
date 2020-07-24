@@ -2,7 +2,7 @@
 import unittest
 
 from src.models.associates import Associate
-from src.testing_logging.logger import get_logger
+from src.logging import get_logger
 _log = get_logger(__name__)
 
 class AssociateTestSuite(unittest.TestCase):

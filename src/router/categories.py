@@ -14,4 +14,4 @@ class CategoryRoute(Resource):
     @api.response(200, 'Success')
     def get(self):
         '''Function for handling GET /categories requests'''
-        return ['Category 1', 'Category 2', 'Category 3']
+        return get_category_data()

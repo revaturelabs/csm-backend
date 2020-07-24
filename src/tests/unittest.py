@@ -4,20 +4,11 @@
 import unittest
 from src.tests.test_swot import SwotTests
 from src.tests.test_caliber_processing import Caliber_processing_test
-<<<<<<< HEAD
-# test imports
-'''when you import a test file be sure to import each test class in the file'''
-<<<<<<< HEAD:src/testing_logging/unittest.py
-from src.testing_logging.tests.sample_test import SampleTest
-from src.testing_logging.tests.test_model_associates import AssociateTestSuite
-from src.testing_logging.tests.test_swot import SwotTests
-from src.testing_logging.tests.test_db import TestDatabase
-=======
+from src.tests.test_associates_db import TestDatabase
+from src.tests.test_managers_db import TestDatabase
+from src.tests.test_model_associates import AssociateTestSuite
 
->>>>>>> b4e9fdab3c6b4db6e84d0778b8ce1ccc57cf1885:src/tests/unittest.py
 
-=======
->>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
 
 if __name__ == '__main__':
     unittest.main()

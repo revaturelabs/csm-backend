@@ -40,10 +40,6 @@ class Associate():
         '''Returns the manager_id of the associate'''
         return self.manager_id
 
-    def get_batch_id(self):
-        '''Returns the batch id of the associate'''
-        return self.batch_id
-
     def get_end_date(self):
         '''Returns the end date of the associate'''
         return self.end_date
@@ -56,7 +52,6 @@ class Associate():
         '''Returns the status of the associate'''
         return self.status
 
-    ''' TODO : get_trainers()'''
     def get_trainers(self):
         return self.trainers
 

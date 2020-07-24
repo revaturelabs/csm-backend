@@ -1,3 +1,4 @@
+''' Entry file for backend of application '''
 import atexit
 from flask import Flask
 from flask_restplus import Api, Resource
