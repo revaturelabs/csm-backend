@@ -1,5 +1,5 @@
 ''' Handles employee routes  '''
-import json
+
 import flask
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
@@ -7,8 +7,6 @@ import src.data.swot_db as swot_db
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
-
-from src.models.swot import SWOT
 
 from src.logging.logger import get_logger
 
@@ -70,7 +68,8 @@ class EmployeeManagerRoute(Resource):
                     swots.append(swot)
             else:
                 associate['swot'] = [{'author': 'trainer'}]
-            data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'], 'status': associate['status']}
+            data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'],
+                    'status': associate['status']}
             to_return.append(data)
         _log.debug(associates)
         return to_return
