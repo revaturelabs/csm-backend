@@ -7,10 +7,7 @@ import src.data.swot_db as swot_db
 from src.data.date_time_conversion import converter as date_converter
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
-<<<<<<< HEAD
-=======
 from src.data.date_time_conversion import converter
->>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
 
 from src.models.swot import SWOT
 
@@ -43,9 +40,6 @@ class EmployeeRoute(Resource):
     @api.response(200, 'Success')
     def get(self):
         '''Function for handling GET /employees requests'''
-<<<<<<< HEAD
-        return {'status': "yippee"}
-=======
         emp_lst = list(assoc_db.read_all_associates())
         for i in range(0, len(emp_lst) - 1):
             if emp_lst[i]['_id'] == 'UNIQUE_COUNT':
@@ -59,7 +53,6 @@ class EmployeeRoute(Resource):
                 emp_lst[i]['swot'] = [{'author': 'trainer'}]
         _log.debug(emp_lst)
         return emp_lst
->>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
 
 @api.route('/employees/manager/<str:manager_id>')
 @api.doc()
@@ -106,11 +99,7 @@ class EmployeeIdRoute(Resource):
     @api.doc(body=swot_fields)
     @api.response(200, 'Status code of response')
     def post(self, user_id):
-<<<<<<< HEAD
-        '''Function for handling PUT /employees/user_id requests'''
-=======
         '''Function for handling POST /employees/user_id requests'''
->>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
         if 'SF' in user_id:
             res = swot_db.create_swot('salesforce_id', user_id, flask.request.get_json(force=True))
         else:

@@ -19,30 +19,6 @@ class BatchRoute(Resource):
     '''Class for routing batch requests'''
     @api.response(200, 'Test success')
     def get(self):
-<<<<<<< HEAD
-        '''Function for handling GET /batches requests'''
-        return {'status': "yippee"}
-    ''' would like to potentially return an array
-    each batch have their id
-    have an array of associates:
-    
-// [batches//     {batch1
-//         batchID,
-//         manager,
-//         trainer name,
-//         promotion date,
-//         associates [
-//             {associate1
-//                 name,
-//                 # of swots,
-//                 email,
-//                 userID (if different than email. Whatever we use to look up evaluations)
-//             }
-//         ]
-//     }
-//     ...
-// ]'''
-=======
         ''' Function for handling GET /batches requests '''
         manager_lst = get_all_info()
         batches = []
@@ -67,4 +43,3 @@ class BatchIndividualRoute(Resource):
                   'manager': manager['username'], 'trainer': batch_info['trainer'],
                   'promotionDate': batch_info['promotion date'], 'associates': batch_info['associates']})
         return batch
->>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
