@@ -1,6 +1,7 @@
 ''' Entry file for backend of application '''
 from flask import Flask
 from flask_restplus import Api
+from flask_cors import CORS
 from src.router.batches import BatchRoute, BatchIndividualRoute
 from src.router.managers import ManagerRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
@@ -9,6 +10,9 @@ from src.router.categories import CategoryRoute
 
 api = Api() # Initialize an instance of the Flask RestPLUS API class
 app = Flask(__name__) # Initialize Flask
+
+# Initialize CORS for cross origin requests for testing purposes
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Initialize and run the API
 api.init_app(app, version='0.0', title='Caliber Staging Module Backend',
