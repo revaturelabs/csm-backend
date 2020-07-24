@@ -50,7 +50,7 @@ class EmployeeRoute(Resource):
                 for swot in emp_lst[i]['swot']:
                     swot['date_created'] = date_converter(swot['date_created'])
             else:
-                emp_lst[i]['swot'] = [{}]
+                emp_lst[i]['swot'] = [{'author': 'trainer'}]
         _log.debug(emp_lst)
         return emp_lst
 
@@ -70,7 +70,7 @@ class EmployeeManagerRoute(Resource):
                     swot['date_created'] = date_converter(swot['date_created'])
                     swots.append(swot)
             else:
-                associate['swot'] = [{}]
+                associate['swot'] = [{'author': 'trainer'}]
             data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'], 'status': associate['status']}
             to_return.append(data)
         _log.debug(associates)
@@ -91,7 +91,7 @@ class EmployeeIdRoute(Resource):
             for swot in res['swot']:
                 swot['date_created'] = date_converter(swot['date_created'])
         else:
-            res['swot'] = [{}]
+            res['swot'] = [{'author': 'trainer'}]
         _log.debug(res)
         res['end_date'] = converter(res['end_date'])
         return res
