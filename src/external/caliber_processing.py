@@ -2,7 +2,8 @@
 
 import json
 
-from src.external import evaluation_service, category_service, evaluation_service, qc_service
+from src.external import evaluation_service, category_service, evaluation_service, qc_service, training_service
+import src.data.associates_db as assoc_db
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -36,3 +37,16 @@ def get_batch_and_associate_spider_data(associate_email, batch_id):
         data_dict.pop('traineeId')
         data_dict.pop('weight')
     return batch_spider_data, associate_spider_data
+
+def get_batch_info(batch_id):
+    ''' gets high level batch info from caliber'''
+    batch = training_service.get_batch_by_id(batch_id)
+    _log.debug(batch)
+    associates = []
+    for i in batch['associateAssignments']:
+        temp = i['associate']
+        associate = {'name': temp['firstName'] + ' ' + temp['lastName'], 'userID': temp['email']}
+        associates.append(associate)
+    to_return = {'trainer': batch['employeeAssignments'], 'promotion date': batch['endDate'],'name': batch['name'],'skill': batch['skill'],
+                 'associates': associates}
+    return to_return
