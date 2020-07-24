@@ -6,7 +6,7 @@ from src.data.associates_db import create_associate, read_all_associates, \
                           get_associate_batch_id
 from src.models.associates import Associate
 
-class TestDatabase(unittest.TestCase):
+class AssociateTestDatabase(unittest.TestCase):
     ''' This is the database test suite '''
 
     @mock.patch('src.data.associates_db._associates.insert_one')
@@ -51,8 +51,8 @@ class TestDatabase(unittest.TestCase):
     def test_get_associate_batch_id(self, mock_find):
         ''' This method will test the get_associate_batch_id function '''
         mock_find.return_value = [{'salesforce_id': 'SF-1111', 'email': 'mock12@revature.com',
-                                    'batch_id': 'TR-9999', 'manager_id': 'Julie',
-                                    'end_date': 'null', 'swot': 'null', 'status': 'Active'}]
+                                   'batch_id': 'TR-9999', 'manager_id': 'Julie',
+                                   'end_date': 'null', 'swot': 'null', 'status': 'Active'}]
 
         batch = get_associate_batch_id({'email': 'mock12@revature.com'})
 

@@ -1,10 +1,9 @@
 ''' File to define Associate MongoDB operations. '''
 import pymongo
-
 from src.data.data import DatabaseConnection
 
 from src.models.associates import Associate
-
+from src.external.caliber_processing import get_batches, get_new_graduates
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -13,11 +12,25 @@ _associates = DatabaseConnection().get_associates_collection()
 
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
+    new_associate.set_id(_get_id())
     _associates.insert_one(new_associate.to_dict())
+
+def create_associates_from_scheduler():
+    ''' Calls the processing function to get a list of associates being promoted '''
+    batches = get_batches()
+    for batch in batches:
+        associate_list = get_new_graduates(batch)
+        for associate in associate_list:
+            try:
+                create_associate(associate)
+                _log.info('Associate added %s.', associate.get_salesforce_id())
+            except:
+                _log.info("Unable to add associate %s already exists.",
+                          associate.get_salesforce_id())
 
 def read_all_associates():
     '''Returns all associates'''
-    return _associates.find({})
+    return list(_associates.find({}))
 
 def read_all_associates_by_query(query_dict):
     ''' Takes in a query_dict and returns a list of info based on that query '''
@@ -35,7 +48,7 @@ def update_associate_swot(query_dict, swot):
     try:
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
-        if update_user['swot'] == None:
+        if update_user['swot'] is None:
             _associates.update_one(query_dict, {'$set': {'swot': [swot]}})
         else:
             _associates.update_one(query_dict, {'$push': {'swot': swot}})
@@ -45,19 +58,6 @@ def update_associate_swot(query_dict, swot):
         op_success = False
         _log.info('Failed to update associate information.')
     return op_success
-
-def assignment_counter():
-    ''' This will return a list of dicts. The dicts will have an _id field, which will be the 
-    manager id, and then a 'count' field, which will contain the number of associates that they are
-    assigned to. '''
-    return list(_associates.aggregate([
-        {
-            '$match': {'$or': [{'status': 'Active'}, {'status': 'Benched'}]}
-        },
-        {
-            '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
-        }
-    ]))
 
 def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''

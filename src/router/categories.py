@@ -2,12 +2,11 @@
 
 from flask_restplus import Resource, Api
 from src.logging.logger import get_logger
+from src.external.category_service import get_category_data
 
 from src.router.models import category_model
 
 _log = get_logger(__name__)
-
-from src.external.category_service import get_category_data
 
 api = Api()
 
