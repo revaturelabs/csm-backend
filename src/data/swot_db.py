@@ -27,8 +27,9 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
                 _log.debug('setting swot field')
                 uncased_swot['_id'] = _get_id()
                 swot_final = SWOT.from_dict(uncased_swot)
-                _swot.insert_one(swot_final.__dict__)
-                update_associate_swot(query_string, swot_final._id)
+                #_swot.insert_one(swot_final.__dict__)
+                update_associate_swot(query_string, swot_final)
+                #update_associate_swot(query_string, swot_final._id)
                 doc = swot_final.to_dict()
                 _log.debug(swot_final)
             except Exception as err:

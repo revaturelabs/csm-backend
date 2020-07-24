@@ -27,7 +27,7 @@ def read_one_associate_by_query(query_dict):
     ''' Takes in an associate query dict and returns one associate matching query. '''
     return _associates.find_one(query_dict)
 
-def update_associate_swot(query_dict, swot_id):
+def update_associate_swot(query_dict, swot):
     ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching 
     associate's swot field in the database. If there are no swots in the field (i.e. the field is
     null in the database), it creates an array with the swot_id inside instead. '''
@@ -36,9 +36,9 @@ def update_associate_swot(query_dict, swot_id):
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
         if update_user['swot'] == None:
-            _associates.update_one(query_dict, {'$set': {'swot': [swot_id]}})
+            _associates.update_one(query_dict, {'$set': {'swot': [swot]}})
         else:
-            _associates.update_one(query_dict, {'$push': {'swot': swot_id}})
+            _associates.update_one(query_dict, {'$push': {'swot': swot}})
         op_success = True
         _log.info('Successfully updated associate information.')
     except:
