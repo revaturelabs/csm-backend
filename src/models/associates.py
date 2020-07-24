@@ -1,6 +1,7 @@
 ''' This files provides the model for the Associate class '''
 
 import datetime
+from src.models.swot import SWOT
 
 class Associate():
     ''' Associate class describing behaviors and attributes of Associates '''
@@ -11,7 +12,8 @@ class Associate():
         self.batch_id = batch_id
         self.manager_id = manager_id
         self.end_date = end_date
-        self.swot = None
+        swot = SWOT()
+        self.swot = [swot]
         #Active > Benched > Deactivated
         self.status = "Active"
 

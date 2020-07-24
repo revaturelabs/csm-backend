@@ -4,7 +4,6 @@ import flask
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
-from src.data.date_time_conversion import converter as date_converter
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
@@ -48,7 +47,7 @@ class EmployeeRoute(Resource):
             emp_lst[i]['end_date'] = converter(emp_lst[i]['end_date'])
             if emp_lst[i]['swot']:
                 for swot in emp_lst[i]['swot']:
-                    swot['date_created'] = date_converter(swot['date_created'])
+                    swot['date_created'] = converter(swot['date_created'])
             else:
                 emp_lst[i]['swot'] = [{'author': 'trainer'}]
         _log.debug(emp_lst)
@@ -67,7 +66,7 @@ class EmployeeManagerRoute(Resource):
             swots = []
             if associate['swot']:
                 for swot in associate['swot']:
-                    swot['date_created'] = date_converter(swot['date_created'])
+                    swot['date_created'] = converter(swot['date_created'])
                     swots.append(swot)
             else:
                 associate['swot'] = [{'author': 'trainer'}]
@@ -89,9 +88,10 @@ class EmployeeIdRoute(Resource):
             res = assoc_db.read_one_associate_by_query({'email': user_id})
         if res['swot']:
             for swot in res['swot']:
-                swot['date_created'] = date_converter(swot['date_created'])
+                swot['date_created'] = converter(swot['date_created'])
         else:
             res['swot'] = [{'author': 'trainer'}]
+        res.pop('_id')
         _log.debug(res)
         res['end_date'] = converter(res['end_date'])
         return res

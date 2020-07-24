@@ -35,10 +35,7 @@ def update_associate_swot(query_dict, swot):
     try:
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
-        if update_user['swot'] == None:
-            _associates.update_one(query_dict, {'$set': {'swot': [swot]}})
-        else:
-            _associates.update_one(query_dict, {'$push': {'swot': swot}})
+        _associates.update_one(query_dict, {'$push': {'swot': swot}})
         op_success = True
         _log.info('Successfully updated associate information.')
     except:
