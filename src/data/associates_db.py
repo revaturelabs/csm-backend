@@ -39,13 +39,8 @@ def read_one_associate_by_query(query_dict):
     ''' Takes in an associate query dict and returns one associate matching query. '''
     return _associates.find_one(query_dict)
 
-<<<<<<< HEAD
-def update_associate_swot(query_dict, swot_id):
-    ''' Takes in a associate query_dict, a swot_id, and appends the swot_id to the matching
-=======
 def update_associate_swot(query_dict, swot):
     ''' Takes in a associate query_dict, a swot, and appends the swot
->>>>>>> c59c1fb4f072a0e9a12a11a88f49505a4816b0e9
     associate's swot field in the database. If there are no swots in the field (i.e. the field is
     null in the database), it creates an array with the swot_id inside instead. '''
     _log.debug(query_dict)
