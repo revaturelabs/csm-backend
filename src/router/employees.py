@@ -4,8 +4,13 @@ import flask
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
+from src.data.date_time_conversion import converter as date_converter
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
+<<<<<<< HEAD
+=======
+from src.data.date_time_conversion import converter
+>>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
 
 from src.models.swot import SWOT
 
@@ -38,7 +43,23 @@ class EmployeeRoute(Resource):
     @api.response(200, 'Success')
     def get(self):
         '''Function for handling GET /employees requests'''
+<<<<<<< HEAD
         return {'status': "yippee"}
+=======
+        emp_lst = list(assoc_db.read_all_associates())
+        for i in range(0, len(emp_lst) - 1):
+            if emp_lst[i]['_id'] == 'UNIQUE_COUNT':
+                del emp_lst[i]
+            emp_lst[i].pop('_id')
+            emp_lst[i]['end_date'] = converter(emp_lst[i]['end_date'])
+            if emp_lst[i]['swot']:
+                for swot in emp_lst[i]['swot']:
+                    swot['date_created'] = date_converter(swot['date_created'])
+            else:
+                emp_lst[i]['swot'] = [{'author': 'trainer'}]
+        _log.debug(emp_lst)
+        return emp_lst
+>>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
 
 @api.route('/employees/manager/<str:manager_id>')
 @api.doc()
@@ -47,7 +68,20 @@ class EmployeeManagerRoute(Resource):
     @api.response(200, 'Success')
     def get(self, manager_id):
         '''Function for handling GET /employees/manager/manager_id requests'''
-        return {'status': "yippee"}
+        associates = assoc_db.read_all_associates_by_query({'manager_id': manager_id})
+        to_return = []
+        for associate in associates:
+            swots = []
+            if associate['swot']:
+                for swot in associate['swot']:
+                    swot['date_created'] = date_converter(swot['date_created'])
+                    swots.append(swot)
+            else:
+                associate['swot'] = [{'author': 'trainer'}]
+            data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'], 'status': associate['status']}
+            to_return.append(data)
+        _log.debug(associates)
+        return to_return
 
 @api.route('/employees/<str:user_id>')
 @api.doc()
@@ -60,18 +94,23 @@ class EmployeeIdRoute(Resource):
             res = assoc_db.read_one_associate_by_query({'salesforce_id': user_id})
         else: # Assume it it is an email otherwise
             res = assoc_db.read_one_associate_by_query({'email': user_id})
-        
-        if res and 'swot' in res: # Replace the ID of the swot with the swot itself in response
-            for ind, swot in enumerate(res['swot']):
-                this_swot = SWOT.from_dict(swot_db.read_swot_by_id(res['swot'][ind]))
-                res['swot'][ind] = this_swot.to_dict()
-
+        if res['swot']:
+            for swot in res['swot']:
+                swot['date_created'] = date_converter(swot['date_created'])
+        else:
+            res['swot'] = [{'author': 'trainer'}]
+        _log.debug(res)
+        res['end_date'] = converter(res['end_date'])
         return res
 
     @api.doc(body=swot_fields)
     @api.response(200, 'Status code of response')
     def post(self, user_id):
+<<<<<<< HEAD
         '''Function for handling PUT /employees/user_id requests'''
+=======
+        '''Function for handling POST /employees/user_id requests'''
+>>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
         if 'SF' in user_id:
             res = swot_db.create_swot('salesforce_id', user_id, flask.request.get_json(force=True))
         else:
@@ -85,8 +124,10 @@ class EmployeeIdEvaluationsRoute(Resource):
     @api.response(200, 'Success')
     def get(self, user_id):
         '''Function for handling GET /employees/user_id/evaluations requests'''
+        query = {'email': user_id}
+        batch_id = assoc_db.get_associate_batch_id(query)
         sf_id = assoc_db.get_associate_sf_id(user_id)
         qc_data = get_qc_data(sf_id)
-        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id)
+        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id, batch_id)
         return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
                 'qc': qc_data}

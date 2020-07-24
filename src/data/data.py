@@ -27,7 +27,10 @@ class DatabaseConnection(metaclass=SingletonMeta):
         collections that it should have '''
         try:
             self._mongo = pymongo.MongoClient(os.getenv('MONGO_URI_PJ3'))
+<<<<<<< HEAD
             # self._mongo = pymongo.MongoClient(os.getenv('MONGO_URI'))
+=======
+>>>>>>> fa8d6c02c938522d25d09ac11d2429d8da4a79ed
             self._db = self._mongo.mongo_csm
             self._swot = self._db['swot']
             self._associates = self._db['associates']

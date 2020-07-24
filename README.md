@@ -1,6 +1,9 @@
 # csm-backend
 flask backend for Caliber Staging Module
 
+## Wiki
+https://github.com/revaturelabs/csm-backend/wiki
+
 ## Setup
 To preface, you may need to use `pip3` and `python3` in lieu of `pip` and `python`, you can use `pip --version` or `pip3 --version` to see which version of the `pip` command workd for you, likewise for `python --version` or `python3 --version`. If neither work, you need to install Python. This should be done first before proceeding.
 
