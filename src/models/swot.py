@@ -6,6 +6,7 @@ class SWOT():
     ''' This is the class '''
     def __init__(self):
         '''{datetime created, category, notes}'''
+        self.author = ''
         self.strengths = []
         self.weaknesses = []
         self.opportunities = []
