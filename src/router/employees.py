@@ -4,6 +4,7 @@ import flask
 from flask_restplus import Resource, Api, fields, Model
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
+from src.data.date_time_conversion import converter as date_converter
 import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
@@ -45,8 +46,13 @@ class EmployeeRoute(Resource):
                 del emp_lst[i]
             emp_lst[i].pop('_id')
             emp_lst[i]['end_date'] = converter(emp_lst[i]['end_date'])
+            if emp_lst[i]['swot']:
+                for swot in emp_lst[i]['swot']:
+                    swot['date_created'] = date_converter(swot['date_created'])
+            else:
+                emp_lst[i]['swot'] = [{'author': 'trainer'}]
         _log.debug(emp_lst)
-        return json.dumps(emp_lst)
+        return emp_lst
 
 @api.route('/employees/manager/<str:manager_id>')
 @api.doc()
@@ -55,7 +61,20 @@ class EmployeeManagerRoute(Resource):
     @api.response(200, 'Success')
     def get(self, manager_id):
         '''Function for handling GET /employees/manager/manager_id requests'''
-        return {'status': "yippee"}
+        associates = assoc_db.read_all_associates_by_query({'manager_id': manager_id})
+        to_return = []
+        for associate in associates:
+            swots = []
+            if associate['swot']:
+                for swot in associate['swot']:
+                    swot['date_created'] = date_converter(swot['date_created'])
+                    swots.append(swot)
+            else:
+                associate['swot'] = [{'author': 'trainer'}]
+            data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'], 'status': associate['status']}
+            to_return.append(data)
+        _log.debug(associates)
+        return to_return
 
 @api.route('/employees/<str:user_id>')
 @api.doc()
@@ -68,12 +87,13 @@ class EmployeeIdRoute(Resource):
             res = assoc_db.read_one_associate_by_query({'salesforce_id': user_id})
         else: # Assume it it is an email otherwise
             res = assoc_db.read_one_associate_by_query({'email': user_id})
-        
-        if res and 'swot' in res: # Replace the ID of the swot with the swot itself in response
-            for ind, swot in enumerate(res['swot']):
-                this_swot = SWOT.from_dict(swot_db.read_swot_by_id(res['swot'][ind]))
-                res['swot'][ind] = this_swot.to_dict()
-
+        if res['swot']:
+            for swot in res['swot']:
+                swot['date_created'] = date_converter(swot['date_created'])
+        else:
+            res['swot'] = [{'author': 'trainer'}]
+        _log.debug(res)
+        res['end_date'] = converter(res['end_date'])
         return res
 
     @api.doc(body=swot_fields)
