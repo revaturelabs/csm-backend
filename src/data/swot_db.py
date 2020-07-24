@@ -27,8 +27,7 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
                 _log.debug('setting swot field')
                 uncased_swot['_id'] = _get_id()
                 swot_final = SWOT.from_dict(uncased_swot)
-                _swot.insert_one(swot_final.__dict__)
-                update_associate_swot(query_string, swot_final._id)
+                update_associate_swot(query_string, swot_final)
                 doc = swot_final.to_dict()
                 _log.debug(swot_final)
             except Exception as err:
@@ -42,10 +41,6 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
         _log.debug('query is wrong')
         doc = 'Incorrect query parameters'
     return doc
-
-def read_swot_by_id(swot_id):
-    ''' This function will be for retrieving a swot from the database '''
-    return _swot.find_one({'_id': swot_id})
 
 def _get_id():
     '''Retrieves the next id in the database and increments it'''

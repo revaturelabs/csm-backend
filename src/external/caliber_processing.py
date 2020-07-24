@@ -2,7 +2,7 @@
 
 import json
 
-from src.external import evaluation_service, category_service, evaluation_service, qc_service, training_service
+from src.external import evaluation_service, category_service, qc_service, training_service
 import src.data.associates_db as assoc_db
 from src.logging.logger import get_logger
 
