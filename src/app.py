@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_restplus import Api
+from flask_cors import CORS
 from src.router.batches import BatchRoute, BatchIndividualRoute
 from src.router.managers import ManagerRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
@@ -10,6 +11,9 @@ from src.router.categories import CategoryRoute
 
 api = Api() # Initialize an instance of the Flask RestPLUS API class
 app = Flask(__name__) # Initialize Flask
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+# Initialize CORS for cross origin requests for testing purposes
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Initialize and run the API
