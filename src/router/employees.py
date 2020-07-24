@@ -52,7 +52,7 @@ class EmployeeRoute(Resource):
             else:
                 emp_lst[i]['swot'] = [{}]
         _log.debug(emp_lst)
-        return json.dumps(emp_lst)
+        return emp_lst
 
 @api.route('/employees/manager/<str:manager_id>')
 @api.doc()
