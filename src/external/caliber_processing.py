@@ -24,27 +24,13 @@ def get_qc_data(associate_id):
         skill = qc_service.get_qc_category(batchId, week)
         process_data.append({})
 
-def preload_location_weights(batches):
-    ''' This function will aggregate the incoming batches and their locations '''
-    locations = {}
-    current_run = datetime.datetime.today()
-    next_run = current_run + datetime.timedelta(days=7)
-    
-    for batch in batches:
-        end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
-        if current_run < end_date < next_run:
-            if batch['location'] in locations.keys():
-                locations[batch['location']] += len(batch['associateAssignments'])
-            else:
-                locations[batch['location']] = len(batch['associateAssignments'])
-    
-    return locations
-
-def assignment_weight(locations, this_batch):
+def assignment_weight(this_batch):
     ''' This function will determine which manager to assign batches on depending on the current
     number of already assigned assciates, as well as by location preference '''
     managers = manager_db.read_all_managers()
     current_assignments = manager_db.assignment_counter()
+
+    _log.debug(current_assignments)
 
     for manager in managers:
         for count in current_assignments:
@@ -59,41 +45,45 @@ def assignment_weight(locations, this_batch):
     _log.debug(type(managers))
     managers = sorted(managers, key = lambda i: i['total'])
     if len(managers) > 1:
-        if managers[0]['total']:
-            disparity = (managers[1]['totals'] - managers[0]['totals'])/managers[0]['totals']
+        if managers[0]['total'] > 0:
+            disparity = (managers[1]['total'] - managers[0]['total'])/managers[0]['total']
             if disparity >= 0.2:
+                _log.debug('Assigned by disparity')
                 return managers[0]['_id']
             else:
-                print("By location")
                 for manager in managers:
                     if this_batch['location'] in manager['preferred_locations']:
+                        _log.debug('Assigned by location')
+                        _log.debug('Batch location: %s', this_batch['location'])
+                        _log.debug('Manager: %s', manager['_id'])
                         return manager['_id']
         return managers[0]['_id']               
 
-def get_new_graduates():
-    '''associates, end date, batchid'''
+def get_batches():
+    '''this function will return a list of current batches'''
     batches = training_service.batch_current()
-    b = batches[0]
+    return batches
+
+def get_new_graduates(batch):
+    '''associates, end date, batchid'''
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
     assocArr = []
-    locations = preload_location_weights(batches)
-    for batch in batches:
-        manager_id = assignment_weight(locations, batch)
-        end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
-        if current_run < end_date < next_run:
-            batch_id = batch['batchId']
-            trainer_list = []
-            for trainer in b['employeeAssignments']:
-                temp = trainer['employee']
-                name = temp['firstName'] + ' ' + temp['lastName']
-                trainer_list.append(name)
-            for assoc in batch['associateAssignments']:
-                temp = assoc['associate']
-                assoc_name = temp['firstName'] + ' ' + temp['lastName']
-                manager_db.update_batches(manager_id, batch_id)
-                assocArr.append(Associate(str(temp['salesforceId']), assoc_name, str(temp['email']),
-                                          str(batch_id), str(manager_id), trainers=trainer_list, end_date=end_date))
+    manager_id = assignment_weight(batch)
+    end_date = datetime.datetime.strptime(batch['endDate'], '%Y-%m-%d')
+    if current_run < end_date < next_run:
+        batch_id = batch['batchId']
+        trainer_list = []
+        for trainer in batch['employeeAssignments']:
+            temp = trainer['employee']
+            name = temp['firstName'] + ' ' + temp['lastName']
+            trainer_list.append(name)
+        for assoc in batch['associateAssignments']:
+            temp = assoc['associate']
+            assoc_name = temp['firstName'] + ' ' + temp['lastName']
+            manager_db.update_batches(manager_id, batch_id)
+            assocArr.append(Associate(str(temp['salesforceId']), assoc_name, str(temp['email']),
+                                        str(batch_id), str(manager_id), trainers=trainer_list, end_date=end_date))
     return assocArr
 
 

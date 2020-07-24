@@ -5,7 +5,7 @@ from src.data.data import DatabaseConnection
 
 from src.models.associates import Associate
 
-from src.external.caliber_processing import get_new_graduates
+from src.external.caliber_processing import get_batches, get_new_graduates
 
 from src.logging.logger import get_logger
 
@@ -20,13 +20,15 @@ def create_associate(new_associate: Associate):
 
 def create_associates_from_scheduler():
     ''' Calls the processing function to get a list of associates being promoted '''
-    associate_list = get_new_graduates()
-    for associate in associate_list:
-        try:
-            create_associate(associate)
-            _log.info('Associate added %s.', associate.get_salesforce_id())
-        except:
-            _log.info("Unable to add associate %s already exists.", associate.get_salesforce_id())
+    batches = get_batches()
+    for batch in batches:
+        associate_list = get_new_graduates(batch)
+        for associate in associate_list:
+            try:
+                create_associate(associate)
+                _log.info('Associate added %s.', associate.get_salesforce_id())
+            except:
+                _log.info("Unable to add associate %s already exists.", associate.get_salesforce_id())
 
 def read_all_associates():
     '''Returns all associates'''
