@@ -19,7 +19,7 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
         # Make swot keys all lowercase so that the request is case insensetive, and so it
         # validates correctly
         uncased_swot = {key.lower(): val for key, val in new_swot.items()}
-        required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes']
+        required_fields = ['strengths', 'weaknesses', 'opportunities', 'threats', 'notes', 'date_created', 'author']
         _log.debug(uncased_swot)
         # Verify that all the keys of the uncased_swot dict are in the required fields list
         if all(field in uncased_swot for field in required_fields):
