@@ -42,10 +42,6 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
         doc = 'Incorrect query parameters'
     return doc
 
-def read_swot_by_id(swot_id):
-    ''' This function will be for retrieving a swot from the database '''
-    return _swot.find_one({'_id': swot_id})
-
 def _get_id():
     '''Retrieves the next id in the database and increments it'''
     return _swot.find_one_and_update({'_id': 'UNIQUE_COUNT'},
