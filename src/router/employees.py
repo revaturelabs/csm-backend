@@ -22,7 +22,6 @@ _log = get_logger(__name__)
 api = Api()
 
 @api.route('/employees')
-@api.doc()
 class EmployeeRoute(Resource):
     '''Class for routing employee requests'''
     @api.response(200, 'Success', associate_model)
@@ -43,7 +42,6 @@ class EmployeeRoute(Resource):
         return emp_lst
 
 @api.route('/employees/manager/<str:manager_id>')
-@api.doc()
 class EmployeeManagerRoute(Resource):
     '''Class for routing employee/manager/manager_id requests'''
     @api.response(200, 'Success', associate_model_manager_view)
@@ -65,7 +63,6 @@ class EmployeeManagerRoute(Resource):
         return to_return
 
 @api.route('/employees/<str:user_id>')
-@api.doc()
 class EmployeeIdRoute(Resource):
     '''Class for routing employee/user_id requests'''
     @api.response(200, 'Success', associate_model)
@@ -95,7 +92,6 @@ class EmployeeIdRoute(Resource):
         return res
 
 @api.route('/employees/<str:user_id>/evaluations')
-@api.doc()
 class EmployeeIdEvaluationsRoute(Resource):
     '''Class for routing employee/user_id/evaluations requests'''
     @api.response(200, 'Success', associate_evaluation_model)

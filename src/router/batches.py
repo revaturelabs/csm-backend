@@ -17,7 +17,6 @@ _log = get_logger(__name__)
 api = Api()
 
 @api.route('/batches')
-@api.doc()
 class BatchRoute(Resource):
     '''Class for routing batch requests'''
     @api.response(200, 'Success', batch_model)
@@ -35,7 +34,6 @@ class BatchRoute(Resource):
         return batches
 
 @api.route('/batches/<str:batch_id>')
-@api.doc()
 class BatchIndividualRoute(Resource):
     '''Class for routing batch requests'''
     @api.response(200, 'Success', batch_model)

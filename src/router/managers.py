@@ -11,7 +11,6 @@ _log = get_logger(__name__)
 api = Api()
 
 @api.route('/managers/<str:manager_id>')
-@api.doc()
 class ManagerRoute(Resource):
     '''Class for routing manager requests'''
     @api.response(200, 'Test success', manager_model)
