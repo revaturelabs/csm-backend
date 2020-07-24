@@ -25,7 +25,7 @@ class BatchRoute(Resource):
         for manager in manager_lst:
             for batch in manager['batches']:
                 batch_info = get_batch_info(batch)
-                _log.debug(batch_info)
+                # _log.debug(batch_info)
                 batches.append({'batchID': batch, 'batchName': batch_info['name'],'skill': batch_info['skill'],
                                 'manager': manager['username'], 'trainer': batch_info['trainer'],
                                 'promotionDate': batch_info['promotion date'], 'associates': batch_info['associates']})

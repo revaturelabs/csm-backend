@@ -11,7 +11,7 @@ _log = get_logger(__name__)
 def get_qc_data(associate_id):
     '''this function gets qc data from caliber from a salesforce id'''
     notes = qc_service.get_note_headers(associate_id)
-    _log.debug(qc_service.get_note_headers)
+    # _log.debug(qc_service.get_note_headers)
     _log.debug(notes)
     process_data = []
     for note in notes:
@@ -41,7 +41,7 @@ def get_batch_and_associate_spider_data(associate_email, batch_id):
 def get_batch_info(batch_id):
     ''' gets high level batch info from caliber'''
     batch = training_service.get_batch_by_id(batch_id)
-    _log.debug(batch)
+    # _log.debug(batch)
     associates = []
     for i in batch['associateAssignments']:
         temp = i['associate']

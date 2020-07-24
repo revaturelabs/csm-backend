@@ -17,4 +17,4 @@ class ManagerRoute(Resource):
     # @api.expect(password)
     def post(self, manager_id):
         '''Function for handling POST /manager requests'''
-        return json.loads(json.dumps(manage_db.manager_login(manager_id)))
+        return manage_db.manager_login(manager_id)
