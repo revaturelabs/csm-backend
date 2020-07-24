@@ -2,7 +2,6 @@
    grade-controller and note-controller'''
 
 import os
-import json
 import requests
 
 from src.logging.logger import get_logger

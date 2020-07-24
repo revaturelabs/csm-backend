@@ -1,12 +1,9 @@
 ''' File to define Associate MongoDB operations. '''
 import pymongo
-
 from src.data.data import DatabaseConnection
 
 from src.models.associates import Associate
-
 from src.external.caliber_processing import get_batches, get_new_graduates
-
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -28,7 +25,8 @@ def create_associates_from_scheduler():
                 create_associate(associate)
                 _log.info('Associate added %s.', associate.get_salesforce_id())
             except:
-                _log.info("Unable to add associate %s already exists.", associate.get_salesforce_id())
+                _log.info("Unable to add associate %s already exists.",
+                          associate.get_salesforce_id())
 
 def read_all_associates():
     '''Returns all associates'''
@@ -50,7 +48,7 @@ def update_associate_swot(query_dict, swot):
     try:
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
-        if update_user['swot'] == None:
+        if update_user['swot'] is None:
             _associates.update_one(query_dict, {'$set': {'swot': [swot]}})
         else:
             _associates.update_one(query_dict, {'$push': {'swot': swot}})

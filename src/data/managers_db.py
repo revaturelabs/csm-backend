@@ -10,7 +10,8 @@ _managers = DB.get_managers_collection()
 _associates = DB.get_associates_collection()
 
 def manager_login(manager_email):
-    '''A function that takes in an email and return the corresponding staging manager if one exists'''
+    '''A function that takes in an email and return the
+    corresponding staging manager if one exists'''
     query_dict = {'_id': manager_email}
     manager = _managers.find_one(query_dict)
     return manager
@@ -29,12 +30,12 @@ def assignment_counter():
             '$match': {'$or': [{'status': 'Active'}, {'status': 'Benched'}]}
         },
         {
-            '$group': { '_id': '$manager_id', 'count': {'$sum': 1} }
+            '$group': {'_id': '$manager_id', 'count': {'$sum': 1}}
         }
     ]))
 
 def update_batches(manager, new_batch):
-    '''This will take in a manager and a new batch, updating the manager's array of batches with 
+    '''This will take in a manager and a new batch, updating the manager's array of batches with
     the new batch id'''
     query = {'_id': manager}
     _managers.update_one(query, {'$addToSet': {'batches': new_batch}})

@@ -3,7 +3,7 @@ import unittest
 import unittest.mock as mock
 from src.data.managers_db import manager_login
 
-class TestDatabase(unittest.TestCase):
+class ManagerTestDatabase(unittest.TestCase):
     ''' This is the database test suite '''
     @mock.patch('src.data.managers_db._managers.find_one')
     def test_manager_login(self, mock_find):
