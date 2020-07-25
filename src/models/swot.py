@@ -7,12 +7,12 @@ class SWOT():
     def __init__(self):
         '''{datetime created, category, notes}'''
         self.author = ''
-        self.strengths = []
-        self.weaknesses = []
-        self.opportunities = []
-        self.threats = []
+        self.Strengths = []
+        self.Weaknesses = []
+        self.Opportunities = []
+        self.Threats = []
         self.notes = None
-        self.date_created = datetime.datetime.now()
+        self.date_created = ''  #datetime.datetime.now()
 
     def add_swot_item(self, swot_type, content):
         '''Adding item to swot content'''
@@ -25,8 +25,8 @@ class SWOT():
     def to_dict(self):
         ''' Return a dict with a stringified date '''
         return_dict = self.__dict__
-        stringified_date = self.date_created.strftime('%Y-%m-%d')
-        return_dict['date_created'] = stringified_date
+        # stringified_date = self.date_created.strftime('%Y-%m-%d')
+        # return_dict['date_created'] = stringified_date
         return return_dict
 
     @classmethod

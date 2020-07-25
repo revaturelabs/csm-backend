@@ -48,10 +48,12 @@ def update_associate_swot(query_dict, swot):
     try:
         update_user = _associates.find_one(query_dict)
         _log.debug(update_user)
+        _log.debug(swot)
         _associates.update_one(query_dict, {'$push': {'swot': swot}})
         op_success = True
         _log.info('Successfully updated associate information.')
-    except:
+    except Exception as err:
+        _log.error(err)
         op_success = False
         _log.info('Failed to update associate information.')
     return op_success
