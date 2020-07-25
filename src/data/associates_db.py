@@ -21,17 +21,6 @@ def create_associate(new_associate: Associate):
     new_associate.set_id(_get_id())
     _associates.insert_one(new_associate.to_dict())
 
-<<<<<<< HEAD
-def create_scheduled_associates():
-    '''Calls the processing function to get a list of associate objects'''
-    associate_list = get_new_graduates()
-    for associate in associate_list:
-        try:
-            create_associate(associate)
-            _log.info('Associate added %s', associate.get_salesforce_id())
-        except:
-            _log.info('Unable to add associate %s already exists', associate.get_salesforce_id())
-=======
 def create_associates_from_scheduler():
     ''' Calls the processing function to get a list of associates being promoted '''
     batches = get_batches()
@@ -44,7 +33,6 @@ def create_associates_from_scheduler():
             except:
                 _log.info("Unable to add associate %s already exists.",
                           associate.get_salesforce_id())
->>>>>>> 086282fe9864aefc14c57c1c1ec0f913ea60d445
 
 def read_all_associates():
     '''Returns all associates'''
