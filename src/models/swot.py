@@ -11,7 +11,6 @@ class SWOT():
         self.Weaknesses = []
         self.Opportunities = []
         self.Threats = []
-        self.notes = None
         self.date_created = ''  #datetime.datetime.now()
 
     def add_swot_item(self, swot_type, content):
