@@ -4,7 +4,7 @@ import datetime
 import json
 from src.external import training_service, evaluation_service, qc_service
 from src.models.associates import Associate
-import src.data.associates_db as assoc_db
+# import src.data.associates_db as assoc_db
 import src.data.managers_db as manager_db
 from src.logging.logger import get_logger
 _log = get_logger(__name__)
@@ -86,16 +86,16 @@ def get_new_graduates(batch):
     return assoc_lst
 
 
-def get_spider_data(associate_email):
-    '''gets associate spider data from an associate email'''
-    query = {'email': associate_email}
-    batch_id = assoc_db.get_associate_batch_id(query)
-    spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
-    spider_data = json.loads(spider_data)
-    for data_dict in spider_data:
-        data_dict.pop('traineeId')
-        data_dict.pop('weight')
-    return spider_data
+# def get_spider_data(associate_email):
+#     '''gets associate spider data from an associate email'''
+#     query = {'email': associate_email}
+#     batch_id = assoc_db.get_associate_batch_id(query)
+#     spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
+#     spider_data = json.loads(spider_data)
+#     for data_dict in spider_data:
+#         data_dict.pop('traineeId')
+#         data_dict.pop('weight')
+#     return spider_data
 
 def get_batch_and_associate_spider_data(associate_email, batch_id):
     '''gets associate spider data from an associate email'''
