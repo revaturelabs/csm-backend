@@ -29,7 +29,8 @@ class SwotTests(unittest.TestCase):
             'weaknesses': ['weaknesses'],
             'opportunities': ['opportunities'],
             'threats': ['threats'],
-            'notes': 'notes'
+            'notes': 'notes',
+            'date_created': 'the past'
         }
         new_swot = SWOT.from_dict(new_swot_dict)
         self.assertEqual(new_swot.__class__, SWOT)
