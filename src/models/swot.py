@@ -6,12 +6,13 @@ class SWOT():
     ''' This is the class '''
     def __init__(self):
         '''{datetime created, category, notes}'''
-        self.author = ''
+        self.author = 'trainer'
         self.Strengths = []
         self.Weaknesses = []
         self.Opportunities = []
         self.Threats = []
-        self.date_created = ''  #datetime.datetime.now()
+        self.Notes = ''
+        self.date_created = datetime.datetime.now()
 
     def add_swot_item(self, swot_type, content):
         '''Adding item to swot content'''

@@ -5,15 +5,16 @@ from src.data.managers_db import get_all_info, get_managers_by_batch
 from src.external.caliber_processing import get_batch_info
 from src.logging.logger import get_logger
 
+from src.router.models import batch_model
+
 _log = get_logger(__name__)
 
 api = Api()
 
 @api.route('/batches')
-@api.doc()
 class BatchRoute(Resource):
     '''Class for routing batch requests'''
-    @api.response(200, 'Test success')
+    @api.response(200, 'Success', batch_model)
     def get(self):
         ''' Function for handling GET /batches requests '''
         manager_lst = get_all_info()
@@ -30,10 +31,9 @@ class BatchRoute(Resource):
         return batches
 
 @api.route('/batches/<str:batch_id>')
-@api.doc()
 class BatchIndividualRoute(Resource):
     '''Class for routing batch requests'''
-    @api.response(200, 'Test success')
+    @api.response(200, 'Success', batch_model)
     def get(self, batch_id):
         ''' Function for handling GET /batches/batch_id requests '''
         batch_info = get_batch_info(batch_id)

@@ -41,8 +41,8 @@ class AssociateTestDatabase(unittest.TestCase):
     def test_update_associate_swot(self, mock_find):
         ''' This method will test the update associate swot function '''
         mock_find.return_value = {'salesforce_id': 'SF-1111', 'email': 'mock12@revature.com',
-                                    'batch_id': 'TR-9999', 'manager_id': 'Julie',
-                                    'end_date': 'null', 'swot': None, 'status': 'Active'}
+                                  'batch_id': 'TR-9999', 'manager_id': 'Julie',
+                                  'end_date': 'null', 'swot': None, 'status': 'Active'}
 
         test = update_associate_swot({'salesforce_id': 'SF-1111'}, 'swot')
 
@@ -50,8 +50,8 @@ class AssociateTestDatabase(unittest.TestCase):
         self.assertTrue(test)
 
         mock_find.return_value = {'salesforce_id': 'SF-1111', 'email': 'mock12@revature.com',
-                                    'batch_id': 'TR-9999', 'manager_id': 'Julie',
-                                    'end_date': 'null', 'swot': 'swot info', 'status': 'Active'}
+                                  'batch_id': 'TR-9999', 'manager_id': 'Julie',
+                                  'end_date': 'null', 'swot': 'swot info', 'status': 'Active'}
 
         test = update_associate_swot({'salesforce_id': 'SF-1111'}, 'swot')
 
@@ -81,8 +81,8 @@ class AssociateTestDatabase(unittest.TestCase):
     def test_get_associate_sf_id(self, mock_find):
         ''' This method will test the get_associate_sf_id function '''
         mock_find.return_value = {'salesforce_id': 'SF-1111', 'email': 'mock12@revature.com',
-                                    'batch_id': 'TR-9999', 'manager_id': 'Julie',
-                                    'end_date': 'null', 'swot': 'null', 'status': 'Active'}
+                                  'batch_id': 'TR-9999', 'manager_id': 'Julie',
+                                  'end_date': 'null', 'swot': 'null', 'status': 'Active'}
 
         salesforce = get_associate_sf_id({'email': 'mock12@revature.com'})
 

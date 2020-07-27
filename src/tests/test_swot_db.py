@@ -14,7 +14,7 @@ class TestDatabase(unittest.TestCase):
 
         self.assertFalse(mock_update.called)
 
-        create_swot('query_key', 'query_val', {'strengths': 'new_strengths', 
+        create_swot('query_key', 'query_val', {'strengths': 'new_strengths',
                                                'weaknesses': 'new_weaknesses',
                                                'opportunities': 'new_opportunities',
                                                'threats': 'new_threats',
@@ -22,7 +22,7 @@ class TestDatabase(unittest.TestCase):
 
         self.assertFalse(mock_update.called)
 
-        create_swot('email', 'query_val', {'strengths': 'new_strengths', 
+        create_swot('email', 'query_val', {'strengths': 'new_strengths',
                                            'weaknesses': 'new_weaknesses',
                                            'opportunities': 'new_opportunities',
                                            'threats': 'new_threats',
