@@ -36,7 +36,6 @@ class EmployeeRoute(Resource):
                     swot['date_created'] = converter(swot['date_created'])
             else:
                 emp_lst[i]['swot'] = [{'author': 'trainer'}]
-        _log.debug(emp_lst)
         return emp_lst
 
 @api.route('/employees/manager/<str:manager_id>')
@@ -58,7 +57,6 @@ class EmployeeManagerRoute(Resource):
             data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'],
                     'status': associate['status']}
             to_return.append(data)
-        _log.debug(associates)
         return to_return
 
 @api.route('/employees/<str:user_id>')
@@ -77,7 +75,6 @@ class EmployeeIdRoute(Resource):
         else:
             res['swot'] = [{'author': 'trainer'}]
         res.pop('_id')
-        _log.debug(res)
         res['end_date'] = converter(res['end_date'])
         return res
 

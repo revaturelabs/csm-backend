@@ -8,9 +8,7 @@ from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
 EXTERNAL_API = os.getenv('EXTERNAL_API')
-_log.debug(EXTERNAL_API)
 _caliber = EXTERNAL_API + 'evaluation'
-_log.debug(_caliber)
 
 def get_associate_spider_data(batch_id, associate_email):
     '''this method hits the Caliber evaluation-controller
