@@ -16,7 +16,7 @@ class BatchRoute(Resource):
     '''Class for routing batch requests'''
     @api.response(200, 'Success', batch_model)
     def get(self):
-        ''' Function for handling GET /batches requests '''
+        ''' Retrieves all batches from the database '''
         manager_lst = get_all_info()
         batches = []
         for manager in manager_lst:
@@ -34,7 +34,7 @@ class BatchIndividualRoute(Resource):
     '''Class for routing batch requests'''
     @api.response(200, 'Success', batch_model)
     def get(self, batch_id):
-        ''' Function for handling GET /batches/batch_id requests '''
+        ''' Retrieves a batch by batch id '''
         batch_info = get_batch_info(batch_id)
         manager = get_managers_by_batch(batch_id)
         batch = ({'batchID': batch_id, 'batchName': batch_info['name'],

@@ -21,7 +21,7 @@ class EmployeeRoute(Resource):
     '''Class for routing employee requests'''
     @api.response(200, 'Success', associate_model)
     def get(self):
-        '''Function for handling GET /employees requests'''
+        '''Retrieves a list of employees from the document'''
         emp_lst = list(assoc_db.read_all_associates())
         for i in range(0, len(emp_lst) - 1):
             if emp_lst[i]['_id'] == 'UNIQUE_COUNT':

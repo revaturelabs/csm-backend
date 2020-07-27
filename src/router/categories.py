@@ -15,5 +15,5 @@ class CategoryRoute(Resource):
     '''Class for routing category requests'''
     @api.response(200, 'Success', category_model)
     def get(self):
-        '''Function for handling GET /categories requests'''
+        '''Retrieves a list of categories from Caliber api'''
         return get_category_data()
