@@ -1,10 +1,8 @@
 ''' Handles manager routes. Only login for now '''
-import json
-from flask_restplus import Resource, Api, Model
+
+from flask_restplus import Resource, Api
 import src.data.managers_db as manage_db
 from src.logging.logger import get_logger
-
-from src.router.models import manager_model
 
 _log = get_logger(__name__)
 

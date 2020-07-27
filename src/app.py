@@ -8,6 +8,10 @@ from src.router.models import swot_item, swot_fields, associate_model, associate
                               qc_note_model, associate_evaluation_model, manager_model
 from flask_restplus import Api, Resource
 from apscheduler.schedulers.background import BackgroundScheduler
+from src.router.models import swot_item, swot_fields, associate_model, associate_model_short, \
+                              trainer_info_model, associate_model_trainer, category_model, \
+                              batch_model, associate_model_manager_view, spider_data_model, \
+                              qc_note_model, associate_evaluation_model, manager_model
 from src.router.batches import BatchRoute, BatchIndividualRoute
 from src.router.managers import ManagerRoute
 from src.router.employees import EmployeeRoute, EmployeeManagerRoute, EmployeeIdRoute, \
@@ -20,7 +24,7 @@ app = Flask(__name__) # Initialize Flask
 #Initialize the scheduler
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=create_associates_from_scheduler, trigger="cron",
-                  day_of_week='wed', hour=11, minute=2)
+                  day_of_week='fri', hour=18)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 

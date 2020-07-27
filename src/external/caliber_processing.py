@@ -4,7 +4,10 @@ import datetime
 import json
 from src.external import training_service, evaluation_service, qc_service
 from src.models.associates import Associate
+<<<<<<< HEAD
 # import src.data.associates_db as assoc_db
+=======
+>>>>>>> fc8a94b1e9126d5085ab258576561608ae0f19b7
 import src.data.managers_db as manager_db
 from src.logging.logger import get_logger
 _log = get_logger(__name__)
@@ -47,16 +50,12 @@ def assignment_weight(this_batch):
             else:
                 for manager in managers:
                     if this_batch['location'] in manager['preferred_locations']:
-                        _log.debug('Assigned by location')
-                        _log.debug('Batch location: %s', this_batch['location'])
-                        _log.debug('Manager: %s', manager['_id'])
+                        _log.info('Assigned by location')
+                        _log.info('Batch location: %s', this_batch['location'])
+                        _log.info('Manager: %s', manager['_id'])
                         return manager['_id']
         return managers[0]['_id']
 
-def get_batches():
-    '''this function will return a list of current batches'''
-    batches = training_service.batch_current()
-    return batches
 
 def get_new_graduates(batch):
     '''associates, end date, batchid'''
@@ -86,35 +85,17 @@ def get_new_graduates(batch):
     return assoc_lst
 
 
-# def get_spider_data(associate_email):
-#     '''gets associate spider data from an associate email'''
-#     query = {'email': associate_email}
-#     batch_id = assoc_db.get_associate_batch_id(query)
-#     spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
-#     spider_data = json.loads(spider_data)
-#     for data_dict in spider_data:
-#         data_dict.pop('traineeId')
-#         data_dict.pop('weight')
-#     return spider_data
-
 def get_batch_and_associate_spider_data(associate_email, batch_id):
     '''gets associate spider data from an associate email'''
     batch_spider_data = evaluation_service.get_batch_spider_data(batch_id)
     batch_spider_data = json.loads(batch_spider_data)
-    # for data_dict in batch_spider_data:
-    #     data_dict.pop('traineeId')
-    #     data_dict.pop('weight')
     associate_spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
     associate_spider_data = json.loads(associate_spider_data)
-    # for data_dict in associate_spider_data:
-    #     data_dict.pop('traineeId')
-    #     data_dict.pop('weight')
     return batch_spider_data, associate_spider_data
 
 def get_batch_info(batch_id):
     ''' gets high level batch info from caliber'''
     batch = training_service.get_batch_by_id(batch_id)
-    # _log.debug(batch)
     associates = []
     for i in batch['associateAssignments']:
         temp = i['associate']

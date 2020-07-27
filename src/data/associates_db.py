@@ -3,7 +3,8 @@ import pymongo
 from src.data.data import DatabaseConnection
 
 from src.models.associates import Associate
-from src.external.caliber_processing import get_batches, get_new_graduates
+from src.external.caliber_processing import get_new_graduates
+from src.external.training_service import batch_current
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
@@ -13,11 +14,12 @@ _associates = DatabaseConnection().get_associates_collection()
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
     new_associate.set_id(_get_id())
+    _log.debug(new_associate.to_dict())
     _associates.insert_one(new_associate.to_dict())
 
 def create_associates_from_scheduler():
     ''' Calls the processing function to get a list of associates being promoted '''
-    batches = get_batches()
+    batches = batch_current()
     for batch in batches:
         associate_list = get_new_graduates(batch)
         for associate in associate_list:

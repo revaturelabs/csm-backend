@@ -4,7 +4,6 @@ import flask
 from flask_restplus import Resource, Api
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
-import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
 
