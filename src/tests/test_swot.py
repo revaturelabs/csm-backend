@@ -11,7 +11,7 @@ class SwotTests(unittest.TestCase):
         new_swot = SWOT()
         self.assertEqual(new_swot.__class__, SWOT)
 
-     def test_from_dict(self):
+    def test_from_dict(self):
         ''' This will test the from_dict classmethod. '''
         new_swot_dict = {
             'Strengths': ['strengths'],

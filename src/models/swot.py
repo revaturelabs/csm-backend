@@ -12,7 +12,7 @@ class SWOT():
         self.Opportunities = []
         self.Threats = []
         self.Notes = ''
-        self.date_created = datetime.datetime.now()
+        self.date_created = datetime.datetime.now().replace(microsecond=0)
 
     def to_dict(self):
         ''' Return a dict with a stringified date '''
