@@ -14,7 +14,6 @@ _associates = DatabaseConnection().get_associates_collection()
 def create_associate(new_associate: Associate):
     '''Creates a new associate in the database'''
     new_associate.set_id(_get_id())
-    _log.debug(new_associate.to_dict())
     _associates.insert_one(new_associate.to_dict())
 
 def create_associates_from_scheduler():
@@ -46,11 +45,7 @@ def update_associate_swot(query_dict, swot):
     ''' Takes in a associate query_dict, a swot, and appends the swot
     associate's swot field in the database. If there are no swots in the field (i.e. the field is
     null in the database), it creates an array with the swot inside instead. '''
-    _log.debug(query_dict)
     try:
-        update_user = _associates.find_one(query_dict)
-        _log.debug(update_user)
-        _log.debug(swot)
         _associates.update_one(query_dict, {'$push': {'swot': swot}})
         op_success = True
         _log.info('Successfully updated associate information.')

@@ -12,8 +12,6 @@ _log = get_logger(__name__)
 def get_qc_data(associate_id):
     '''this function gets qc data from caliber from a salesforce id'''
     notes = qc_service.get_note_headers(associate_id)
-    # _log.debug(qc_service.get_note_headers)
-    _log.debug(notes)
     process_data = []
     for note in notes:
         if note['content']:
