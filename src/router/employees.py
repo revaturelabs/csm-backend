@@ -11,8 +11,6 @@ from src.router.models import swot_fields, swot_item, associate_model, \
                               associate_model_manager_view, spider_data_model, qc_note_model, \
                               associate_evaluation_model
 
-from src.models.swot import SWOT
-
 from src.logging.logger import get_logger
 
 _log = get_logger(__name__)
