@@ -4,10 +4,6 @@ import datetime
 import json
 from src.external import training_service, evaluation_service, qc_service
 from src.models.associates import Associate
-<<<<<<< HEAD
-# import src.data.associates_db as assoc_db
-=======
->>>>>>> fc8a94b1e9126d5085ab258576561608ae0f19b7
 import src.data.managers_db as manager_db
 from src.logging.logger import get_logger
 _log = get_logger(__name__)
