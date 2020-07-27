@@ -11,17 +11,6 @@ class SwotTests(unittest.TestCase):
         new_swot = SWOT()
         self.assertEqual(new_swot.__class__, SWOT)
 
-    def test_add_swot_item(self):
-        ''' This will test the add_swot_item member function of a SWOT object '''
-        new_swot = SWOT()
-        new_swot.add_swot_item('strengths', 'Test strength')
-        self.assertEqual(len(new_swot.Strengths), 1) # The strengths array should have 1 item in it
-        new_swot_two = new_swot
-        new_swot_two.add_swot_item('nothing', 'Doesnt matter')
-        self.assertEqual(new_swot, new_swot_two) # These should be equal because the function should
-                                                 # return the target swot unmodified if the field
-                                                 # doesn't exist
-
     def test_from_dict(self):
         ''' This will test the from_dict classmethod. '''
         new_swot_dict = {

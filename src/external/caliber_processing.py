@@ -12,8 +12,6 @@ _log = get_logger(__name__)
 def get_qc_data(associate_id):
     '''this function gets qc data from caliber from a salesforce id'''
     notes = qc_service.get_note_headers(associate_id)
-    # _log.debug(qc_service.get_note_headers)
-    _log.debug(notes)
     process_data = []
     for note in notes:
         if note['content']:
@@ -50,7 +48,7 @@ def assignment_weight(this_batch):
                         _log.info('Batch location: %s', this_batch['location'])
                         _log.info('Manager: %s', manager['_id'])
                         return manager['_id']
-        return managers[0]['_id']
+    return managers[0]['_id']
 
 
 def get_new_graduates(batch):
