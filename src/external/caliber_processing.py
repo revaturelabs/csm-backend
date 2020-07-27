@@ -52,7 +52,7 @@ def assignment_weight(this_batch):
 
 
 def get_new_graduates(batch):
-    '''associates, end date, batchid'''
+    ''' Processes current batches in Caliber to return batches updating within the next week. '''
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
     assoc_lst = []
