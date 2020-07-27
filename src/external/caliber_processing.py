@@ -48,6 +48,9 @@ def assignment_weight(this_batch):
                         _log.info('Batch location: %s', this_batch['location'])
                         _log.info('Manager: %s', manager['_id'])
                         return manager['_id']
+        else:
+            return managers[0]['_id']
+    else:
         return managers[0]['_id']
 
 
