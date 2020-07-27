@@ -5,8 +5,7 @@ from src.data.managers_db import get_all_info, get_managers_by_batch
 from src.external.caliber_processing import get_batch_info
 from src.logging.logger import get_logger
 
-from src.router.models import batch_model, associate_model_trainer, associate_model_short, \
-                              trainer_info_model
+from src.router.models import batch_model
 
 _log = get_logger(__name__)
 

@@ -7,8 +7,7 @@ import src.data.swot_db as swot_db
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
 
-from src.router.models import swot_fields, swot_item, associate_model, \
-                              associate_model_manager_view, spider_data_model, qc_note_model, \
+from src.router.models import swot_fields, associate_model, associate_model_manager_view, \
                               associate_evaluation_model
 
 from src.logging.logger import get_logger
@@ -94,7 +93,7 @@ class EmployeeIdRoute(Resource):
             res = swot_db.create_swot('salesforce_id', user_id, flask.request.get_json(force=True))
         else:
             res = swot_db.create_swot('email', user_id, flask.request.get_json(force=True))
-        if type(res) == str:
+        if isinstance(res, str):
             return res, 400
         else:
             return res, 201
@@ -117,5 +116,3 @@ class EmployeeIdEvaluationsRoute(Resource):
             return {}, 404
         return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
                 'qc': qc_data}, 200
-            
-
