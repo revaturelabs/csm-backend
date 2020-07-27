@@ -20,21 +20,19 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
                            'Notes', 'date_created', 'author']
         if all(field in new_swot for field in required_fields):
             try:
-                _log.debug('setting swot field')
                 new_swot['_id'] = _get_id()
                 swot_final = SWOT.from_dict(new_swot)
                 update_associate_swot(query_string, swot_final.to_dict())
                 doc = swot_final.to_dict()
-                _log.debug(swot_final)
             except Exception as err:
                 _log.error(err)
-                _log.debug('error with updating')
+                _log.info('error with updating')
                 doc = 'Could not update'
         else:
-            _log.debug('swot is wrong')
+            _log.info('swot is wrong')
             doc = 'Invalid SWOT'
     else:
-        _log.debug('query is wrong')
+        _log.info('query is wrong')
         doc = 'Incorrect query parameters'
     return doc
 

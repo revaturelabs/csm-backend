@@ -18,14 +18,6 @@ def get_note_headers(associate_id: str):
     except:
         _log.warning('system could not process your request for note headers')
 
-def get_notes(note_id: int):
-    '''this function takes a note id and returns the qc note'''
-    _log.info('qc_service get_notes called with the note id of: %s', note_id)
-    try:
-        req = requests.get(_caliber + '/notes/' + note_id)
-        return req.json()
-    except:
-        _log.warning('system could not process your request for notes')
 
 def get_qc_category(batch_id: str, week: int):
     '''this function takes a batch id and a week number and returns the topic for the week'''
