@@ -16,4 +16,4 @@ class CategoryRoute(Resource):
     @api.response(200, 'Success', category_model)
     def get(self):
         '''Retrieves a list of categories from Caliber api'''
-        return get_category_data()
+        return get_category_data(), 200

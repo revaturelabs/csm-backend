@@ -57,11 +57,19 @@ def update_associate_swot(query_dict, swot):
 
 def get_associate_batch_id(query_dict):
     ''' Takes in a query dict of the associate's email and returns the batch_id '''
-    return _associates.find_one(query_dict)['batch_id']
+    associate = _associates.find_one(query_dict)
+    if associate:
+        return associate['batch_id']
+    else:
+        return None
 
 def get_associate_sf_id(email):
     ''' Takes in a query dict of the associate's email and returns the salesforce id '''
-    return _associates.find_one({'email': email})['salesforce_id']
+    associate =  _associates.find_one({'email': email})
+    if associate:
+        return associate['salesforce_id']
+    else:
+        return None
 
 def _get_id():
     '''Retrieves the next id in the database and increments it'''
