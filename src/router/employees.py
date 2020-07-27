@@ -7,7 +7,8 @@ import src.data.swot_db as swot_db
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
 
-from src.router.models import swot_fields, associate_model, associate_model_manager_view, \
+from src.router.models import swot_fields, swot_item, associate_model, \
+                              associate_model_manager_view, spider_data_model, qc_note_model, \
                               associate_evaluation_model
 
 from src.logging.logger import get_logger
@@ -33,12 +34,13 @@ class EmployeeRoute(Resource):
                     swot['date_created'] = converter(swot['date_created'])
             else:
                 emp_lst[i]['swot'] = [{'author': 'trainer'}]
-        return emp_lst
+        return emp_lst, 200
 
 @api.route('/employees/manager/<str:manager_id>')
 class EmployeeManagerRoute(Resource):
     '''Class for routing employee/manager/manager_id requests'''
     @api.response(200, 'Success', associate_model_manager_view)
+    @api.response(404, 'Not found')
     def get(self, manager_id):
         '''Function for handling GET /employees/manager/manager_id requests'''
         associates = assoc_db.read_all_associates_by_query({'manager_id': manager_id})
@@ -54,12 +56,16 @@ class EmployeeManagerRoute(Resource):
             data = {'name': associate['name'], 'SWOT': swots, 'ID': associate['email'],
                     'status': associate['status']}
             to_return.append(data)
-        return to_return
+        if len(associates) == 0:
+            return [], 404
+        else:
+            return to_return, 200
 
 @api.route('/employees/<str:user_id>')
 class EmployeeIdRoute(Resource):
     '''Class for routing employee/user_id requests'''
     @api.response(200, 'Success', associate_model)
+    @api.response(404, 'Not found')
     def get(self, user_id):
         '''Function for handling GET /employees/user_id requests'''
         if 'SF' in user_id: # Query with salesforce ID if that was the request
@@ -73,28 +79,42 @@ class EmployeeIdRoute(Resource):
             res['swot'] = [{'author': 'trainer'}]
         res.pop('_id')
         res['end_date'] = converter(res['end_date'])
-        return res
+        if res:
+            return res, 200
+        else:
+            return {}, 404
 
     @api.doc(body=swot_fields)
-    @api.response(200, 'Success', swot_fields)
+    @api.response(201, 'Item Created', swot_fields)
+    @api.response(400, 'Invalid request')
     def post(self, user_id):
         '''Function for handling POST /employees/user_id requests'''
         if 'SF' in user_id:
             res = swot_db.create_swot('salesforce_id', user_id, flask.request.get_json(force=True))
         else:
             res = swot_db.create_swot('email', user_id, flask.request.get_json(force=True))
-        return res
+        if type(res) == str:
+            return res, 400
+        else:
+            return res, 201
 
 @api.route('/employees/<str:user_id>/evaluations')
 class EmployeeIdEvaluationsRoute(Resource):
     '''Class for routing employee/user_id/evaluations requests'''
     @api.response(200, 'Success', associate_evaluation_model)
+    @api.response(404, 'Not found')
     def get(self, user_id):
         '''Function for handling GET /employees/user_id/evaluations requests'''
         query = {'email': user_id}
         batch_id = assoc_db.get_associate_batch_id(query)
         sf_id = assoc_db.get_associate_sf_id(user_id)
-        qc_data = get_qc_data(sf_id)
-        batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id, batch_id)
+        if sf_id:
+            qc_data = get_qc_data(sf_id)
+        if batch_id:
+            batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id, batch_id)
+        else:
+            return {}, 404
         return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
-                'qc': qc_data}
+                'qc': qc_data}, 200
+            
+

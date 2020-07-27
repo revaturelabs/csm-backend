@@ -5,7 +5,8 @@ from src.data.managers_db import get_all_info, get_managers_by_batch
 from src.external.caliber_processing import get_batch_info
 from src.logging.logger import get_logger
 
-from src.router.models import batch_model
+from src.router.models import batch_model, associate_model_trainer, associate_model_short, \
+                              trainer_info_model
 
 _log = get_logger(__name__)
 
@@ -27,7 +28,7 @@ class BatchRoute(Resource):
                                 'trainer': batch_info['trainer'],
                                 'promotionDate': batch_info['promotion date'],
                                 'associates': batch_info['associates']})
-        return batches
+        return batches, 200
 
 @api.route('/batches/<str:batch_id>')
 class BatchIndividualRoute(Resource):
@@ -41,4 +42,4 @@ class BatchIndividualRoute(Resource):
                   'skill': batch_info['skill'], 'manager': manager['username'],
                   'trainer': batch_info['trainer'], 'promotionDate': batch_info['promotion date'],
                   'associates': batch_info['associates']})
-        return batch
+        return batch, 200
