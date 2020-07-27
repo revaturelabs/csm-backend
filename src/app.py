@@ -20,7 +20,7 @@ app = Flask(__name__) # Initialize Flask
 #Initialize the scheduler
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=create_associates_from_scheduler, trigger="cron",
-                  day_of_week='wed', hour=11, minute=2)
+                  day_of_week='fri', hour=18)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
