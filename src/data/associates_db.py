@@ -65,7 +65,7 @@ def get_associate_batch_id(query_dict):
 
 def get_associate_sf_id(email):
     ''' Takes in a query dict of the associate's email and returns the salesforce id '''
-    associate =  _associates.find_one({'email': email})
+    associate = _associates.find_one({'email': email})
     if associate:
         return associate['salesforce_id']
     else:

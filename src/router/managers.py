@@ -16,7 +16,7 @@ class ManagerRoute(Resource):
     # making it a post so in the future, it will accept a password in the body
     # @api.expect(password)
     def post(self, manager_id):
-        '''Function for handling POST /manager requests'''
+        ''' Login request route for manager id '''
         login_manager = manage_db.manager_login(manager_id)
         if login_manager:
             return login_manager, 200

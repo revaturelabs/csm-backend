@@ -25,7 +25,7 @@ def get_qc_data(associate_id):
 
 def assignment_weight(this_batch):
     ''' This function will determine which manager to assign batches on depending on the current
-    number of already assigned assciates, as well as by location preference '''
+    number of already assigned associates, as well as by location preference '''
     managers = manager_db.read_all_managers()
     current_assignments = manager_db.assignment_counter()
 
@@ -52,7 +52,7 @@ def assignment_weight(this_batch):
 
 
 def get_new_graduates(batch):
-    '''associates, end date, batchid'''
+    ''' Processes current batches in Caliber to return batches updating within the next week. '''
     current_run = datetime.datetime.today()
     next_run = current_run + datetime.timedelta(days=7)
     assoc_lst = []
