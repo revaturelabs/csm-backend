@@ -1,12 +1,14 @@
 ''' Handles employee routes  '''
 
 import flask
-from flask_restplus import Resource, Api, fields, Model
+from flask_restplus import Resource, Api
 import src.data.associates_db as assoc_db
 import src.data.swot_db as swot_db
-import src.external.evaluation_service as evaluate
 from src.external.caliber_processing import get_qc_data, get_batch_and_associate_spider_data
 from src.data.date_time_conversion import converter
+
+from src.router.models import swot_fields, associate_model, associate_model_manager_view, \
+                              associate_evaluation_model
 
 from src.logging.logger import get_logger
 
@@ -14,27 +16,10 @@ _log = get_logger(__name__)
 
 api = Api()
 
-''' SWOT Item model for documentation and validation '''
-swot_item = Model('SWOT Item', {
-    'category': fields.String,
-    'notes': fields.String
-})
-
-''' SWOT model for documentation and validation '''
-swot_fields = Model('SWOT', {
-    'strengths': fields.List(fields.Nested(swot_item)),
-    'weaknesses': fields.List(fields.Nested(swot_item)),
-    'opportunities': fields.List(fields.Nested(swot_item)),
-    'threats': fields.List(fields.Nested(swot_item)),
-    'notes': fields.String,
-    'creationDate': fields.DateTime
-})
-
 @api.route('/employees')
-@api.doc()
 class EmployeeRoute(Resource):
     '''Class for routing employee requests'''
-    @api.response(200, 'Success')
+    @api.response(200, 'Success', associate_model)
     def get(self):
         '''Function for handling GET /employees requests'''
         emp_lst = list(assoc_db.read_all_associates())
@@ -52,10 +37,9 @@ class EmployeeRoute(Resource):
         return emp_lst
 
 @api.route('/employees/manager/<str:manager_id>')
-@api.doc()
 class EmployeeManagerRoute(Resource):
     '''Class for routing employee/manager/manager_id requests'''
-    @api.response(200, 'Success')
+    @api.response(200, 'Success', associate_model_manager_view)
     def get(self, manager_id):
         '''Function for handling GET /employees/manager/manager_id requests'''
         associates = assoc_db.read_all_associates_by_query({'manager_id': manager_id})
@@ -75,10 +59,9 @@ class EmployeeManagerRoute(Resource):
         return to_return
 
 @api.route('/employees/<str:user_id>')
-@api.doc()
 class EmployeeIdRoute(Resource):
     '''Class for routing employee/user_id requests'''
-    @api.response(200, 'Success')
+    @api.response(200, 'Success', associate_model)
     def get(self, user_id):
         '''Function for handling GET /employees/user_id requests'''
         if 'SF' in user_id: # Query with salesforce ID if that was the request
@@ -96,7 +79,7 @@ class EmployeeIdRoute(Resource):
         return res
 
     @api.doc(body=swot_fields)
-    @api.response(200, 'Status code of response')
+    @api.response(200, 'Success', swot_fields)
     def post(self, user_id):
         '''Function for handling POST /employees/user_id requests'''
         if 'SF' in user_id:
@@ -106,10 +89,9 @@ class EmployeeIdRoute(Resource):
         return res
 
 @api.route('/employees/<str:user_id>/evaluations')
-@api.doc()
 class EmployeeIdEvaluationsRoute(Resource):
     '''Class for routing employee/user_id/evaluations requests'''
-    @api.response(200, 'Success')
+    @api.response(200, 'Success', associate_evaluation_model)
     def get(self, user_id):
         '''Function for handling GET /employees/user_id/evaluations requests'''
         query = {'email': user_id}
