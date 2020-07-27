@@ -15,7 +15,7 @@ class Associate():
         self.manager_id = manager_id
         self.trainers = trainers
         self.end_date = end_date
-        swot = SWOT()
+        swot = SWOT().to_dict()
         self.swot = [swot]
         #Active > Benched > Deactivated
         self.status = 'Active'
