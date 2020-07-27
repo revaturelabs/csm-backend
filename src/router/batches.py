@@ -28,7 +28,7 @@ class BatchRoute(Resource):
                                 'trainer': batch_info['trainer'],
                                 'promotionDate': batch_info['promotion date'],
                                 'associates': batch_info['associates']})
-        return batches
+        return batches, 200
 
 @api.route('/batches/<str:batch_id>')
 class BatchIndividualRoute(Resource):
@@ -42,4 +42,4 @@ class BatchIndividualRoute(Resource):
                   'skill': batch_info['skill'], 'manager': manager['username'],
                   'trainer': batch_info['trainer'], 'promotionDate': batch_info['promotion date'],
                   'associates': batch_info['associates']})
-        return batch
+        return batch, 200
