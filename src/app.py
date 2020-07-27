@@ -2,10 +2,6 @@
 import atexit
 from flask import Flask
 from flask_cors import CORS
-from src.router.models import swot_item, swot_fields, associate_model, associate_model_short, \
-                              trainer_info_model, associate_model_trainer, category_model, \
-                              batch_model, associate_model_manager_view, spider_data_model, \
-                              qc_note_model, associate_evaluation_model, manager_model
 from flask_restplus import Api, Resource
 from apscheduler.schedulers.background import BackgroundScheduler
 from src.router.models import swot_item, swot_fields, associate_model, associate_model_short, \
