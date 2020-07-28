@@ -18,20 +18,6 @@ class AssociateTestDatabase(unittest.TestCase):
 
         self.assertTrue(mock_insert.called)
 
-    # @mock.patch('src.data.associates_db.create_associate')
-    # @mock.patch('src.external.caliber_processing.get_new_graduates')
-    # @mock.patch('src.external.training_service.batch_current')
-    # def test_create_associates_from_scheduler(self, mock_batches, mock_assoc_list, mock_create):
-    #     ''' This method will test the create_associate function '''
-    #     mock_batches.return_value = ['all batches currently training']
-    #     mock_assoc_list.return_value = [{'name': 'assoc 1'}, {'name': 'assoc 2'},
-    #                                     {'name': 'assoc 3'}]
-
-    #     create_associates_from_scheduler()
-
-    #     self.assertTrue(mock_create.called)
-    #     self.assertEqual(3, mock_create.call_count)
-
     @mock.patch('src.data.associates_db._associates.find')
     def test_read_all_associates(self, mock_find):
         ''' This method will test the read all associates function '''
