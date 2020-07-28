@@ -10,7 +10,6 @@ class QCServiceTest(unittest.TestCase):
     @patch('requests.get')
     def test_get_note_headers(self, mock_get):
         '''this method is to test the get_note_headers function in caliber_processing'''
-
         get_note_headers('mock assoc')
 
         self.assertTrue(mock_get.called)
