@@ -39,6 +39,7 @@ def update_batches(manager, new_batch):
     the new batch id'''
     query = {'_id': manager}
     _managers.update_one(query, {'$addToSet': {'batches': new_batch}})
+    
 def get_all_info():
     ''' This function gets all info from the managers collection'''
     return _managers.find()
