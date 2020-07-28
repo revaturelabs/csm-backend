@@ -2,6 +2,7 @@
 import unittest
 
 from src.models.associates import Associate
+from src.models.swot import SWOT
 from src.logging.logger import get_logger
 _log = get_logger(__name__)
 
@@ -9,7 +10,7 @@ class AssociateTestSuite(unittest.TestCase):
     '''Test suite for the Associate class'''
     associate = None
     def setUp(self):
-        self.associate = Associate(0, 'test@email.com', 1, 2, 'end date')
+        self.associate = Associate(0, 'mock assoc', 'test@email.com', 1, 2, 'mock trainer', 'end date')
     def tearDown(self):
         self.associate = None
     @classmethod
@@ -26,16 +27,28 @@ class AssociateTestSuite(unittest.TestCase):
         self.assertEqual(0, self.associate.get_salesforce_id())
         self.tearDown()
 
+    def test_get_name(self):
+        ''' Tests the get_salesforce_id method '''
+        self.setUp()
+        self.assertEqual('mock assoc', self.associate.get_name())
+        self.tearDown()
+
     def test_get_email(self):
         ''' Tests the get_email method '''
         self.setUp()
         self.assertEqual('test@email.com', self.associate.get_email())
         self.tearDown()
 
+    def test_get_batch_id(self):
+        ''' Tests the get_salesforce_id method '''
+        self.setUp()
+        self.assertEqual(1, self.associate.get_batch_id())
+        self.tearDown()
+
     def test_get_manager_id(self):
         ''' Tests the get_manager_id method '''
         self.setUp()
-        self.assertEqual(1, self.associate.get_manager_id())
+        self.assertEqual(2, self.associate.get_manager_id())
         self.tearDown()
 
     def test_get_end_date(self):
@@ -47,7 +60,13 @@ class AssociateTestSuite(unittest.TestCase):
     def test_get_swot(self):
         ''' Tests the get_swot method '''
         self.setUp()
-        self.assertEqual(None, self.associate.get_swot())
+        self.assertEqual(SWOT().to_dict(), self.associate.get_swot()[0])
+        self.tearDown()
+
+    def test_get_trainers(self):
+        ''' Tests the get_salesforce_id method '''
+        self.setUp()
+        self.assertEqual('mock trainer', self.associate.get_trainers())
         self.tearDown()
 
     def test_get_status(self):

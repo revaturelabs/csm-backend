@@ -14,11 +14,12 @@ class SwotTests(unittest.TestCase):
     def test_from_dict(self):
         ''' This will test the from_dict classmethod. '''
         new_swot_dict = {
-            'strengths': ['strengths'],
-            'weaknesses': ['weaknesses'],
-            'opportunities': ['opportunities'],
-            'threats': ['threats'],
-            'notes': 'notes',
+            'Strengths': ['strengths'],
+            'Weaknesses': ['weaknesses'],
+            'Opportunities': ['opportunities'],
+            'Threats': ['threats'],
+            'Notes': 'notes',
+            'author': 'trainer',
             'date_created': 'the past'
         }
         new_swot = SWOT.from_dict(new_swot_dict)

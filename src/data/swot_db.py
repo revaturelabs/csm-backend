@@ -22,7 +22,9 @@ def create_swot(query_key: str, query_val: str, new_swot: dict):
             try:
                 new_swot['_id'] = _get_id()
                 swot_final = SWOT.from_dict(new_swot)
+                _log.debug(swot_final)
                 update_associate_swot(query_string, swot_final.to_dict())
+                _log.debug('entered try block')
                 doc = swot_final.to_dict()
             except Exception as err:
                 _log.error(err)

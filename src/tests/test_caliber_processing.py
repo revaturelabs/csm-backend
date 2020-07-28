@@ -72,24 +72,30 @@ class CaliberProcessingTest(unittest.TestCase):
                                             }]'''
         batch_spider, assoc_spider = get_batch_and_associate_spider_data('mock@revature.com',
                                                                          'mock_batch')
-        self.assertEqual(batch_spider, [{"assessmentType": "Helm",
+        self.assertEqual(batch_spider, [{"traineeId": "TR-1077",
+                                         "assessmentType": "Helm",
                                          "score": 47.7024629637599,
-                                         "week": 1},
-                                        {"assessmentType": "HTML",
+                                         "week": 1, "weight": 100},
+                                        {"traineeId": "TR-1077",
+                                         "assessmentType": "HTML",
                                          "score": 61.05993378162384,
-                                         "week": 1},
-                                        {"assessmentType": "CSS",
+                                         "week": 1, "weight": 100},
+                                        {"traineeId": "TR-1077",
+                                         "assessmentType": "CSS",
                                          "score": 45.23073920607567,
-                                         "week": 1}])
-        self.assertEqual(assoc_spider, [{"assessmentType": "Helm",
+                                         "week": 1, "weight": 100}])
+        self.assertEqual(assoc_spider, [{"traineeId": "TR-1077",
+                                         "assessmentType": "Helm",
                                          "score": 47.7024629637599,
-                                         "week": 1},
-                                        {"assessmentType": "HTML",
+                                         "week": 1, "weight": 100},
+                                        {"traineeId": "TR-1077",
+                                         "assessmentType": "HTML",
                                          "score": 61.05993378162384,
-                                         "week": 1},
-                                        {"assessmentType": "CSS",
+                                         "week": 1, "weight": 100},
+                                        {"traineeId": "TR-1077",
+                                         "assessmentType": "CSS",
                                          "score": 45.23073920607567,
-                                         "week": 1}])
+                                         "week": 1, "weight": 100}])
 
     @patch('src.external.training_service.get_batch_by_id')
     def test_get_batch_info(self, mock_a):
