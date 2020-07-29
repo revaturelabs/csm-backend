@@ -79,13 +79,17 @@ def get_new_graduates(batch):
     return assoc_lst
 
 
-def get_batch_and_associate_spider_data(associate_email, batch_id):
-    '''gets associate spider data from an associate email'''
+def get_batch_and_associate_spider_data(salesforce_id, batch_id):
+    '''gets associate spider data from a salesforce_id'''
     batch_spider_data = evaluation_service.get_batch_spider_data(batch_id)
     batch_spider_data = json.loads(batch_spider_data)
-    associate_spider_data = evaluation_service.get_associate_spider_data(batch_id, associate_email)
+    associate_spider_data = evaluation_service.get_associate_spider_data(batch_id, salesforce_id)
     associate_spider_data = json.loads(associate_spider_data)
-    return batch_spider_data, associate_spider_data
+    parced_associate_data = []
+    for data in associate_spider_data:
+        if data['traineeId'] == salesforce_id:
+            parced_associate_data.append(data)
+    return batch_spider_data, parced_associate_data
 
 def get_batch_info(batch_id):
     ''' gets high level batch info from caliber'''
