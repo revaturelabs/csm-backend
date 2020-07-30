@@ -111,7 +111,7 @@ class EmployeeIdEvaluationsRoute(Resource):
         if sf_id:
             qc_data = get_qc_data(sf_id)
         if batch_id:
-            batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(user_id, batch_id)
+            batch_spider_data, associate_spider_data = get_batch_and_associate_spider_data(sf_id, batch_id)
         else:
             return {}, 404
         return {'batch_spider': batch_spider_data, 'associate_spider': associate_spider_data,
