@@ -1,3 +1,4 @@
+'''Logging module'''
 import logging
 import logging.config
 from os import path
